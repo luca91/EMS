@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <sql:query var="rs" dataSource="jdbc/ems">
-select id, name from test
+select id, fname, lname from user
 </sql:query>
 
 <html>
@@ -11,10 +11,10 @@ select id, name from test
   </head>
   <body>
 
-  <h2>Results</h2>
+  <h2>user table:</h2>
 
 <c:forEach var="row" items="${rs.rows}">
-    ${row.id} - ${row.name}<br/>
+    ${row.id} - ${row.fname} - ${row.lname}<br/>
 </c:forEach>
 
   </body>
