@@ -7,11 +7,11 @@ CREATE SCHEMA IF NOT EXISTS `ems` DEFAULT CHARACTER SET latin1 COLLATE latin1_sw
 USE `ems` ;
 
 -- -----------------------------------------------------
--- Table `ems`.`USER`
+-- Table `ems`.`user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ems`.`USER` ;
+DROP TABLE IF EXISTS `ems`.`user` ;
 
-CREATE  TABLE IF NOT EXISTS `ems`.`USER` (
+CREATE  TABLE IF NOT EXISTS `ems`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `fname` VARCHAR(45) NOT NULL ,
   `lname` VARCHAR(45) NOT NULL ,
@@ -24,11 +24,11 @@ ENGINE = INNODB;
 
 
 -- -----------------------------------------------------
--- Table `ems`.`EVENT`
+-- Table `ems`.`event`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ems`.`EVENT` ;
+DROP TABLE IF EXISTS `ems`.`event` ;
 
-CREATE  TABLE IF NOT EXISTS `ems`.`EVENT` (
+CREATE  TABLE IF NOT EXISTS `ems`.`event` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `id_manager` INT NULL ,
   `name` VARCHAR(45) NOT NULL ,
@@ -41,18 +41,18 @@ CREATE  TABLE IF NOT EXISTS `ems`.`EVENT` (
   INDEX `fk_EVENT_USER` (`id_manager` ASC) ,
   CONSTRAINT `fk_EVENT_USER`
     FOREIGN KEY (`id_manager` )
-    REFERENCES `ems`.`USER` (`id` )
+    REFERENCES `ems`.`user` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = INNODB;
 
 
 -- -----------------------------------------------------
--- Table `ems`.`GROUP`
+-- Table `ems`.`group`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ems`.`GROUP` ;
+DROP TABLE IF EXISTS `ems`.`group` ;
 
-CREATE  TABLE IF NOT EXISTS `ems`.`GROUP` (
+CREATE  TABLE IF NOT EXISTS `ems`.`group` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `id_event` INT NOT NULL ,
   `id_group_referent` INT NOT NULL ,
@@ -63,23 +63,23 @@ CREATE  TABLE IF NOT EXISTS `ems`.`GROUP` (
   INDEX `fk_GROUP_USER` (`id_group_referent` ASC) ,
   CONSTRAINT `fk_GROUP_EVENT`
     FOREIGN KEY (`id_event` )
-    REFERENCES `ems`.`EVENT` (`id` )
+    REFERENCES `ems`.`event` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_GROUP_USER`
     FOREIGN KEY (`id_group_referent` )
-    REFERENCES `ems`.`USER` (`id` )
+    REFERENCES `ems`.`user` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = INNODB;
 
 
 -- -----------------------------------------------------
--- Table `ems`.`PARTICIPANT`
+-- Table `ems`.`participant`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ems`.`PARTICIPANT` ;
+DROP TABLE IF EXISTS `ems`.`participant` ;
 
-CREATE  TABLE IF NOT EXISTS `ems`.`PARTICIPANT` (
+CREATE  TABLE IF NOT EXISTS `ems`.`participant` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `id_group` INT NOT NULL ,
   `fname` VARCHAR(45) NOT NULL ,
@@ -92,7 +92,7 @@ CREATE  TABLE IF NOT EXISTS `ems`.`PARTICIPANT` (
   INDEX `fk_PARTICIPANT_GROUP` (`id_group` ASC) ,
   CONSTRAINT `fk_PARTICIPANT_GROUP`
     FOREIGN KEY (`id_group` )
-    REFERENCES `ems`.`GROUP` (`id` )
+    REFERENCES `ems`.`group` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = INNODB;
