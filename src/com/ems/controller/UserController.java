@@ -1,3 +1,5 @@
+//Code inspired by http://danielniko.wordpress.com/2012/04/17/simple-crud-using-jsp-servlet-and-mysql/
+
 package com.ems.controller;
 
 import java.io.IOException;
