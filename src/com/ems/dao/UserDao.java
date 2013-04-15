@@ -23,6 +23,11 @@ public class UserDao {
 
     private Connection connection;
 
+    //used to load the connection in JUnit tests
+    public UserDao(Connection c){
+    	connection = c;
+    }
+    
     public UserDao() throws NamingException, SQLException {
        
         
@@ -33,14 +38,19 @@ public class UserDao {
     }
 
     public void addUser(User user) {
+    	System.out.println("addUser start");
         try {
+        	
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("insert into user(fname,lname,email, password) values (?, ?, ?, ? )");
+                    .prepareStatement("insert into user(fname,lname,date_of_birth,email,password,role) values (?, ?, ?, ?, ?, ? )");
             // Parameters start with 1
             preparedStatement.setString(1, user.getFname());
             preparedStatement.setString(2, user.getLname());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setString(3, user.getDate_of_birth());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setString(5, user.getPassword());
+            preparedStatement.setString(6, user.getRole());
+        	System.out.println("addUser Execute Update");
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -62,16 +72,19 @@ public class UserDao {
     }
 
     public void updateUser(User user) {
+    	System.out.println("updateUser() - START");
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("update user set fname=?, lname=?, email=?, password=?" +
+                    .prepareStatement("update user set fname=?, lname=?, date_of_birth=?,email=?, password=?, role=? " +
                             "where id=?");
             // Parameters start with 1
             preparedStatement.setString(1, user.getFname());
             preparedStatement.setString(2, user.getLname());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getPassword());
-            preparedStatement.setInt(5, user.getId());
+            preparedStatement.setString(3, user.getDate_of_birth());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setString(5, user.getPassword());
+            preparedStatement.setString(6, user.getRole());
+            preparedStatement.setInt(7, user.getId());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -89,8 +102,10 @@ public class UserDao {
                 user.setId(rs.getInt("id"));
                 user.setFname(rs.getString("fname"));
                 user.setLname(rs.getString("lname"));
+                user.setDate_of_birth(rs.getString("date_of_birth"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
+                user.setRole(rs.getString("role"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -117,7 +132,7 @@ public class UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    	System.out.println("updateUser() - END");
         return user;
     }
 }

@@ -4,9 +4,6 @@ package com.ems.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
@@ -29,7 +26,7 @@ public class UserController extends HttpServlet {
         dao = new UserDao();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward="";
         String action = request.getParameter("action");
 
@@ -53,7 +50,8 @@ public class UserController extends HttpServlet {
         view.forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	System.out.println("doPost");
     	User user = new User();
         user.setFname(request.getParameter("fname"));
         user.setLname(request.getParameter("lname"));
