@@ -27,10 +27,15 @@
 	        Last Name : <input
 	            type="text" name="lname"
 	            value="${user.lname}" /> <br /> 
+	        Date of Birth : <input
+	            type="text" name="date_of_birth"
+	            value="${user.date_of_birth}" /> <br /> 	            
 	        Password : <input type="text" name="password"
 	            value="${user.password}" /> <br />
 	        Email : <input type="text" name="email"
 	            value="${user.email}" /> <br /> 
+	        Role : <input type="text" name="role"
+	            value="${user.role}" /> <br /> 	            
 	        <input type="submit" value="Submit" />
 	    </form>
 	</body>

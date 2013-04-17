@@ -55,8 +55,10 @@ public class UserController extends HttpServlet {
     	User user = new User();
         user.setFname(request.getParameter("fname"));
         user.setLname(request.getParameter("lname"));
+        user.setDate_of_birth(request.getParameter("date_of_birth"));
         user.setPassword(request.getParameter("password"));
         user.setEmail(request.getParameter("email"));
+        user.setRole(request.getParameter("role"));
         String id = request.getParameter("id");
         if(id == null || id.isEmpty())
         {

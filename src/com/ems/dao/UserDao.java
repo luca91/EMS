@@ -10,6 +10,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -20,6 +23,9 @@ import com.ems.model.User;
 //import com.daniel.util.DbUtil;
 
 public class UserDao {
+	
+	// commons logging references
+	static Logger log = Logger.getLogger(UserDao.class.getName());
 
     private Connection connection;
 
@@ -38,7 +44,7 @@ public class UserDao {
     }
 
     public void addUser(User user) {
-    	System.out.println("addUser start");
+    	log.trace("START");
         try {
         	
             PreparedStatement preparedStatement = connection
@@ -50,15 +56,17 @@ public class UserDao {
             preparedStatement.setString(4, user.getEmail());
             preparedStatement.setString(5, user.getPassword());
             preparedStatement.setString(6, user.getRole());
-        	System.out.println("addUser Execute Update");
+        	log.debug("addUser Execute Update");
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    	log.trace("END");
     }
 
     public void deleteUser(int id) {
+    	log.trace("START");
         try {
             PreparedStatement preparedStatement = connection
                     .prepareStatement("delete from user where id=?");
@@ -69,10 +77,11 @@ public class UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    	log.trace("END");
     }
 
     public void updateUser(User user) {
-    	System.out.println("updateUser() - START");
+    	log.debug("START");
         try {
             PreparedStatement preparedStatement = connection
                     .prepareStatement("update user set fname=?, lname=?, date_of_birth=?,email=?, password=?, role=? " +
@@ -90,10 +99,12 @@ public class UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    	log.trace("END");
     }
 
     public List<User> getAllUsers() {
-        List<User> users = new ArrayList<User>();
+        log.trace("START");
+    	List<User> users = new ArrayList<User>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from user");
@@ -111,10 +122,12 @@ public class UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    	log.trace("END");
         return users;
     }
 
     public User getUserById(int id) {
+    	log.trace("START");
         User user = new User();
         try {
             PreparedStatement preparedStatement = connection.
@@ -132,7 +145,7 @@ public class UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    	System.out.println("updateUser() - END");
+    	log.trace("END");
         return user;
     }
 }
