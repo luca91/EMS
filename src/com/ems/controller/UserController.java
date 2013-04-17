@@ -3,6 +3,7 @@
 package com.ems.controller;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.naming.NamingException;
@@ -27,9 +28,33 @@ public class UserController extends HttpServlet {
     private static String LIST_USER = "/listUser.jsp";
     private UserDao dao;
 
-    public UserController() throws NamingException, SQLException {
-        super();
-        dao = new UserDao();
+
+    
+
+	public UserController(Connection conn) {
+    	super();
+    	log.trace("START");
+		dao = new UserDao(conn);
+	
+    	log.trace("END");
+    }
+    
+    
+	public UserController() {
+    	super();
+    	log.trace("START");
+        try {
+			dao = new UserDao();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			log.debug("NamingException");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			log.debug("SQLException");
+			e.printStackTrace();
+		}
+    	log.trace("END");
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

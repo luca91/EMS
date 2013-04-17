@@ -35,8 +35,6 @@ public class UserDao {
     }
     
     public UserDao() throws NamingException, SQLException {
-       
-        
         Context initialContext = new InitialContext();
         Context envContext  = (Context)initialContext.lookup("java:/comp/env");
         DataSource ds = (DataSource)envContext.lookup("jdbc/ems");
