@@ -11,15 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.ems.controller.UserController;
+import com.ems.dao.UserDao;
 
 
 public class UserControllerTest {
+	
+	// commons logging references
+	static Logger log = Logger.getLogger(UserControllerTest.class.getName());
 
 	private HttpServletRequest request;
 	private HttpServletResponse response;
@@ -32,19 +37,19 @@ public class UserControllerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		System.out.println("setUp - START");
+		log.debug("setUp - START");
 		request = Mockito.mock(HttpServletRequest.class);
 		response = Mockito.mock(HttpServletResponse.class);
-		System.out.println("instantiate servlet");
+		log.debug("instantiate servlet");
 		servlet = new UserController();
-		System.out.println("setUp - END");
+		log.debug("setUp - END");
 	}
 
 	
 	
 	@Test
 	public void testDoGetHttpServletRequestHttpServletResponse() throws ServletException, IOException {
-		System.out.println("testDoGetHttpServletRequestHttpServletResponse");
+		log.debug("testDoGetHttpServletRequestHttpServletResponse");
 		Mockito.when(request.getParameter("name")).thenReturn("name");
 		Mockito.when(request.getParameter("value")).thenReturn("value");
 

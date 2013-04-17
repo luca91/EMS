@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 public class HelloServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
  
-    private Log logging = LogFactory.getLog(HelloServlet.class);
+    private Log log = LogFactory.getLog(HelloServlet.class);
  
     /**
      * @see HttpServlet#HttpServlet()
@@ -34,15 +34,13 @@ public class HelloServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
  
         response.setContentType("text/html");
-        logging.info("doGet");
- 
-        System.out.println("go get");
+        log.info("doGet");
  
         String name = request.getParameter("name");
         String value = request.getParameter("value");
  
-        System.out.println(name);
-        System.out.println(value);
+        log.debug(name);
+        log.debug(value);
  
         response.getWriter().write("name:" + name + ",value:" + value);
     }
@@ -53,14 +51,13 @@ public class HelloServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        logging.info("do post");
-        System.out.println("doPost");
+        log.debug("doPost");
  
         String name = request.getParameter("name");
         String value = request.getParameter("value");
  
-        System.out.println(name);
-        System.out.println(value);
+        log.debug(name);
+        log.debug(value);
  
         response.getWriter().write("name:" + name + ",value:" + value);
  

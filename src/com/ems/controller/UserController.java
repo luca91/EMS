@@ -12,10 +12,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.ems.dao.UserDao;
 import com.ems.model.User;
 
 public class UserController extends HttpServlet {
+	
+	// commons logging references
+	static Logger log = Logger.getLogger(UserController.class.getName());
+	
     private static final long serialVersionUID = 1L;
     private static String INSERT_OR_EDIT = "/user.jsp";
     private static String LIST_USER = "/listUser.jsp";
@@ -27,7 +33,8 @@ public class UserController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String forward="";
+    	log.trace("START");
+    	String forward="";
         String action = request.getParameter("action");
 
         if (action.equalsIgnoreCase("delete")){
@@ -48,10 +55,11 @@ public class UserController extends HttpServlet {
         }
         RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);
+    	log.trace("END");
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	System.out.println("doPost");
+    	log.trace("START");
     	User user = new User();
         user.setFname(request.getParameter("fname"));
         user.setLname(request.getParameter("lname"));
@@ -73,5 +81,6 @@ public class UserController extends HttpServlet {
         RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
         request.setAttribute("users", dao.getAllUsers());
         view.forward(request, response);
+    	log.trace("END");
     }
 }
