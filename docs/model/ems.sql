@@ -18,7 +18,7 @@ CREATE  TABLE IF NOT EXISTS `ems`.`user` (
   `date_of_birth` DATETIME NULL ,
   `password` VARCHAR(64) NOT NULL ,
   `email` VARCHAR(60) NOT NULL ,
-  `role` ENUM('admin','event_mng','group_mnd') NOT NULL ,
+  `role` ENUM('admin','event_mng','group_mng') NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = INNODB;
 
