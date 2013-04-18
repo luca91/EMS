@@ -1,4 +1,4 @@
-package com.ems.test;
+package com.ems.test.controller;
 
 import org.junit.*;
 

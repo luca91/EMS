@@ -1,4 +1,4 @@
-package com.ems.test;
+package com.ems.test.general;
 
 import java.io.IOException;
 

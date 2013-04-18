@@ -1,10 +1,11 @@
-package com.ems.test;
+package com.ems.test.model;
 
 import java.beans.IntrospectionException;
 
 import org.junit.Test;
 
 import com.ems.model.User;
+import com.ems.test.general.JavaBeanTester;
 
 public class UserTest {
 

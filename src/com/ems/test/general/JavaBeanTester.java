@@ -6,7 +6,7 @@
  */
 
 
-package com.ems.test;
+package com.ems.test.general;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
