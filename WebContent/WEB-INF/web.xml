@@ -19,8 +19,14 @@
     <servlet-name>UserController</servlet-name>
     <servlet-class>com.ems.controller.UserController</servlet-class>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>Prototype</display-name>
+    <servlet-name>Prototype</servlet-name>
+    <servlet-class>com.ems.prototype.UserController</servlet-class>
+  </servlet>  
   <servlet-mapping>
-    <servlet-name>UserController</servlet-name>
-    <url-pattern>/UserController</url-pattern>
+    <servlet-name>Prototype</servlet-name>
+    <url-pattern>/Prototype</url-pattern>
   </servlet-mapping>
 </web-app>
