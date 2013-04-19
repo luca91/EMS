@@ -150,7 +150,7 @@ public class UserDao {
     }
     
     // email is the username
-    public boolean isUserValid(String username, String password) {
+    public boolean isUserValid(String email, String password) {
     	log.trace("START");
     	
     	boolean isValid = false;
@@ -158,7 +158,7 @@ public class UserDao {
         try {
             PreparedStatement preparedStatement = connection.
                     prepareStatement("select * from user where email=? and password=?");
-            preparedStatement.setString(1, username);
+            preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
             
             ResultSet rs = preparedStatement.executeQuery();
