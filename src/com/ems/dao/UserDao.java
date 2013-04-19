@@ -152,8 +152,6 @@ public class UserDao {
     // email is the username
     public boolean isUserValid(String username, String password) {
     	log.trace("START");
-    	log.debug("username passed: " + username);
-    	log.debug("password passed: " + password);
     	
     	boolean isValid = false;
     	
@@ -171,11 +169,11 @@ public class UserDao {
                 user.setId(rs.getInt("id"));
                 user.setFname(rs.getString("fname"));
                 user.setLname(rs.getString("lname"));
+                user.setDate_of_birth(rs.getString("date_of_birth"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
+                user.setRole(rs.getString("role"));
             	isValid = true;
-            	
-            	log.debug(user.getEmail() + " - " + user.getPassword());
             }
         } catch (SQLException e) {
             e.printStackTrace();

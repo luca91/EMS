@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.UUID;
 
 import javax.naming.NamingException;
 
@@ -502,11 +503,23 @@ public class UserDaoTest {
 	    	
 	    	UserDao dao = new UserDao(conn);
 	    	
+	    	//test if method checks correctly a valid user
 	    	boolean isUserValid = dao.isUserValid(email, password);
 	    	Assert.assertTrue("failure - user and password are not valid", isUserValid);
 	    	
-	    	isUserValid = dao.isUserValid(email, "passwordNotValid");
-	    	Assert.assertTrue("User not valid - password are not valid", !isUserValid);	    	
+	    	
+	    	String userNotValid = UUID.randomUUID().toString();
+	    	String passwordNotValid = UUID.randomUUID().toString();
+	    	
+	    	//test if method checks correctly a valid user with invalid password
+	    	isUserValid = dao.isUserValid(email, passwordNotValid);
+	    	Assert.assertTrue("failre - method checks as valid an user with invalid password", !isUserValid);
+	    	
+	    	//test if method checks correctly an invalid user
+	    	isUserValid = dao.isUserValid(userNotValid, passwordNotValid);
+	    	Assert.assertTrue("faliure - method checks as avalis an invalid user", !isUserValid);	
+	    	
+	    	
 	    	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
