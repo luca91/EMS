@@ -18,8 +18,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import com.ems.dao.UserDao;
-import com.ems.model.User;
+import com.ems.prototype.Entity;
+import com.ems.prototype.EntityDao;
 
 /**
  * Tests for {@link UserDato}.
@@ -77,7 +77,6 @@ public class EntityDaoTest {
 			stmt.executeUpdate(sql);
 			log.debug("Executed queries");
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	    catch (SQLException e) {
@@ -139,7 +138,6 @@ public class EntityDaoTest {
 			stmt.executeUpdate(sql);
 			log.debug("Executed queries");
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	    catch (SQLException e) {
@@ -176,8 +174,8 @@ public class EntityDaoTest {
 		Class.forName("com.mysql.jdbc.Driver");
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-	    	UserDao obj = new UserDao(conn);
-	    	User record = new User();
+	    	EntityDao dao = new EntityDao(conn);
+	    	Entity record = new Entity();
 	    	
 	    	record.setFname(fname);
 	    	record.setLname(lname);
@@ -185,7 +183,7 @@ public class EntityDaoTest {
 	    	record.setEmail(email);
 	    	record.setPassword(password);
 	    	record.setRole(role);
-	    	obj.addUser(record);
+	    	dao.addRecord(record);
 	    	
 	    	String sql = 
 	    			"SELECT COUNT(*) AS nr_rows" +
@@ -199,7 +197,6 @@ public class EntityDaoTest {
 	    	
 	    	Assert.assertEquals("failure - record not added - ", 1, count);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
@@ -250,8 +247,8 @@ public class EntityDaoTest {
 	    	rs.next();
 	    	int  last_id = rs.getInt("last_id");
 	    	
-	    	UserDao obj = new UserDao(conn);
-	    	obj.deleteUser(last_id);
+	    	EntityDao dao = new EntityDao(conn);
+	    	dao.deleteRecord(last_id);
 	    	
 	    	sql = 	"SELECT COUNT(*) AS nr_rows" +
 	    			" FROM user" +
@@ -263,7 +260,6 @@ public class EntityDaoTest {
 	    	
 	    	Assert.assertEquals("failure - record not deleted", 0, count);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
@@ -290,9 +286,9 @@ public class EntityDaoTest {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			UserDao obj = new UserDao(conn);
+			EntityDao dao = new EntityDao(conn);
 	
-	    	List<User> list = obj.getAllUsers();
+	    	List<Entity> list = dao.getAllRecords();
 	
 	    	String sql = 	
 	    			"SELECT COUNT(*) AS nr_rows" +
@@ -306,7 +302,6 @@ public class EntityDaoTest {
 	    	log.debug("list.size(): " + list.size());
 	    	Assert.assertEquals("failure - getAllUsers returns a different list of record", nr_rows, list.size());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
@@ -356,13 +351,12 @@ public class EntityDaoTest {
 	    	rs.next();
 	    	int  last_id = rs.getInt("last_id");
 	    	
-	    	UserDao obj = new UserDao(conn);
+	    	EntityDao dao = new EntityDao(conn);
 	
-	    	User aRecord = obj.getUserById(last_id);
+	    	Entity aRecord = dao.getRecordById(last_id);
 	    	
 	    	Assert.assertEquals("failure - record returned by ID is different from record inserted", aRecord.getFname(), fname);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
@@ -413,9 +407,9 @@ public class EntityDaoTest {
 	    	
 	    	log.debug(last_id);
 	    	
-	    	UserDao obj = new UserDao(conn);
+	    	EntityDao dao = new EntityDao(conn);
 	
-	    	User aRecord = new User();
+	    	Entity record = new Entity();
 	    	
 	    	String newFname = "FnameUpdated";
 	    	String newLname = "LnameUpdated";
@@ -424,15 +418,15 @@ public class EntityDaoTest {
 	    	String newPassword = "PasswordUpdated";
 	    	String newRole = "admin";
 	    	
-	    	aRecord.setId(last_id);
-	    	aRecord.setFname(newFname);
-	    	aRecord.setLname(newLname);
-	    	aRecord.setDate_of_birth(newDate_of_birth);
-	    	aRecord.setEmail(newEmail);
-	    	aRecord.setPassword(newPassword);
-	    	aRecord.setRole(newRole);
+	    	record.setId(last_id);
+	    	record.setFname(newFname);
+	    	record.setLname(newLname);
+	    	record.setDate_of_birth(newDate_of_birth);
+	    	record.setEmail(newEmail);
+	    	record.setPassword(newPassword);
+	    	record.setRole(newRole);
 	    	
-	    	obj.updateUser(aRecord);
+	    	dao.updateRecord(record);
 	    	
 	    	sql = 	"SELECT *, DATE_FORMAT(date_of_birth,'%Y%m%d') AS date_of_birth_formatted" +
 	    			" FROM user" +
@@ -455,10 +449,8 @@ public class EntityDaoTest {
 	    	Assert.assertEquals("failure - field email has not been correctly updated", newEmail, upEmail);
 	    	Assert.assertEquals("failure - field password has not been correctly updated", newPassword, upPassword);
 	    	Assert.assertEquals("failure - field role has not been correctly updated", newRole, upRole);
-	    	
-	    	
+		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
