@@ -478,5 +478,55 @@ public class UserDaoTest {
 		log.debug("testUpdateUser() - END");
     }
 	
+	@Test
+    public void testIsUserValid() throws ClassNotFoundException {
+		log.debug("testUpdateUser() - START");
+		String fname = "FakeFname";
+		String lname = "FakeLname";
+		String date_of_birth = "20130416";
+		String email = "FakeEmail";
+		String password = "FakePassword";
+		String role = "admin";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			
+	    	String sql = 
+	    			"INSERT" +
+					" INTO user(fname,lname,date_of_birth,email, password,role) " +
+	    			" VALUES ('" + fname +"', '" + lname + "', '" + date_of_birth + "', '" +  email + "', '" + password + "', '" + role + "');";
+
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+	    	
+	    	UserDao dao = new UserDao(conn);
+	    	
+	    	boolean isUserValid = dao.isUserValid(email, password);
+	    	Assert.assertTrue("failure - user and password are not valid", isUserValid);
+	    	
+	    	isUserValid = dao.isUserValid(email, "passwordNotValid");
+	    	Assert.assertTrue("User not valid - password are not valid", !isUserValid);	    	
+	    	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+		log.debug("testUpdateUser() - END");
+    }
 	
 }

@@ -137,8 +137,10 @@ public class UserDao {
                 user.setId(rs.getInt("id"));
                 user.setFname(rs.getString("fname"));
                 user.setLname(rs.getString("lname"));
+                user.setDate_of_birth(rs.getString("date_of_birth"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
+                user.setRole(rs.getString("role"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -146,4 +148,46 @@ public class UserDao {
     	log.trace("END");
         return user;
     }
+    
+    // email is the username
+    public boolean isUserValid(String username, String password) {
+    	log.trace("START");
+    	log.debug("username passed: " + username);
+    	log.debug("password passed: " + password);
+    	
+    	boolean isValid = false;
+    	
+        try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("select * from user where email=? and password=?");
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            
+            ResultSet rs = preparedStatement.executeQuery();
+                 	
+        	User user = new User();
+        	
+        	if (rs.next()) {
+                user.setId(rs.getInt("id"));
+                user.setFname(rs.getString("fname"));
+                user.setLname(rs.getString("lname"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("email"));
+            	isValid = true;
+            	
+            	log.debug(user.getEmail() + " - " + user.getPassword());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+    	if (isValid){
+    		log.debug("user is valid");
+    	}
+    	else {
+    		log.debug("user is INvalid");
+    	}
+        return isValid;
+    }
+    
 }
