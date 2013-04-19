@@ -1,4 +1,4 @@
-package com.ems.prototype;
+package com.ems.prototype.test;
 
 import java.beans.IntrospectionException;
 
