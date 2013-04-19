@@ -5,6 +5,6 @@
 		<title>TITLE</title>
 	</head>
 	<body>
-		<jsp:forward page="/Prototype?action=listRecord" />
+		<jsp:forward page="/UserController?action=listUser" />
 	</body>
 </html>
