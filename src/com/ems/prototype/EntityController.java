@@ -15,36 +15,36 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.ems.dao.UserDao;
-import com.ems.model.User;
+import com.ems.prototype.EntityDao;
+import com.ems.prototype.Entity;
 
-public class UserController extends HttpServlet {
+public class EntityController extends HttpServlet {
 	
 	// commons logging references
-	static Logger log = Logger.getLogger(UserController.class.getName());
+	static Logger log = Logger.getLogger(EntityController.class.getName());
 	
     private static final long serialVersionUID = 1L;
-    private static String INSERT_OR_EDIT = "/user.jsp";
-    private static String LIST_USER = "/listUser.jsp";
-    private UserDao dao;
+    private static String INSERT_OR_EDIT = "/prototype/entityForm.jsp";
+    private static String LIST_RECORDS = "/prototype/entityList.jsp";
+    private EntityDao dao;
 
 
     
 
-	public UserController(Connection conn) {
+	public EntityController(Connection conn) {
     	super();
     	log.trace("START");
-		dao = new UserDao(conn);
+		dao = new EntityDao(conn);
 	
     	log.trace("END");
     }
     
     
-	public UserController() {
+	public EntityController() {
     	super();
     	log.trace("START");
         try {
-			dao = new UserDao();
+			dao = new EntityDao();
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			log.debug("NamingException");
@@ -64,17 +64,17 @@ public class UserController extends HttpServlet {
 
         if (action.equalsIgnoreCase("delete")){
             int id = Integer.parseInt(request.getParameter("id"));
-            dao.deleteUser(id);
-            forward = LIST_USER;
-            request.setAttribute("users", dao.getAllUsers());    
+            dao.deleteRecord(id);
+            forward = LIST_RECORDS;
+            request.setAttribute("records", dao.getAllRecords());    
         } else if (action.equalsIgnoreCase("edit")){
             forward = INSERT_OR_EDIT;
             int id = Integer.parseInt(request.getParameter("id"));
-            User user = dao.getUserById(id);
-            request.setAttribute("user", user);
-        } else if (action.equalsIgnoreCase("listUser")){
-            forward = LIST_USER;
-            request.setAttribute("users", dao.getAllUsers());
+            Entity record = dao.getRecordById(id);
+            request.setAttribute("record", record);
+        } else if (action.equalsIgnoreCase("listRecords")){
+            forward = LIST_RECORDS;
+            request.setAttribute("records", dao.getAllRecords());
         } else {
             forward = INSERT_OR_EDIT;
         }
@@ -85,26 +85,27 @@ public class UserController extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.trace("START");
-    	User user = new User();
-        user.setFname(request.getParameter("fname"));
-        user.setLname(request.getParameter("lname"));
-        user.setDate_of_birth(request.getParameter("date_of_birth"));
-        user.setPassword(request.getParameter("password"));
-        user.setEmail(request.getParameter("email"));
-        user.setRole(request.getParameter("role"));
+    	Entity record = new Entity();
+    	record.setFname(request.getParameter("fname"));
+    	record.setLname(request.getParameter("lname"));
+    	record.setDate_of_birth(request.getParameter("date_of_birth"));
+    	record.setPassword(request.getParameter("password"));
+    	record.setEmail(request.getParameter("email"));
+    	record.setRole(request.getParameter("role"));
         String id = request.getParameter("id");
         if(id == null || id.isEmpty())
         {
-            dao.addUser(user);
+            dao.addRecord(record);
+            log.debug("Insert record");
         }
         else
         {
-            user.setId(Integer.parseInt(id));
-            dao.updateUser(user);
+            record.setId(Integer.parseInt(id));
+            dao.updateRecord(record);
         }
         
-        RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
-        request.setAttribute("users", dao.getAllUsers());
+        RequestDispatcher view = request.getRequestDispatcher(LIST_RECORDS);
+        request.setAttribute("records", dao.getAllRecords());
         view.forward(request, response);
     	log.trace("END");
     }

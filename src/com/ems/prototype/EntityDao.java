@@ -18,42 +18,42 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import com.ems.model.User;
+import com.ems.prototype.Entity;
 
 //import com.daniel.util.DbUtil;
 
-public class UserDao {
+public class EntityDao {
 	
 	// commons logging references
-	static Logger log = Logger.getLogger(UserDao.class.getName());
+	static Logger log = Logger.getLogger(EntityDao.class.getName());
 
     private Connection connection;
 
     //used to load the connection in JUnit tests
-    public UserDao(Connection c){
+    public EntityDao(Connection c){
     	connection = c;
     }
     
-    public UserDao() throws NamingException, SQLException {
+    public EntityDao() throws NamingException, SQLException {
         Context initialContext = new InitialContext();
         Context envContext  = (Context)initialContext.lookup("java:/comp/env");
         DataSource ds = (DataSource)envContext.lookup("jdbc/ems");
         connection = ds.getConnection();
     }
 
-    public void addUser(User user) {
+    public void addRecord(Entity record) {
     	log.trace("START");
         try {
         	
             PreparedStatement preparedStatement = connection
                     .prepareStatement("insert into user(fname,lname,date_of_birth,email,password,role) values (?, ?, ?, ?, ?, ? )");
             // Parameters start with 1
-            preparedStatement.setString(1, user.getFname());
-            preparedStatement.setString(2, user.getLname());
-            preparedStatement.setString(3, user.getDate_of_birth());
-            preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setString(5, user.getPassword());
-            preparedStatement.setString(6, user.getRole());
+            preparedStatement.setString(1, record.getFname());
+            preparedStatement.setString(2, record.getLname());
+            preparedStatement.setString(3, record.getDate_of_birth());
+            preparedStatement.setString(4, record.getEmail());
+            preparedStatement.setString(5, record.getPassword());
+            preparedStatement.setString(6, record.getRole());
         	log.debug("addUser Execute Update");
             preparedStatement.executeUpdate();
 
@@ -63,7 +63,7 @@ public class UserDao {
     	log.trace("END");
     }
 
-    public void deleteUser(int id) {
+    public void deleteRecord(int id) {
     	log.trace("START");
         try {
             PreparedStatement preparedStatement = connection
@@ -78,20 +78,20 @@ public class UserDao {
     	log.trace("END");
     }
 
-    public void updateUser(User user) {
+    public void updateRecord(Entity record) {
     	log.debug("START");
         try {
             PreparedStatement preparedStatement = connection
                     .prepareStatement("update user set fname=?, lname=?, date_of_birth=?,email=?, password=?, role=? " +
                             "where id=?");
             // Parameters start with 1
-            preparedStatement.setString(1, user.getFname());
-            preparedStatement.setString(2, user.getLname());
-            preparedStatement.setString(3, user.getDate_of_birth());
-            preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setString(5, user.getPassword());
-            preparedStatement.setString(6, user.getRole());
-            preparedStatement.setInt(7, user.getId());
+            preparedStatement.setString(1, record.getFname());
+            preparedStatement.setString(2, record.getLname());
+            preparedStatement.setString(3, record.getDate_of_birth());
+            preparedStatement.setString(4, record.getEmail());
+            preparedStatement.setString(5, record.getPassword());
+            preparedStatement.setString(6, record.getRole());
+            preparedStatement.setInt(7, record.getId());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -100,33 +100,33 @@ public class UserDao {
     	log.trace("END");
     }
 
-    public List<User> getAllUsers() {
+    public List<Entity> getAllRecords() {
         log.trace("START");
-    	List<User> users = new ArrayList<User>();
+    	List<Entity> records = new ArrayList<Entity>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from user");
             while (rs.next()) {
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setFname(rs.getString("fname"));
-                user.setLname(rs.getString("lname"));
-                user.setDate_of_birth(rs.getString("date_of_birth"));
-                user.setPassword(rs.getString("password"));
-                user.setEmail(rs.getString("email"));
-                user.setRole(rs.getString("role"));
-                users.add(user);
+                Entity record = new Entity();
+                record.setId(rs.getInt("id"));
+                record.setFname(rs.getString("fname"));
+                record.setLname(rs.getString("lname"));
+                record.setDate_of_birth(rs.getString("date_of_birth"));
+                record.setPassword(rs.getString("password"));
+                record.setEmail(rs.getString("email"));
+                record.setRole(rs.getString("role"));
+                records.add(record);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     	log.trace("END");
-        return users;
+        return records;
     }
 
-    public User getUserById(int id) {
+    public Entity getRecordById(int id) {
     	log.trace("START");
-        User user = new User();
+        Entity record = new Entity();
         try {
             PreparedStatement preparedStatement = connection.
                     prepareStatement("select * from user where id=?");
@@ -134,16 +134,18 @@ public class UserDao {
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
-                user.setId(rs.getInt("id"));
-                user.setFname(rs.getString("fname"));
-                user.setLname(rs.getString("lname"));
-                user.setPassword(rs.getString("password"));
-                user.setEmail(rs.getString("email"));
+            	record.setId(rs.getInt("id"));
+            	record.setFname(rs.getString("fname"));
+            	record.setLname(rs.getString("lname"));
+                record.setDate_of_birth(rs.getString("date_of_birth"));
+                record.setPassword(rs.getString("password"));
+                record.setEmail(rs.getString("email"));
+                record.setRole(rs.getString("role"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     	log.trace("END");
-        return user;
+        return record;
     }
 }

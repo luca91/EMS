@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.ems.model.User;
 import com.ems.test.general.JavaBeanTester;
 
-public class UserTest {
+public class EntityTest {
 
 	@Test
 	public void testBeanProperties() throws IntrospectionException{

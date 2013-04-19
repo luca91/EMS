@@ -13,20 +13,29 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <!-- #################################################################### -->
   <servlet>
     <description></description>
     <display-name>UserController</display-name>
     <servlet-name>UserController</servlet-name>
     <servlet-class>com.ems.controller.UserController</servlet-class>
   </servlet>
+  <servlet-mapping>
+    <servlet-name>UserController</servlet-name>
+    <url-pattern>/UserController</url-pattern>
+  </servlet-mapping>
+  <!-- #################################################################### -->  
   <servlet>
     <description></description>
-    <display-name>Prototype</display-name>
-    <servlet-name>Prototype</servlet-name>
-    <servlet-class>com.ems.prototype.UserController</servlet-class>
+    <display-name>PrototypeController</display-name>
+    <servlet-name>PrototypeController</servlet-name>
+    <servlet-class>com.ems.prototype.EntityController</servlet-class>
   </servlet>  
-  <servlet-mapping>
-    <servlet-name>Prototype</servlet-name>
-    <url-pattern>/Prototype</url-pattern>
+    <servlet-mapping>
+    <servlet-name>PrototypeController</servlet-name>
+    <url-pattern>/prototype/PrototypeController</url-pattern>
   </servlet-mapping>
+
+  
+
 </web-app>

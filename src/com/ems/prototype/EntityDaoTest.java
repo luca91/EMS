@@ -27,10 +27,10 @@ import com.ems.model.User;
  * @author LucaBa)
  */
 @RunWith(JUnit4.class)
-public class UserDaoTest {
+public class EntityDaoTest {
 	
 	// commons logging references
-	static Logger log = Logger.getLogger(UserDaoTest.class.getName());
+	static Logger log = Logger.getLogger(EntityDaoTest.class.getName());
 	
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  

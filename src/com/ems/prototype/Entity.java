@@ -2,7 +2,7 @@
 
 package com.ems.prototype;
 
-public class User {
+public class Entity {
 
 	private int id;
 	private String fname;
