@@ -1,10 +1,18 @@
 package com.ems.prototype.test;
 
+
+import com.meterware.httpunit.*;
+import com.meterware.servletunit.*;
+import junit.framework.*;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,15 +23,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Matchers.any;
 
-import com.ems.controller.UserController;
-import com.ems.dao.UserDao;
+import com.ems.prototype.Entity;
+import com.ems.prototype.EntityController;
+import com.ems.prototype.EntityDao;
 
 
 public class EntityControllerTest {
@@ -34,8 +49,8 @@ public class EntityControllerTest {
 	HttpServletRequest request;
 	HttpServletResponse response;
 	
-	UserController servlet;
-
+	EntityController servlet;
+	EntityDao dao = mock(EntityDao.class);
 	
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
@@ -45,6 +60,7 @@ public class EntityControllerTest {
 	static final String PASS = "";
 	static Connection conn = null;
 	
+	private StringWriter pageSource = new StringWriter();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -58,11 +74,11 @@ public class EntityControllerTest {
 		log.trace("START");
 		request = Mockito.mock(HttpServletRequest.class);
 		response = Mockito.mock(HttpServletResponse.class);
-		log.debug("instantiate servlet");
+		
 		Class.forName("com.mysql.jdbc.Driver");
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			servlet = new UserController(conn);
+			servlet = new EntityController(conn);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -77,51 +93,20 @@ public class EntityControllerTest {
 		log.trace("END");
 	}	
 	
+	
 	@Test
-	public void testDoGetHttpServletRequestHttpServletResponse() throws ServletException, IOException {
-		log.trace("START");
-		Mockito.when(request.getParameter("name")).thenReturn("name");
-		Mockito.when(request.getParameter("value")).thenReturn("value");
+    public void testGetForm() throws Exception {
+        ServletRunner sr = new ServletRunner( "WebContent/WEB-INF/web.xml" );       // (1) use the web.xml file to define mappings
+        ServletUnitClient client = sr.newClient();               					// (2) create a client to invoke the application
 
-		PrintWriter writer = new PrintWriter("response.txt");
-		Mockito.when(response.getWriter()).thenReturn(writer);
+        try {
+            client.getResponse( "http://localhost:8080/ems/prototype/index.jsp" ); 	// (3) invoke the servlet w/o authorization
+            fail( "servlet is not protected" );
+        } catch (AuthorizationRequiredException e) {            					// (4) verify that access is denied
+        }
 
-		servlet.doGet(request, response);
+     }
 
-		writer.flush();
-		Mockito.verify(request, Mockito.atLeast(1)).getParameter("name");
-
-		assertTrue(FileUtils
-				.readFileToString(new File("response.txt"), "UTF-8").contains(
-						"name:name,value:value"));
-		log.trace("END");
-	}
-
-	@Test
-	public void testDoPostHttpServletRequestHttpServletResponse()
-			throws ServletException, IOException {
-		log.trace("START");
-
-		Mockito.when(request.getParameter("fname")).thenReturn("John");
-		Mockito.when(request.getParameter("lname")).thenReturn("McCain");
-		Mockito.when(request.getParameter("date_of_birth")).thenReturn("20130101");
-		Mockito.when(request.getParameter("email")).thenReturn("john@mccain.com");
-		Mockito.when(request.getParameter("password")).thenReturn("password");		
-		Mockito.when(request.getParameter("role")).thenReturn("admin");
-		
-		PrintWriter writer = new PrintWriter("response.txt");
-		Mockito.when(response.getWriter()).thenReturn(writer);
-
-		servlet.doPost(request, response);
-
-		writer.flush();
-		Mockito.verify(request, Mockito.atLeast(1)).getParameter("fname");
-
-		assertTrue(FileUtils
-				.readFileToString(new File("response.txt"), "UTF-8").contains(
-						"fname:John,lname:McCain"));
-		log.trace("END");
-	}
 
 }
 
