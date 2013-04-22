@@ -96,14 +96,14 @@ public class EntityController extends HttpServlet {
         if(id == null || id.isEmpty())
         {
             dao.addRecord(record);
-            log.debug("Insert record");
+            log.debug("Record inserted");
         }
         else
         {
             record.setId(Integer.parseInt(id));
             dao.updateRecord(record);
+            log.debug("Record updated");
         }
-        
         RequestDispatcher view = request.getRequestDispatcher(LIST_RECORDS);
         request.setAttribute("records", dao.getAllRecords());
         view.forward(request, response);
