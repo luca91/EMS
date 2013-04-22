@@ -1,9 +1,12 @@
 /* https://github.com/codebox/javabean-tester/blob/master/JavaBeanTester.java
  * 
+ * This class is used to test Javabean classes
+ * 
  * The JavaBeanTester class uses reflection to find all the get/set methods in a class, 
  * it then generates an appropriate value for each set method, calls the method, 
  * and then checks that the value that comes out of the get method is the same as the value that went in.
  */
+
 
 
 package com.ems.test.general;
