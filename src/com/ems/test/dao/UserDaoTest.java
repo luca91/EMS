@@ -120,25 +120,7 @@ public class UserDaoTest {
 					"DELETE FROM user";
 			stmt.executeUpdate(sql);
 			
-			sql = 	
-					"insert " +
-					" into user(fname,lname,date_of_birth,email,password,role)" +
-					" values ('Luca', 'Be', '19910101','lucabelles@gmail.com' ,'password','admin');";
-			log.debug("Inserting a record...");
-			stmt.executeUpdate(sql);
 			
-			sql = 	"insert " +
-					" into user(fname,lname,date_of_birth,email,password,role)" +
-					" values ('Luca', 'Ba', '19710703','luca.barazzuol@gmail.com' ,'password','event_mng');";
-			log.debug("Inserting a record...");
-			stmt.executeUpdate(sql);
-			
-			sql = 	"insert " +
-					" into user(fname,lname,date_of_birth,email,password,role)" +
-					" values ('Alex', 'Stan','19910202','alexstannumberone@gmail.com' ,'password','group_mng');";
-			log.debug("Inserting a record...");
-			stmt.executeUpdate(sql);
-			log.debug("Executed queries");
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
