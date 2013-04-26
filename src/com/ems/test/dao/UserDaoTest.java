@@ -329,6 +329,55 @@ public class UserDaoTest {
     }
 	
 	@Test
+    public void testGetUserByEmail() throws ClassNotFoundException {
+		log.debug("testGetUserById() - START");
+		String fname = "FakeFname";
+		String lname = "FakeLname";
+		String date_of_birth = "20130416";
+		String email = "FakeEmail";
+		String password = "FakePassword";
+		String role = "admin";
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			
+	    	String sql = 
+	    			"INSERT" +
+					" INTO user(fname,lname,date_of_birth,email, password,role) " +
+	    			" VALUES ('" + fname +"', '" + lname + "', '" + date_of_birth + "', '" +  email + "', '" + password + "', '" + role + "');";
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+	    	   	
+	    	UserDao obj = new UserDao(conn);
+	
+	    	User aRecord = obj.getUserByEmail(email);
+	    	
+	    	Assert.assertEquals("failure - record returned by email is different from record inserted", aRecord.getFname(), fname);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+		log.debug("testGetUserById() - END");
+    }
+	
+	
+	@Test
     public void testGetUserById() throws ClassNotFoundException {
 		log.debug("testGetUserById() - START");
 		String fname = "FakeFname";
@@ -381,7 +430,7 @@ public class UserDaoTest {
 	        }//end finally try
 	    }
 		log.debug("testGetUserById() - END");
-    }
+    }	
 	
 	@Test
     public void testUpdateUser() throws ClassNotFoundException {
