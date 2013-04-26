@@ -17,7 +17,7 @@ import org.junit.Assert;
 import com.ems.controller.LoginController;
 import com.ems.test.dao.UserDaoTest;
 
-public class LoginTest {
+public class LoginControllerTest {
 	
 	private LoginController toTest;
 	
@@ -35,8 +35,9 @@ public class LoginTest {
 	static ResultSet rs = null;;
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws SQLException{
 		toTest = new LoginController("name.surname@unibz.it", "admin");
+		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 	}
 
 	@Before
@@ -99,15 +100,22 @@ public class LoginTest {
 	
 	@Test
 	public void testGetUsername(){
-		Assert.assertEquals("name.surname@unibz.it", toTest.getUserName());
+		toTest.setUsername("lucabelles@gmail.com");
+		Assert.assertEquals("lucabelles@gmail.com", toTest.getUserName());
 	}
 	
 	@Test
 	public void testGetPassword(){
-		Assert.assertEquals("admin", toTest.getPassword());
+		toTest.setPassword("password");
+		Assert.assertEquals("password", toTest.getPassword());
 	}
 	
-	
+	@Test
+	public void testCheckValidity(){
+		toTest.setUsername("lucabelles@gmail.com");
+		toTest.setPassword("password");
+		Assert.assertEquals(true, toTest.checkValidity());
+	}
 	
 
 }
