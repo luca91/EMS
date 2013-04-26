@@ -53,12 +53,22 @@ public class UserDaoTest {
 			log.debug("Connecting to a selected database...");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			log.debug("Connected database successfully...");
-			  
+			 
+			
+
+			
+			
 			//STEP 4: Execute a query
-			log.debug("Inserting records into the table...");
+			log.debug("Create statement");
 			stmt = conn.createStatement();
 			  
-			String sql = 	
+			log.debug("Create statement");
+			String sql =
+					"DELETE FROM user";
+			stmt.executeUpdate(sql);
+			
+			
+			sql = 	
 					"insert " +
 					" into user(fname,lname,date_of_birth,email,password,role)" +
 					" values ('Luca', 'Be', '19910101','lucabelles@gmail.com' ,'password','admin');";
@@ -78,7 +88,6 @@ public class UserDaoTest {
 			stmt.executeUpdate(sql);
 			log.debug("Executed queries");
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	    catch (SQLException e) {
@@ -102,7 +111,7 @@ public class UserDaoTest {
 	}
 	
 	@After
-	public void reloadMockData(){
+	public void removeMockData(){
 		log.debug("reloadMockData() - START");
 	    try {
 			//STEP 2: Register JDBC driver
@@ -122,7 +131,6 @@ public class UserDaoTest {
 			
 			
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	    catch (SQLException e) {
@@ -182,7 +190,6 @@ public class UserDaoTest {
 	    	
 	    	Assert.assertEquals("failure - record not added - ", 1, count);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
@@ -246,7 +253,6 @@ public class UserDaoTest {
 	    	
 	    	Assert.assertEquals("failure - record not deleted", 0, count);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
@@ -289,7 +295,6 @@ public class UserDaoTest {
 	    	log.debug("list.size(): " + list.size());
 	    	Assert.assertEquals("failure - getAllUsers returns a different list of record", nr_rows, list.size());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
@@ -338,7 +343,6 @@ public class UserDaoTest {
 	    	
 	    	Assert.assertEquals("failure - record returned by email is different from record inserted", aRecord.getFname(), fname);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
@@ -394,7 +398,6 @@ public class UserDaoTest {
 	    	
 	    	Assert.assertEquals("failure - record returned by ID is different from record inserted", aRecord.getFname(), fname);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
@@ -490,7 +493,6 @@ public class UserDaoTest {
 	    	
 	    	
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
@@ -553,7 +555,6 @@ public class UserDaoTest {
 	    	
 	    	
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    finally{
