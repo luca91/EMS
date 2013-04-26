@@ -13,7 +13,7 @@
 	<td>Home</td>
 	<td>Events</td>
 	<td>Media</td>
-	<td>Login</td>
+	<td><a href="login.jsp">Login</a></td>
 </tr>
 </table>
 <br>
