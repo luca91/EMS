@@ -78,4 +78,8 @@ public class LoginController extends HttpServlet {
 	public String getPassword(){
 		return this.password;
 	}
+	
+	public boolean checkValidity(){
+		return this.dao.isUserValid(this.username, this.password);
+	}
 }
