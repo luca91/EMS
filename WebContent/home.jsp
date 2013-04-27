@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>EMS - Welcome to the EMS Management Page</title>
 <link rel="stylesheet" type="text/css" href="css/tabs.css" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
 </head>
 <body>
 <p>Welcome - <!-- username : logout --></p>
@@ -28,9 +28,9 @@
 <div class="css-panes">
 	<!-- Admin pane -->
 	<div>
-	<p>Users</p><!-- call listUser.jsp -->
-	<p>Web Pages editing</p>
-	<p>Settings</p>
+	<p><a href="#">Users</a></p><!-- call listUser.jsp -->
+	<p><a href="#">Web Pages editing</a></p>
+	<p><a href="#">Settings</a></p>
 	</div>
 	<!-- Event Management pane -->
 	<div>
@@ -47,13 +47,12 @@
 	<p>Participants</p>
 	</div>
 </div>
-
 <!-- activate tabs with JavaScript -->
 <script>
   $(function() {
+  // :first selector is optional if you have only one tabs on the page
   $(".css-tabs:first").tabs(".css-panes:first > div");
   });
 </script>
-
 </body>
 </html>

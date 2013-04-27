@@ -7,12 +7,11 @@
 </head>
 <body>
 <h1>Welcome to Enrollment Management System</h1>
-<jsp:forward page="/UserController?action=listUser" />
 <table border="1">
 <tr>
-	<td>Home</td>
-	<td>Events</td>
-	<td>Media</td>
+	<td><a href="index.jsp">Home</a></td>
+	<td><a href="#">Events</a></td>
+	<td><a href="#">Media</a></td>
 	<td><a href="login.jsp">Login</a></td>
 </tr>
 </table>
