@@ -438,7 +438,7 @@ public class EventDaoTest {
 	    	
 	    	obj.updateRecord(aRecord);
 	    	
-	    	sql = 	"SELECT * " + //", DATE_FORMAT(date_of_birth,'%Y%m%d') AS date_of_birth_formatted" +
+	    	sql = 	"SELECT * " +
 	    			" FROM event" +
 	    			" WHERE id = " + last_id;
 	    	
