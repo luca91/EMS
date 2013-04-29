@@ -104,13 +104,7 @@ public class LoginController extends HttpServlet {
 	}
 	
 	public boolean checkValidity(){
-		log.debug("username: " + this.username);
-		log.debug("password: " + this.password);
-		boolean flag = false;
-		flag = this.dao.isUserValid(this.username, this.password);
-		
-		log.debug("flag: " + flag);
-		return flag;
+		return this.dao.isUserValid(this.username, this.password);
 	}
 	
 	public void setUsername(String username){
