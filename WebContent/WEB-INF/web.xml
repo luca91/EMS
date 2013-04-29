@@ -35,6 +35,7 @@
     <servlet-name>PrototypeController</servlet-name>
     <url-pattern>/prototype/PrototypeController</url-pattern>
   </servlet-mapping>
+  <!-- #################################################################### -->  
    <servlet>
     <description></description>
     <display-name>LoginController</display-name>
@@ -45,7 +46,7 @@
     <servlet-name>LoginController</servlet-name>
     <url-pattern>/LoginController</url-pattern>
   </servlet-mapping>
-
+  <!-- #################################################################### -->  
   
 
 </web-app>

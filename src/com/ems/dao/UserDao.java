@@ -156,6 +156,7 @@ public class UserDao {
     	boolean isValid = false;
     	
         try {
+        	log.debug("Query to check validity of the user");
             PreparedStatement preparedStatement = connection.
                     prepareStatement("select * from user where email=? and password=?");
             preparedStatement.setString(1, email);

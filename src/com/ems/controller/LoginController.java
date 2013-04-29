@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -59,18 +60,34 @@ public class LoginController extends HttpServlet {
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		dao = new UserDao(conn);
 	}
+	
+    public LoginController() {
+        super();
+        try {
+			dao = new UserDao();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 
 	@Override 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.trace("Login: START");
 		username = request.getParameter("username");
         password = request.getParameter("password");
+        log.debug("Check user validity");
         if(checkValidity()){
+    		log.debug("Valid user: redirect to /home.jsp");
         	String forward = "/home.jsp";
         	RequestDispatcher view = request.getRequestDispatcher(forward);
             view.forward(request, response);
         }
         else{
+    		log.debug("Valid user: redirect to /login.jsp with an error");
         	String forward = "/login.jsp";
         	RequestDispatcher view = request.getRequestDispatcher(forward);
             view.forward(request, response);
@@ -87,7 +104,13 @@ public class LoginController extends HttpServlet {
 	}
 	
 	public boolean checkValidity(){
-		return this.dao.isUserValid(this.username, this.password);
+		log.debug("username: " + this.username);
+		log.debug("password: " + this.password);
+		boolean flag = false;
+		flag = this.dao.isUserValid(this.username, this.password);
+		
+		log.debug("flag: " + flag);
+		return flag;
 	}
 	
 	public void setUsername(String username){
