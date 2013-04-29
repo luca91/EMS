@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -47,6 +48,7 @@ public class LoginController extends HttpServlet {
 	static final String USER = "root";
 	static final String PASS = "";
 	static Connection conn = null;
+	private HttpSession session;
 
 	/**
 	 * 
@@ -79,6 +81,9 @@ public class LoginController extends HttpServlet {
 		log.trace("Login: START");
 		username = request.getParameter("username");
         password = request.getParameter("password");
+        HttpSession session = request.getSession(true);
+        session.setAttribute("username", username);
+        session.setAttribute("password", password);
         log.debug("Check user validity");
         if(checkValidity()){
     		log.debug("Valid user: redirect to /home.jsp");
@@ -113,5 +118,9 @@ public class LoginController extends HttpServlet {
 	
 	public void setPassword(String password){
 		this.password = password;
+	}
+	
+	public void logout(String username){
+		session.removeAttribute(username);
 	}
 }

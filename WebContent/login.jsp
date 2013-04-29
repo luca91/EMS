@@ -8,7 +8,7 @@
 </head>
 <body>
 <br>
-<form name="loginForm" action="LoginController" method="POST"><!-- TO DO: handle encryption -->
+<form name="loginForm" action="/LoginController" method="POST"><!-- TO DO: handle encryption -->
 E-mail:<input type="text" name="username"><br>
 Password:<input type="password" name="password"><br>
 <input type="submit" value="Login"><!-- the registration opportunity should be done as a response for the --><!-- <input type="submit" value="Register"><br>  -->
