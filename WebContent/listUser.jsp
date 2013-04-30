@@ -21,10 +21,10 @@
 	        <tbody>
 	            <c:forEach items="${users}" var="user">
 	                <tr>
-	                    <td><c:out value="${user.id}" /></td>
-	                    <td><c:out value="${user.fname}"/></td>
-	                    <td><c:out value="${user.lname}" /></td>
-	                    <td><c:out value="${user.email}" /></td>
+	                    <td>${user.id}</td>
+	                    <td>${user.fname}</td>
+	                    <td>${user.lname}</td>
+	                    <td>${user.email}</td>
 	                    <td><a href="UserController?action=edit&id=${user.id}">Update</a></td>
 	                    <td><a href="UserController?action=delete&id=${user.id}">Delete</a></td>
 	                </tr>
@@ -32,6 +32,6 @@
 	        </tbody>
 	    </table>
 	    <p><a href="UserController?action=insert">Add User</a></p>
-	    <a href="home.jsp"> << </a>
+	    <a href="home.jsp"> &lt;&lt; </a>
 	</body>
 </html>
