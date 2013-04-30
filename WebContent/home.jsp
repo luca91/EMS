@@ -9,7 +9,7 @@
 <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
 </head>
 <body>
-<p>Welcome - <!-- username : logout --></p>
+<p>Welcome - ${username} - <a href="LogoutController" >logout</a></p>
 <ul class="css-tabs">
 	<!-- 
 	<c:if test="" { }  >
@@ -28,7 +28,7 @@
 <div class="css-panes">
 	<!-- Admin pane -->
 	<div>
-	<p><a href="#">Users</a></p><!-- call listUser.jsp -->
+	<p><a href="UserController?action=listUser">Users</a></p><!-- call listUser.jsp -->
 	<p><a href="#">Web Pages editing</a></p>
 	<p><a href="#">Settings</a></p>
 	</div>

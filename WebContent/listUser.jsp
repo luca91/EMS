@@ -32,5 +32,6 @@
 	        </tbody>
 	    </table>
 	    <p><a href="UserController?action=insert">Add User</a></p>
+	    <a href="home.jsp"> << </a>
 	</body>
 </html>
