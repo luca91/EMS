@@ -13,7 +13,6 @@
 	                <th>User Id</th>
 	                <th>First Name</th>
 	                <th>Last Name</th>
-	                <th>Password</th>
 	                <th>Email</th>
 	                <th colspan=2>Action</th>
 	            </tr>
