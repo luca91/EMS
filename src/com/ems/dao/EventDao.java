@@ -140,6 +140,7 @@ public class EventDao {
             if (rs.next()) {
                 aRecord.setId(rs.getInt("id"));
                 aRecord.setId_manager(rs.getInt("id_manager"));
+                aRecord.setName(rs.getString("name"));
                 aRecord.setDescription(rs.getString("description"));
                 aRecord.setStart(rs.getString("start"));
                 aRecord.setEnd(rs.getString("end"));

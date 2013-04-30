@@ -40,7 +40,9 @@ public class EventDaoTest {
 	static final String PASS = "";
 	static Connection conn = null;
 	static Statement stmt = null;
-	static ResultSet rs = null;;
+	static ResultSet rs = null;
+	
+	int id_manager;
 
 	@Before
 	public void loadMockData() throws NamingException, SQLException{
@@ -67,24 +69,37 @@ public class EventDaoTest {
 			stmt.executeUpdate(sql);
 			
 			
+			log.debug("Insert a dummy id_manager");
+			sql =
+					"insert " +
+					" into user(fname,lname,date_of_birth,email,password,role)" +
+					" values ('Roger', 'Penroese', '19910101','roger@hotmail.com' ,'password','event_mng');";
+			stmt.executeUpdate(sql);
+			
+			log.debug("Get id of dummy id_manager");
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	id_manager = rs.getInt("last_id");
+			
 			sql = 	
 					"insert " +
 					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
-					" values (28, 'event1','description1','20130507', '20130607', '20130430', '20130506' );";
+					" values (" + id_manager + ", 'event1','description1','20130507', '20130607', '20130430', '20130506' );";
 			log.debug("Inserting record 1...");
 			stmt.executeUpdate(sql);
 			
 			sql = 	
 					"insert " +
 					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
-					" values (28, 'event2','description2','20130507', '20130607', '20130430', '20130506' );";
+					" values (" + id_manager + ", 'event2','description2','20130507', '20130607', '20130430', '20130506' );";
 			log.debug("Inserting record 2...");
 			stmt.executeUpdate(sql);
 			
 			sql = 	
 					"insert " +
 					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
-					" values (28, 'event3','description3','20130507', '20130607', '20130430', '20130506' );";
+					" values (" + id_manager + ", 'event3','description3','20130507', '20130607', '20130430', '20130506' );";
 
 			log.debug("Inserting record 3...");
 			stmt.executeUpdate(sql);
@@ -132,6 +147,10 @@ public class EventDaoTest {
 			stmt.executeUpdate(sql);
 			
 			
+			sql =
+					"DELETE FROM user";
+			stmt.executeUpdate(sql);
+			
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
@@ -159,7 +178,7 @@ public class EventDaoTest {
     public void testAddRecord() throws NamingException, ClassNotFoundException {
 		log.trace("START");
 		
-		int id_manager = 28;
+		//int id_manager = 28;
 		String name = "nameTest";
 		String description = "descriptiontest";
 		String start = "20130601";
@@ -220,7 +239,7 @@ public class EventDaoTest {
     public void testDeleteUser() throws NamingException, ClassNotFoundException {
 		log.debug("START");
 		
-		int id_manager = 28;
+		//int id_manager = 28;
 		String name = "nameTest";
 		String description = "descriptiontest";
 		String start = "20130601";
@@ -327,7 +346,7 @@ public class EventDaoTest {
     public void testGetUserById() throws ClassNotFoundException {
 		log.trace("START");
 
-		int id_manager = 28;
+		//int id_manager = 28;
 		String name = "nameTest";
 		String description = "descriptiontest";
 		String start = "20130601";
@@ -343,7 +362,7 @@ public class EventDaoTest {
 	    	String sql = 
    					"insert " +
    					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
-   	    			" VALUES (" + id_manager+", '" + name + "', '" + description + "', '" +  start + "', '" + end + "', '" + enrollment_start + "','" + enrollment_end +"');";
+   	    			" VALUES (" + id_manager +", '" + name + "', '" + description + "', '" +  start + "', '" + end + "', '" + enrollment_start + "','" + enrollment_end +"');";
 	    			
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
@@ -359,6 +378,7 @@ public class EventDaoTest {
 	    	EventDao obj = new EventDao(conn);
 	
 	    	Event aRecord = obj.getRecordById(last_id);
+	    	log.debug("record inserted: " + aRecord.toString());
 	    	
 	    	Assert.assertEquals("failure - record returned by ID is different from record inserted", aRecord.getName(), name);
 		} catch (SQLException e) {
@@ -385,7 +405,7 @@ public class EventDaoTest {
     public void testUpdateRecord() throws ClassNotFoundException {
 		log.trace("START");
 
-		int id_manager = 28;
+		//int id_manager = 28;
 		String name = "nameTest";
 		String description = "descriptiontest";
 		String start = "20130601";
@@ -419,7 +439,7 @@ public class EventDaoTest {
 	
 	    	Event aRecord = new Event();
 	    	
-	    	int newId_manager = 28;
+	    	int newId_manager = id_manager;
 	    	String newName = "NameUpdated";
 	    	String newDescription = "DescriptionUpdated";
 	    	String newStart = "20991231";
@@ -438,7 +458,11 @@ public class EventDaoTest {
 	    	
 	    	obj.updateRecord(aRecord);
 	    	
-	    	sql = 	"SELECT * " +
+	    	sql = 	"SELECT *, " +
+	    			" DATE_FORMAT(start,'%Y%m%d') AS start_formatted," +
+	    			" DATE_FORMAT(end,'%Y%m%d') AS end_formatted," +
+	    			" DATE_FORMAT(enrollment_start,'%Y%m%d') AS enrollment_start_formatted," +
+	    			" DATE_FORMAT(enrollment_end,'%Y%m%d') AS enrollment_end_formatted" +
 	    			" FROM event" +
 	    			" WHERE id = " + last_id;
 	    	
@@ -448,10 +472,10 @@ public class EventDaoTest {
 	    	int upId_manager = rs.getInt("id_manager");
 	    	String upName = rs.getString("name");
 	    	String upDescription = rs.getString("description");
-	    	String upStart = rs.getString("start");
-	    	String upEnd = rs.getString("end");
-	    	String upEnrollment_start = rs.getString("enrollment_start");
-	    	String upEnrollment_end = rs.getString("enrollment_end");
+	    	String upStart = rs.getString("start_formatted");
+	    	String upEnd = rs.getString("end_formatted");
+	    	String upEnrollment_start = rs.getString("enrollment_start_formatted");
+	    	String upEnrollment_end = rs.getString("enrollment_end_formatted");
 	    	
 	    	log.debug("###### " + upId_manager + " - " + upName + " - " + upDescription + " - " + upStart + " - " + upEnd + " - " + upEnrollment_start + " - " + upEnrollment_end);
 	    	Assert.assertEquals("failure - field id_manager has not been correctly updated", newId_manager, upId_manager);
