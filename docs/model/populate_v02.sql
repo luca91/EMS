@@ -1,4 +1,3 @@
-
 DELETE 
 FROM ems.event;
 
