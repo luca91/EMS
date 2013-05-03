@@ -62,10 +62,12 @@
   <!-- #################################################################### -->
 <!-- #################################################################### -->
 	<!-- Define a Security Constraint on this Application -->
+<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
 	<!--BASIC AUTH with configuration of users in mysql tables
 		
 		transport-guarantee can be: CONFIDENTIAL, INTEGRAL, or NONE 
 	-->	
+	<!-- 
    <security-constraint> 
       <web-resource-collection> 
          <web-resource-name>All Page</web-resource-name> 
@@ -76,7 +78,7 @@
       </auth-constraint> 
       
       <user-data-constraint>
-			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			
 			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
 		</user-data-constraint>
    </security-constraint> 
@@ -85,7 +87,7 @@
       <auth-method>BASIC</auth-method> 
       <realm-name>Tomcat-Advance-Authentication-Realm</realm-name>
    </login-config> 	
-	
+	 -->
 	<!--BASIC AUTH with configuration of users in 
 		WORKSPACE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/conf/tomcat-users.xml
 		

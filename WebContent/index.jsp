@@ -10,8 +10,8 @@
 <h1>Welcome to Enrollment Management System</h1>
 
 <%
-String name = request.getUserPrincipal().getName();
-out.println(name);
+//String name = request.getUserPrincipal().getName();
+//out.println(name);
 
 %>
 ${pageContext.request.userPrincipal.name}
