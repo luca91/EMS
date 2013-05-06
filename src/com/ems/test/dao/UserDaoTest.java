@@ -23,9 +23,9 @@ import com.ems.dao.UserDao;
 import com.ems.model.User;
 
 /**
- * Tests for {@link UserDato}.
+ * Tests for {@link UserDao}.
  *
- * @author LucaBa)
+ * @author Luca Barazzuol)
  */
 @RunWith(JUnit4.class)
 public class UserDaoTest {

@@ -2,6 +2,11 @@
 
 package com.ems.model;
 
+/**
+* User is the JavaBean representing the record of the table User
+* 
+* @author Luca Barazzuol
+*/
 public class User {
 
 	private int id;

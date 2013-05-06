@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,18 +16,19 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 
-import com.ems.model.Event;
+import com.ems.model.Group;
+
 
 
 /**
-* EventDao is the class that performs actions on the Event of the database
+* GroupDao is the class that performs actions on the Group of the database
 * 
 * @author Luca Barazzuol
 */
-public class EventDao {
+public class GroupDao {
 	
 	// commons logging references
-	static Logger log = Logger.getLogger(EventDao.class.getName());
+	static Logger log = Logger.getLogger(GroupDao.class.getName());
 
     private Connection connection;
 
@@ -38,7 +38,7 @@ public class EventDao {
      * 
      * @param  c A connection object used to access database by test units
      */
-    public EventDao(Connection c){
+    public GroupDao(Connection c){
     	connection = c;
     }
     
@@ -47,30 +47,30 @@ public class EventDao {
      * It initializes the connection to the database
      * 
      */
-    public EventDao() throws NamingException, SQLException {
+    public GroupDao() throws NamingException, SQLException {
         Context initialContext = new InitialContext();
         Context envContext  = (Context)initialContext.lookup("java:/comp/env");
         DataSource ds = (DataSource)envContext.lookup("jdbc/ems");
         connection = ds.getConnection();
     }
 
+    
+
     /**
      * Add a record to the table
      * 
+     * @param id_event The event for which the group is created
      * @param aRecord A record
      */
-    public void addRecord(Event aRecord) {
+    public void addRecord(int id_event, Group aRecord) {
     	log.trace("START");
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("insert into event(id_manager,name,description,start,end,enrollment_start,enrollment_end) values (?, ?, ?, ?, ?, ?, ? )");
-            preparedStatement.setInt(1, aRecord.getId_manager());
-            preparedStatement.setString(2, aRecord.getName());
-            preparedStatement.setString(3, aRecord.getDescription());
-            preparedStatement.setString(4, aRecord.getStart());
-            preparedStatement.setString(5, aRecord.getEnd());
-            preparedStatement.setString(6, aRecord.getEnrollment_start());
-            preparedStatement.setString(7, aRecord.getEnrollment_end());            
+                    .prepareStatement("insert into ems.group(id_event,id_group_referent,max_group_number,blocked) values (?, ?, ?, ? )");
+            preparedStatement.setInt(1, id_event);
+            preparedStatement.setInt(2, aRecord.getId_group_referent());
+            preparedStatement.setInt(3, aRecord.getMax_group_number());
+            preparedStatement.setBoolean(4, aRecord.isBlocked());
         	log.debug("add record");
             preparedStatement.executeUpdate();
 
@@ -89,7 +89,7 @@ public class EventDao {
     	log.trace("START");
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("delete from event where id=?");
+                    .prepareStatement("delete from ems.group where id=?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
@@ -99,28 +99,27 @@ public class EventDao {
     	log.trace("END");
     }
 
+
+    
     /**
      * Update the fields of a record
      * 
      * @param aRecord The record to update
      */
-    public void updateRecord(Event aRecord) {
+    public void updateRecord(Group aRecord) {
     	log.trace("START");
     	log.debug(aRecord.toString());
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("update event set id_manager=?, name=?, description=?,start=?, end=?, enrollment_start=?, enrollment_end=? " +
+                    .prepareStatement("update ems.group set id_event=?, id_group_referent=?, max_group_number=?,blocked=? " +
                             "where id=?");
             
-            preparedStatement.setInt(1, aRecord.getId_manager());
-            preparedStatement.setString(2, aRecord.getName());
-            preparedStatement.setString(3, aRecord.getDescription());
-            preparedStatement.setString(4, aRecord.getStart());
-            preparedStatement.setString(5, aRecord.getEnd());
-            preparedStatement.setString(6, aRecord.getEnrollment_start());
-            preparedStatement.setString(7, aRecord.getEnrollment_end()); 
+            preparedStatement.setInt(1, aRecord.getId_event());
+            preparedStatement.setInt(2, aRecord.getId_group_referent());
+            preparedStatement.setInt(3, aRecord.getMax_group_number());
+            preparedStatement.setBoolean(4, aRecord.isBlocked());
             
-            preparedStatement.setInt(8, aRecord.getId());
+            preparedStatement.setInt(5, aRecord.getId());
             preparedStatement.executeUpdate();
         	log.debug("update done");
         } catch (SQLException e) {
@@ -130,25 +129,26 @@ public class EventDao {
     }
 
     /**
-     * Returns the list of all record stored in the table Event
+     * Returns the list of all records stored in the table Group and associated with an event
      * 
-     * @return List<Event> List of objects Event
+     * @param id_event Event to which belong the groups
+     * @return List<Group> List of objects Group
      */
-    public List<Event> getAllRecords() {
+    public List<Group> getAllRecordsById_event(int id_event) {
         log.trace("START");
-    	List<Event> list = new ArrayList<Event>();
+    	List<Group> list = new ArrayList<Group>();
         try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from event");
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("select * from ems.group where id_event=?");
+            preparedStatement.setInt(1, id_event);
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                Event aRecord = new Event();
+                Group aRecord = new Group();
                 aRecord.setId(rs.getInt("id"));
-                aRecord.setId_manager(rs.getInt("id_manager"));
-                aRecord.setDescription(rs.getString("description"));
-                aRecord.setStart(rs.getString("start"));
-                aRecord.setEnd(rs.getString("end"));
-                aRecord.setEnrollment_start(rs.getString("enrollment_start"));
-                aRecord.setEnrollment_end(rs.getString("enrollment_end"));
+                aRecord.setId_event(rs.getInt("id_event"));
+                aRecord.setId_group_referent(rs.getInt("id_group_referent"));
+                aRecord.setMax_group_number(rs.getInt("max_group_number"));
+                aRecord.setBlocked(rs.getBoolean("blocked"));
                 list.add(aRecord);
             }
         } catch (SQLException e) {
@@ -162,26 +162,23 @@ public class EventDao {
      * Returns the record passing its id
      * 
      * @param id Identifier of the record to get
-     * @return event An object Event
+     * @return group An object Group
      */
-    public Event getRecordById(int id) {
+    public Group getRecordById(int id) {
     	log.trace("START");
-        Event aRecord = new Event();
+    	Group aRecord = new Group();
         try {
             PreparedStatement preparedStatement = connection.
-                    prepareStatement("select * from event where id=?");
+                    prepareStatement("select * from ems.group where id=?");
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
                 aRecord.setId(rs.getInt("id"));
-                aRecord.setId_manager(rs.getInt("id_manager"));
-                aRecord.setName(rs.getString("name"));
-                aRecord.setDescription(rs.getString("description"));
-                aRecord.setStart(rs.getString("start"));
-                aRecord.setEnd(rs.getString("end"));
-                aRecord.setEnrollment_start(rs.getString("enrollment_start"));
-                aRecord.setEnrollment_end(rs.getString("enrollment_end"));
+                aRecord.setId_event(rs.getInt("id_event"));
+                aRecord.setId_group_referent(rs.getInt("id_group_referent"));
+                aRecord.setMax_group_number(rs.getInt("max_group_number"));
+                aRecord.setBlocked(rs.getBoolean("blocked"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

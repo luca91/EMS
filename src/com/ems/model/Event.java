@@ -1,5 +1,10 @@
 package com.ems.model;
 
+/**
+* User is the JavaBean representing the record of the table Event
+* 
+* @author Luca Barazzuol
+*/
 public class Event {
 
 
