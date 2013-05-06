@@ -10,18 +10,21 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
+
 import com.ems.model.User;
 
-//import com.daniel.util.DbUtil;
 
+/**
+* UserDao is the class that performs actions on the table User of the database
+* 
+* @author Luca Barazzuol
+*/
 public class UserDao {
 	
 	// commons logging references
@@ -29,11 +32,21 @@ public class UserDao {
 
     private Connection connection;
 
-    //used to load the connection in JUnit tests
+    /**
+     * Constructor with no parameters
+     * used by JUnit
+     * 
+     * @param  c A connection object used to access database by test units
+     */
     public UserDao(Connection c){
     	connection = c;
     }
     
+    /**
+     * Constructor with no parameters
+     * It initializes the connection to the database
+     * 
+     */
     public UserDao() throws NamingException, SQLException {
         Context initialContext = new InitialContext();
         Context envContext  = (Context)initialContext.lookup("java:/comp/env");
@@ -41,13 +54,17 @@ public class UserDao {
         connection = ds.getConnection();
     }
 
+    /**
+     * Add a record to table User
+     * 
+     * @param user A user
+     */
     public void addUser(User user) {
     	log.trace("START");
         try {
         	
             PreparedStatement preparedStatement = connection
                     .prepareStatement("insert into user(fname,lname,date_of_birth,email,password,role) values (?, ?, ?, ?, ?, ? )");
-            // Parameters start with 1
             preparedStatement.setString(1, user.getFname());
             preparedStatement.setString(2, user.getLname());
             preparedStatement.setString(3, user.getDate_of_birth());
@@ -63,12 +80,16 @@ public class UserDao {
     	log.trace("END");
     }
 
+    /**
+     * Delete a record from table User using its id
+     * 
+     * @param id It is the id of the record to delete
+     */
     public void deleteUser(int id) {
     	log.trace("START");
         try {
             PreparedStatement preparedStatement = connection
                     .prepareStatement("delete from user where id=?");
-            // Parameters start with 1
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
@@ -78,13 +99,17 @@ public class UserDao {
     	log.trace("END");
     }
 
+    /**
+     * Update the fields of a user
+     * 
+     * @param user The user to update
+     */
     public void updateUser(User user) {
     	log.debug("START");
         try {
             PreparedStatement preparedStatement = connection
                     .prepareStatement("update user set fname=?, lname=?, date_of_birth=?,email=?, password=?, role=? " +
                             "where id=?");
-            // Parameters start with 1
             preparedStatement.setString(1, user.getFname());
             preparedStatement.setString(2, user.getLname());
             preparedStatement.setString(3, user.getDate_of_birth());
@@ -100,6 +125,11 @@ public class UserDao {
     	log.trace("END");
     }
 
+    /**
+     * Returns the list of all users stored in table User
+     * 
+     * @return List<User> List of objects User
+     */
     public List<User> getAllUsers() {
         log.trace("START");
     	List<User> users = new ArrayList<User>();
@@ -124,6 +154,12 @@ public class UserDao {
         return users;
     }
 
+    /**
+     * Returns the user passing its id
+     * 
+     * @param id Identifier of the user to get
+     * @return user An object user
+     */
     public User getUserById(int id) {
     	log.trace("START");
         User user = new User();
@@ -149,7 +185,13 @@ public class UserDao {
         return user;
     }
     
-    // email is the username
+    /**
+     * Returns true if the passed email and password are valid - otherwise it returns false 
+     * 
+     * @param email Is the email of a user
+     * @param password Is the password of a user
+     * @return boolean User is authenticated or not
+     */
     public boolean isUserValid(String email, String password) {
     	log.trace("START");
     	
@@ -189,6 +231,12 @@ public class UserDao {
         return isValid;
     }
  
+    /**
+     * Returns the user passing its email
+     * 
+     * @param email Email of a user
+     * @return user An object user
+     */
     public User getUserByEmail(String email) {
     	log.trace("START");
         User user = new User();
@@ -212,7 +260,5 @@ public class UserDao {
         }
     	log.trace("END");
         return user;
-    }
-    
-    
+    }   
 }

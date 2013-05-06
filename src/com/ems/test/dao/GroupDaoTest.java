@@ -18,19 +18,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import com.ems.dao.EventDao;
-import com.ems.model.Event;
+import com.ems.dao.GroupDao;
+import com.ems.model.Group;
 
 /**
- * Tests for {@link  EventDao}.
+ * Tests for {@link GroupDao}.
  *
- * @author Luca Barazzuol)
+ * @author LucaBa)
  */
 @RunWith(JUnit4.class)
-public class EventDaoTest {
+public class GroupDaoTest {
 	
 	// commons logging references
-	static Logger log = Logger.getLogger(UserDaoTest.class.getName());
+	static Logger log = Logger.getLogger(GroupDaoTest.class.getName());
 	
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
@@ -43,31 +43,36 @@ public class EventDaoTest {
 	static ResultSet rs = null;
 	
 	int id_manager;
+	int id_event;
 
 	@Before
 	public void loadMockData() throws NamingException, SQLException{
 		log.debug("loadMockData() - START");
 	    try {
-			//STEP 2: Register JDBC driver
+			//Register JDBC driver
 			Class.forName("com.mysql.jdbc.Driver");
-			//STEP 3: Open a connection
+			
+			//Open a connection
 			log.debug("Connecting to a selected database...");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			log.debug("Connected database successfully...");
 			 
-			
-
-			
-			
-			//STEP 4: Execute a query
+			//Execute a query
 			log.debug("Create statement");
 			stmt = conn.createStatement();
 			  
 			log.debug("Delete old records");
 			String sql =
-					"DELETE FROM event";
+					"DELETE FROM ems.group";
 			stmt.executeUpdate(sql);
 			
+			sql =
+					"DELETE FROM ems.event";
+			stmt.executeUpdate(sql);
+			
+			sql =
+					"DELETE FROM ems.user";
+			stmt.executeUpdate(sql);
 			
 			log.debug("Insert a dummy id_manager");
 			sql =
@@ -82,13 +87,20 @@ public class EventDaoTest {
 	    	rs.next();
 	    	id_manager = rs.getInt("last_id");
 			
+			log.debug("Insert a dummy id_event");
 			sql = 	
 					"insert " +
 					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
 					" values (" + id_manager + ", 'event1','description1','20130507', '20130607', '20130430', '20130506' );";
 			log.debug("Inserting record 1...");
 			stmt.executeUpdate(sql);
+			log.debug("Get id of dummy event");
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	id_event = rs.getInt("last_id");
 			
+			log.debug("Insert other events");
 			sql = 	
 					"insert " +
 					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
@@ -103,7 +115,8 @@ public class EventDaoTest {
 
 			log.debug("Inserting record 3...");
 			stmt.executeUpdate(sql);
-			log.debug("Executed queries");
+			
+			log.debug("Executed population of db");
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
@@ -141,8 +154,14 @@ public class EventDaoTest {
 			//STEP 4: Execute a query
 			log.debug("Inserting records into the table...");
 			stmt = conn.createStatement();
-			  
-			String sql =
+
+			String sql;
+			
+			sql =
+					"DELETE FROM ems.group";
+			stmt.executeUpdate(sql);
+			
+			sql =
 					"DELETE FROM event";
 			stmt.executeUpdate(sql);
 			
@@ -178,33 +197,24 @@ public class EventDaoTest {
     public void testAddRecord() throws NamingException, ClassNotFoundException {
 		log.trace("START");
 		
-		//int id_manager = 28;
-		String name = "nameTest";
-		String description = "descriptiontest";
-		String start = "20130601";
-		String end = "20130630";
-		String enrollment_start = "20130515";
-		String enrollment_end = "20130530";
+		int max_group_number = 999;
+		boolean blocked = false;
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-	    	EventDao obj = new EventDao(conn);
-	    	Event aRecord = new Event();
+	    	GroupDao obj = new GroupDao(conn);
+	    	Group aRecord = new Group();
 	    	
-	    	aRecord.setId_manager(id_manager);
-	    	aRecord.setName(name);
-	    	aRecord.setDescription(description);
-	    	aRecord.setStart(start);
-	    	aRecord.setEnd(end);
-	    	aRecord.setEnrollment_start(enrollment_start);
-	    	aRecord.setEnrollment_end(enrollment_end);
-	    	obj.addRecord(aRecord);
+	    	aRecord.setId_group_referent(id_manager);
+	    	aRecord.setMax_group_number(max_group_number);
+	    	aRecord.setBlocked(blocked);
+	    	obj.addRecord(id_event, aRecord);
 	    	
 	    	String sql = 
 	    			"SELECT COUNT(*) AS nr_rows" +
-	    			" FROM event" +
-	    			" WHERE name = '" + name + "';";
+	    			" FROM ems.group" +
+	    			" WHERE max_group_number = " + max_group_number + ";";
 	    	
 	    	stmt = conn.createStatement();
 	    	rs = stmt.executeQuery(sql);
@@ -239,14 +249,9 @@ public class EventDaoTest {
     public void testDeleteUser() throws NamingException, ClassNotFoundException {
 		log.debug("START");
 		
-		//int id_manager = 28;
-		String name = "nameTest";
-		String description = "descriptiontest";
-		String start = "20130601";
-		String end = "20130630";
-		String enrollment_start = "20130515";
-		String enrollment_end = "20130530";
-		
+		int max_group_number = 9999;
+		boolean blocked = false; //false
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -254,8 +259,9 @@ public class EventDaoTest {
 			
 	    	String sql = 
 					"insert " +
-					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
-	    			" VALUES (" + id_manager+", '" + name + "', '" + description + "', '" +  start + "', '" + end + "', '" + enrollment_start + "','" + enrollment_end +"');";
+					" into ems.group(id_event,id_group_referent,max_group_number,blocked)" + 
+	    			" VALUES (" + id_event + ", " + id_manager + ", " + max_group_number + ", " + blocked +");";
+	    	log.debug(sql);
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
 	    	
@@ -266,11 +272,11 @@ public class EventDaoTest {
 	    	rs.next();
 	    	int  last_id = rs.getInt("last_id");
 	    	
-	    	EventDao obj = new EventDao(conn);
+	    	GroupDao obj = new GroupDao(conn);
 	    	obj.deleteRecord(last_id);
 	    	
 	    	sql = 	"SELECT COUNT(*) AS nr_rows" +
-	    			" FROM event" +
+	    			" FROM ems.group" +
 	    			" WHERE id = " + last_id;
 	    	rs = stmt.executeQuery(sql);
 			
@@ -305,13 +311,14 @@ public class EventDaoTest {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			EventDao obj = new EventDao(conn);
+			GroupDao obj = new GroupDao(conn);
 	
-	    	List<Event> list = obj.getAllRecords();
+	    	List<Group> list = obj.getAllRecordsById_event(id_event);
 	
 	    	String sql = 	
 	    			"SELECT COUNT(*) AS nr_rows" +
-	    			" FROM event";
+	    			" FROM ems.group" +
+	    			" WHERE id_event = " + id_event;
 	    	stmt = conn.createStatement();
 	    	rs = stmt.executeQuery(sql);
 	    	rs.next();
@@ -319,7 +326,7 @@ public class EventDaoTest {
 	    	
 	    	log.debug("nr_rows: " + nr_rows);
 	    	log.debug("list.size(): " + list.size());
-	    	Assert.assertEquals("failure - getAllUsers returns a different list of record", nr_rows, list.size());
+	    	Assert.assertEquals("failure - getAllRecords returns a different list of record", nr_rows, list.size());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -343,16 +350,13 @@ public class EventDaoTest {
 	
 	
 	@Test
-    public void testGetUserById() throws ClassNotFoundException {
+    public void testGetRecordById() throws ClassNotFoundException {
 		log.trace("START");
 
-		//int id_manager = 28;
-		String name = "nameTest";
-		String description = "descriptiontest";
-		String start = "20130601";
-		String end = "20130630";
-		String enrollment_start = "20130515";
-		String enrollment_end = "20130530";
+		int max_group_number = 99999;
+		boolean blocked = false;
+		
+
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -360,9 +364,9 @@ public class EventDaoTest {
 			
 			
 	    	String sql = 
-   					"insert " +
-   					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
-   	    			" VALUES (" + id_manager +", '" + name + "', '" + description + "', '" +  start + "', '" + end + "', '" + enrollment_start + "','" + enrollment_end +"');";
+					"insert " +
+					" into ems.group(id_event,id_group_referent,max_group_number,blocked)" + 
+	    			" VALUES (" + id_event+", " + id_manager + ", " + max_group_number + ", " + blocked +");";
 	    			
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
@@ -375,12 +379,12 @@ public class EventDaoTest {
 	    	int  last_id = rs.getInt("last_id");
 	    	
 	    	log.debug("last_id: " + last_id);
-	    	EventDao obj = new EventDao(conn);
+	    	GroupDao obj = new GroupDao(conn);
 	
-	    	Event aRecord = obj.getRecordById(last_id);
+	    	Group aRecord = obj.getRecordById(last_id);
 	    	log.debug("record inserted: " + aRecord.toString());
 	    	
-	    	Assert.assertEquals("failure - record returned by ID is different from record inserted", aRecord.getName(), name);
+	    	Assert.assertEquals("failure - record returned by ID is different from record inserted", aRecord.getMax_group_number(), max_group_number);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -405,13 +409,8 @@ public class EventDaoTest {
     public void testUpdateRecord() throws ClassNotFoundException {
 		log.trace("START");
 
-		//int id_manager = 28;
-		String name = "nameTest";
-		String description = "descriptiontest";
-		String start = "20130601";
-		String end = "20130630";
-		String enrollment_start = "20130515";
-		String enrollment_end = "20130530";
+		int max_group_number = 888;
+		boolean blocked = false;
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -419,9 +418,9 @@ public class EventDaoTest {
 			
 			
 	    	String sql = 
-  					"insert " +
-  		   			" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
-  		   	    	" VALUES (" + id_manager+", '" + name + "', '" + description + "', '" +  start + "', '" + end + "', '" + enrollment_start + "','" + enrollment_end +"');";
+					"insert " +
+					" into ems.group(id_event,id_group_referent,max_group_number,blocked)" + 
+	    			" VALUES (" + id_event+", " + id_manager + ", " + max_group_number + ", " + blocked +");";
 
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
@@ -435,56 +434,45 @@ public class EventDaoTest {
 	    	
 	    	log.debug(last_id);
 	    	
-	    	EventDao obj = new EventDao(conn);
+	    	GroupDao obj = new GroupDao(conn);
 	
-	    	Event aRecord = new Event();
+	    	Group aRecord = new Group();
 	    	
-	    	int newId_manager = id_manager;
-	    	String newName = "NameUpdated";
-	    	String newDescription = "DescriptionUpdated";
-	    	String newStart = "20991231";
-	    	String newEnd = "20991231";
-	    	String newEnrollment_start = "20991231";
-	    	String newEnrollment_end = "20991231";
-	    	
+			int newMax_group_number = 8888;
+			boolean newBlocked = true;
+				
 	    	aRecord.setId(last_id);
-	    	aRecord.setId_manager(newId_manager);
-	    	aRecord.setName(newName);
-	    	aRecord.setDescription(newDescription);
-	    	aRecord.setStart(newStart);
-	    	aRecord.setEnd(newEnd);
-	    	aRecord.setEnrollment_start(newEnrollment_start);
-	    	aRecord.setEnrollment_end(newEnrollment_end);	    	
+	    	aRecord.setId_event(id_event);
+	    	aRecord.setId_group_referent(id_manager);
+	    	aRecord.setMax_group_number(newMax_group_number);
+	    	aRecord.setBlocked(newBlocked);
+    	
 	    	
 	    	obj.updateRecord(aRecord);
 	    	
-	    	sql = 	"SELECT *, " +
-	    			" DATE_FORMAT(start,'%Y%m%d') AS start_formatted," +
-	    			" DATE_FORMAT(end,'%Y%m%d') AS end_formatted," +
-	    			" DATE_FORMAT(enrollment_start,'%Y%m%d') AS enrollment_start_formatted," +
-	    			" DATE_FORMAT(enrollment_end,'%Y%m%d') AS enrollment_end_formatted" +
-	    			" FROM event" +
+	    	sql = 	"SELECT * " +
+	    			" FROM ems.group" +
 	    			" WHERE id = " + last_id;
 	    	
 	    	rs = stmt.executeQuery(sql);
 			
 	    	rs.next();
-	    	int upId_manager = rs.getInt("id_manager");
-	    	String upName = rs.getString("name");
-	    	String upDescription = rs.getString("description");
-	    	String upStart = rs.getString("start_formatted");
-	    	String upEnd = rs.getString("end_formatted");
-	    	String upEnrollment_start = rs.getString("enrollment_start_formatted");
-	    	String upEnrollment_end = rs.getString("enrollment_end_formatted");
+	
+
+	    	String upId_event = rs.getString("id_event");
+	    	String upId_group_referent = rs.getString("id_group_referent");
+	    	int upMax_group_number = rs.getInt("max_group_number");
+	    	boolean upBlocked = rs.getBoolean("blocked");
 	    	
-	    	log.debug("###### " + upId_manager + " - " + upName + " - " + upDescription + " - " + upStart + " - " + upEnd + " - " + upEnrollment_start + " - " + upEnrollment_end);
-	    	Assert.assertEquals("failure - field id_manager has not been correctly updated", newId_manager, upId_manager);
-	    	Assert.assertEquals("failure - field name has not been correctly updated", newName, upName);
-	    	Assert.assertEquals("failure - field description has not been correctly updated", newDescription, upDescription);
-	    	Assert.assertEquals("failure - field start has not been correctly updated", newStart, upStart);
-	    	Assert.assertEquals("failure - field end has not been correctly updated", newEnd, upEnd);
-	    	Assert.assertEquals("failure - field enrollment_start has not been correctly updated", newEnrollment_start, upEnrollment_start);
-	    	Assert.assertEquals("failure - field enrollment_end has not been correctly updated", newEnrollment_end, upEnrollment_end);
+	    	log.debug("newMax_group_number: " + newMax_group_number);
+	    	log.debug("upMax_group_number: " + upMax_group_number);
+	    	
+	    	log.debug("newBlocked: " + newBlocked);
+	    	log.debug("upBlocked: " + upBlocked);
+	    	
+	    	log.debug("###### " + upId_event + " - " +  upId_group_referent + " - " + upMax_group_number + " - " + upBlocked);
+	    	Assert.assertEquals("failure - field max_group_number has not been correctly updated", newMax_group_number, upMax_group_number);
+	    	Assert.assertEquals("failure - field blocked has not been correctly updated", newBlocked, upBlocked);
 	    	
 		} catch (SQLException e) {
 			e.printStackTrace();
