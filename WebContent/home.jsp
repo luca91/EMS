@@ -1,5 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.ems.controller.LoginController, com.ems.controller.UserController" %>
+<%
+	//Session handling
+	LoginController user = new LoginController();
+
+	if(user.checkValidity() == false)
+	{
+		session.invalidate();
+%>
+		<jsp:forward page="InvalidSession.jsp" />
+<%
+	}
+%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,20 +25,26 @@
 <body>
 <p>Welcome - ${username} - <a href="LogoutController" >logout</a></p>
 <ul class="css-tabs">
-	<!-- 
-	<c:if test="" { }  >
-	
-	carica tab
-		elenco attività della tab
-	
-	</c:if>
-	 -->
-	<li><a id="t1" href="#tab1">Admin</a></li>
-	<li><a id="t2" href="#tab2">Event Management</a></li>
-	<li><a id="t3" href="#tab3">Group Management</a></li>
-	<li><a id="t4" href="#tab4">Participants</a></li>
+<c:choose>
+	<c:when test="${username.role=='admin'}" >		
+		<li><a id="t1" href="#tab1">Admin</a></li>
+		<li><a id="t2" href="#tab2">Event Management</a></li>
+		<li><a id="t3" href="#tab3">Group Management</a></li>
+		<li><a id="t4" href="#tab4">Participants</a></li>	
+	</c:when>
+	<c:when test="${username.role=='event_mng'}" >		
+		<li><a id="t1" href="#tab1">Event Management</a></li>
+		<li><a id="t2" href="#tab2">Group Management</a></li>
+		<li><a id="t3" href="#tab3">Participants</a></li>
+	</c:when>
+	<c:when test="${username.role=='group_mng'}" >		
+		<li><a id="t1" href="#tab1">Participants</a></li>
+	</c:when>
+	<c:otherwise>		
+		<li><a id="t1" href="#tab1">ERROR</a></li>
+	</c:otherwise>
+</c:choose>	
 </ul>
-
 <div class="css-panes">
 	<!-- Admin pane -->
 	<div>
