@@ -5,18 +5,53 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>EMS - Event Request</title>
+<script src="scripts/eventrequestvalidation.js"></script>
 </head>
 <body>
-<form name="eventRequest" action="" method="POST">
-Event name: <input type="text" name="eventname"><br>
-Description: <input type="text" name="description"><br>
-Location: <input type="text" name="location"><br>
-Start Date: <input type="text" name="startdate"><br>
-End Date: <input type="text" name="enddate"><br>
-Enrollment Start Date: <input type="text" name="enrollmentstart"><br>
-Enrollment Deadline: <input type="text" name="enrollmentend"><br>
-Max attendants: <input type="text" name="maxattendants"><br>
-<input type="submit" value="Submit Event Request">
+<form name="eventRequest" method="post">
+<table align="center" border="1">
+  <tr>
+    <td colspan="2" align="center"><b>Event Request Form</b><br></td>
+  </tr>
+  <tr>
+    <td><b>Event Name</b></td>
+    <td><input type="text" name="eventname"></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+     <textarea name="eventdescription" rows="5" cols="32">Description of the event</textarea>
+    </td>
+  </tr>
+  <tr>
+    <td><b>Location</b></td>
+    <td><input type="text" name="location"></td>
+  </tr>
+  <tr>
+    <td><b>Start date (dd/mm/yyyy)</b></td>
+    <td><input type="text" name="startdate"></td>
+  </tr>
+  <tr>
+    <td><b>End date (dd/mm/yyyy)</b></td>
+    <td><input type="text" name="enddate"></td>
+  </tr>
+  <tr>
+    <td><b>Enrollment start (dd/mm/yyyy)</b></td>
+    <td><input type="text" name="enrollmentstart"></td>
+  </tr>
+  <tr>
+    <td><b>Enrollment end (dd/mm/yyyy)</b></td>
+    <td><input type="text" name="enrollmentend"></td>
+  </tr>
+  <tr>
+    <td><b>Max attendants (#)</b></td>
+    <td><input type="text" name="maxattendants"></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+     <input type="button" value="Submit Event Request" onClick="eventReqValidation()">
+    </td>
+  </tr>
+</table>
 </form>
 </body>
 </html>
