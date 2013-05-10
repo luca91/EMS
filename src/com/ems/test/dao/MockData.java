@@ -1,0 +1,287 @@
+package com.ems.test.dao;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import org.apache.log4j.Logger;
+
+
+/**
+* Class used mock some data to test DAO classes
+* 
+* @author Luca Barazzuol
+*/
+public class MockData {
+		
+	// commons logging references
+		static Logger log = Logger.getLogger(UserDaoTest.class.getName());
+		
+	// JDBC driver name and database URL
+	static String DB_JDBC_DRIVER;  
+	static String DB_URL;
+	//  Database credentials
+	static String DB_USER;
+	static String DB_PASSWORD;
+		
+	static Connection conn = null;
+	static Statement stmt = null;
+	static ResultSet rs = null;;
+	
+	int id_manager;
+	int id_event;
+
+	/*
+	 * Flushes the tables and then load some mock data
+	 */
+	public void createMock(){
+		
+		DbConfig dbc = new DbConfig();
+		DB_JDBC_DRIVER = dbc.getDB_JDBC_DRIVER();
+		DB_URL = dbc.getDB_URL();
+		DB_USER = dbc.getDB_USER();
+		DB_PASSWORD = dbc.getDB_PASSWORD();
+
+		
+		String sql;
+		try {
+			//STEP 2: Register JDBC driver
+			Class.forName("com.mysql.jdbc.Driver");
+			//STEP 3: Open a connection
+			log.debug("Connecting to a selected database...");
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			log.debug("Connected database successfully...");
+
+			//STEP 4: Execute a query
+			log.debug("Create statement");
+			stmt = conn.createStatement();
+			  
+			log.debug("delete all records");
+			sql =
+					"DELETE FROM ems.group";
+			stmt.executeUpdate(sql);
+			
+			sql =
+					"DELETE FROM event";
+			stmt.executeUpdate(sql);
+			
+			sql =
+					"DELETE FROM user";
+			stmt.executeUpdate(sql);
+			
+			
+			
+			// ############# TABLE USER - START #############
+			log.debug("Table USER");
+
+			sql = 	
+					"insert " +
+					" into user(fname,lname,date_of_birth,email,password,role)" +
+					" values ('Luca', 'Be', '19910101','lucabelles@gmail.com' ,'password','admin');";
+			log.debug("Inserting record 1...");
+			stmt.executeUpdate(sql);
+			
+			sql = 	"insert " +
+					" into user(fname,lname,date_of_birth,email,password,role)" +
+					" values ('Luca', 'Ba', '19710703','luca.barazzuol@gmail.com' ,'password','event_mng');";
+			log.debug("Inserting record 2...");
+			stmt.executeUpdate(sql);
+			
+			sql = 	"insert " +
+					" into user(fname,lname,date_of_birth,email,password,role)" +
+					" values ('Alex', 'Stan','19910202','alexstannumberone@gmail.com' ,'password','group_mng');";
+			log.debug("Inserting record 3...");
+			stmt.executeUpdate(sql);
+			// ############# TABLE USER - END #############
+			
+			
+			
+			// ############# TABLE EVENT - START #############
+			log.debug("TABLE EVENT");
+			
+			log.debug("Insert a dummy id_manager");
+			sql =
+					"insert " +
+					" into user(fname,lname,date_of_birth,email,password,role)" +
+					" values ('Roger', 'Penroese', '19910101','roger@hotmail.com' ,'password','event_mng');";
+			stmt.executeUpdate(sql);
+			
+			log.debug("Get id of dummy id_manager");
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	id_manager = rs.getInt("last_id");
+			
+			sql = 	
+					"insert " +
+					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
+					" values (" + id_manager + ", 'event1','description1','20130507', '20130607', '20130430', '20130506' );";
+			log.debug("Inserting record 1...");
+			stmt.executeUpdate(sql);
+			
+			log.debug("Get id of dummy id_event");
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	id_event = rs.getInt("last_id");
+			
+			
+			sql = 	
+					"insert " +
+					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
+					" values (" + id_manager + ", 'event2','description2','20130507', '20130607', '20130430', '20130506' );";
+			log.debug("Inserting record 2...");
+			stmt.executeUpdate(sql);
+			
+			sql = 	
+					"insert " +
+					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
+					" values (" + id_manager + ", 'event3','description3','20130507', '20130607', '20130430', '20130506' );";
+
+			log.debug("Inserting record 3...");
+			stmt.executeUpdate(sql);			
+			// ############# TABLE EVENT - END #############
+				
+			
+			// ############# TABLE GROUP - START #############	
+/*			log.debug("TABLE GROUP");
+			log.debug("Insert a dummy id_manager");
+			sql =
+					"insert " +
+					" into user(fname,lname,date_of_birth,email,password,role)" +
+					" values ('Roger', 'Penroese', '19910101','roger@hotmail.com' ,'password','event_mng');";
+			stmt.executeUpdate(sql);
+			
+			log.debug("Get id of dummy id_manager");
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	id_manager = rs.getInt("last_id");
+			
+			log.debug("Insert a dummy id_event");
+			sql = 	
+					"insert " +
+					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
+					" values (" + id_manager + ", 'event1','description1','20130507', '20130607', '20130430', '20130506' );";
+			log.debug("Inserting record 1...");
+			stmt.executeUpdate(sql);
+			
+			log.debug("Get id of dummy event");
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	id_event = rs.getInt("last_id");
+			
+			log.debug("Insert other events");
+			sql = 	
+					"insert " +
+					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
+					" values (" + id_manager + ", 'event2','description2','20130507', '20130607', '20130430', '20130506' );";
+			log.debug("Inserting record 2...");
+			stmt.executeUpdate(sql);
+			
+			sql = 	
+					"insert " +
+					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
+					" values (" + id_manager + ", 'event3','description3','20130507', '20130607', '20130430', '20130506' );";
+
+			log.debug("Inserting record 3...");
+			stmt.executeUpdate(sql);			*/
+
+			// ############# TABLE GROUP - END #############			
+			
+			log.debug("Executed queries");
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+	    catch (SQLException e) {
+            e.printStackTrace();
+        }
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+	}
+	
+	/*
+	 * Flushes the tables
+	 */
+	public void removeMock(){
+		String sql;
+		try {
+			//STEP 2: Register JDBC driver
+			Class.forName("com.mysql.jdbc.Driver");
+			//STEP 3: Open a connection
+			log.debug("Connecting to a selected database...");
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			log.debug("Connected database successfully...");
+
+			//STEP 4: Execute a query
+			log.debug("Create statement");
+			stmt = conn.createStatement();
+			  
+			sql =
+					"DELETE FROM ems.group";
+			stmt.executeUpdate(sql);
+			
+			sql =
+					"DELETE FROM event";
+			stmt.executeUpdate(sql);
+			
+			
+			sql =
+					"DELETE FROM user";
+			stmt.executeUpdate(sql);	
+			
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+	    catch (SQLException e) {
+            e.printStackTrace();
+        }
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }	
+	}
+	
+	public int getId_manager() {
+		return id_manager;
+	}
+
+	public void setId_manager(int id_manager) {
+		this.id_manager = id_manager;
+	}
+
+	public int getId_event() {
+		return id_event;
+	}
+
+	public void setId_event(int id_event) {
+		this.id_event = id_event;
+	}
+
+}

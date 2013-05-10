@@ -34,123 +34,45 @@ public class UserDaoTest {
 	static Logger log = Logger.getLogger(UserDaoTest.class.getName());
 	
 	// JDBC driver name and database URL
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	static final String DB_URL = "jdbc:mysql://localhost:3306/ems";
-    //  Database credentials
-	static final String USER = "root";
-	static final String PASS = "";
+	static String DB_JDBC_DRIVER;  
+	static String DB_URL;
+	//  Database credentials
+	static String DB_USER;
+	static String DB_PASSWORD;
+	
 	static Connection conn = null;
 	static Statement stmt = null;
 	static ResultSet rs = null;;
 
-	@Before
-	public void loadMockData() throws NamingException, SQLException{
-		log.debug("loadMockData() - START");
-	    try {
-			//STEP 2: Register JDBC driver
-			Class.forName("com.mysql.jdbc.Driver");
-			//STEP 3: Open a connection
-			log.debug("Connecting to a selected database...");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			log.debug("Connected database successfully...");
-			 
-			
+	int id_manager;
+	int id_event;
 
-			
-			
-			//STEP 4: Execute a query
-			log.debug("Create statement");
-			stmt = conn.createStatement();
-			  
-			log.debug("Create statement");
-			String sql =
-					"DELETE FROM user";
-			stmt.executeUpdate(sql);
-			
-			
-			sql = 	
-					"insert " +
-					" into user(fname,lname,date_of_birth,email,password,role)" +
-					" values ('Luca', 'Be', '19910101','lucabelles@gmail.com' ,'password','admin');";
-			log.debug("Inserting record 1...");
-			stmt.executeUpdate(sql);
-			
-			sql = 	"insert " +
-					" into user(fname,lname,date_of_birth,email,password,role)" +
-					" values ('Luca', 'Ba', '19710703','luca.barazzuol@gmail.com' ,'password','event_mng');";
-			log.debug("Inserting record 2...");
-			stmt.executeUpdate(sql);
-			
-			sql = 	"insert " +
-					" into user(fname,lname,date_of_birth,email,password,role)" +
-					" values ('Alex', 'Stan','19910202','alexstannumberone@gmail.com' ,'password','group_mng');";
-			log.debug("Inserting record 3...");
-			stmt.executeUpdate(sql);
-			log.debug("Executed queries");
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
-	    catch (SQLException e) {
-            e.printStackTrace();
-        }
-	    finally{
-	        //finally block used to close resources
-	        try{
-	           if(stmt!=null)
-	              conn.close();
-	        }catch(SQLException se){
-	        }// do nothing
-	        try{
-	           if(conn!=null)
-	              conn.close();
-	        }catch(SQLException se){
-	           se.printStackTrace();
-	        }//end finally try
-	    }
+	MockData md = new MockData();
+	
+	public UserDaoTest(){
+		DbConfig dbc = new DbConfig();
+		DB_JDBC_DRIVER = dbc.getDB_JDBC_DRIVER();
+		DB_URL = dbc.getDB_URL();
+		DB_USER = dbc.getDB_USER();
+		DB_PASSWORD = dbc.getDB_PASSWORD();
+	}
+	
+	@Before
+	public void loadMockData() {
+		log.debug("loadMockData() - START");
+		md.createMock();
+		
+		id_manager = md.getId_manager();
+		id_event = md.getId_event();
+		
 		log.debug("loadMockData() - END");
 	}
 	
 	@After
 	public void removeMockData(){
-		log.debug("reloadMockData() - START");
-	    try {
-			//STEP 2: Register JDBC driver
-			Class.forName("com.mysql.jdbc.Driver");
-			//STEP 3: Open a connection
-			log.debug("Connecting to a selected database...");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			log.debug("Connected database successfully...");
-			
-			//STEP 4: Execute a query
-			log.debug("Inserting records into the table...");
-			stmt = conn.createStatement();
-			  
-			String sql =
-					"DELETE FROM user";
-			stmt.executeUpdate(sql);
-			
-			
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
-	    catch (SQLException e) {
-            e.printStackTrace();
-        }
-	    finally{
-	        //finally block used to close resources
-	        try{
-	           if(stmt!=null)
-	              conn.close();
-	        }catch(SQLException se){
-	        }// do nothing
-	        try{
-	           if(conn!=null)
-	              conn.close();
-	        }catch(SQLException se){
-	           se.printStackTrace();
-	        }//end finally try
-	    }		
-		log.debug("reloadMockData() - END");
+		log.debug("removeMockData() - START");
+		md.removeMock();
+		log.debug("removeMockData() - END");
 	}
 	
 	@Test
@@ -166,7 +88,7 @@ public class UserDaoTest {
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		try {
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 	    	UserDao obj = new UserDao(conn);
 	    	User record = new User();
 	    	
@@ -223,7 +145,7 @@ public class UserDaoTest {
 		String role = "admin";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			
 			
 	    	String sql = 
@@ -278,7 +200,7 @@ public class UserDaoTest {
 		log.debug("testGetAllUsers() - START");	
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			UserDao obj = new UserDao(conn);
 	
 	    	List<User> list = obj.getAllUsers();
@@ -327,7 +249,7 @@ public class UserDaoTest {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			
 			
 	    	String sql = 
@@ -375,7 +297,7 @@ public class UserDaoTest {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			
 			
 	    	String sql = 
@@ -428,7 +350,7 @@ public class UserDaoTest {
 		String role = "admin";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			
 			
 	    	String sql = 
@@ -523,7 +445,7 @@ public class UserDaoTest {
 		String role = "admin";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			
 			
 	    	String sql = 
