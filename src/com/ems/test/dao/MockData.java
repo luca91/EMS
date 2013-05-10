@@ -1,6 +1,5 @@
 package com.ems.test.dao;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,7 +10,7 @@ import org.apache.log4j.Logger;
 
 
 /**
-* Class used mock some data to test DAO classes
+* Class used to mock some data to test DAO classes
 * 
 * @author Luca Barazzuol
 */
@@ -33,6 +32,8 @@ public class MockData {
 	
 	int id_manager;
 	int id_event;
+	int id_group;
+
 
 	/*
 	 * Flushes the tables and then load some mock data
@@ -44,22 +45,25 @@ public class MockData {
 		DB_URL = dbc.getDB_URL();
 		DB_USER = dbc.getDB_USER();
 		DB_PASSWORD = dbc.getDB_PASSWORD();
-
-		
+				
 		String sql;
 		try {
-			//STEP 2: Register JDBC driver
+			//Register JDBC driver
 			Class.forName("com.mysql.jdbc.Driver");
-			//STEP 3: Open a connection
+			//Open a connection
 			log.debug("Connecting to a selected database...");
 			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			log.debug("Connected database successfully...");
-
-			//STEP 4: Execute a query
-			log.debug("Create statement");
+			
+			// ############# DELETE RECORDS - START #############
+			log.debug("DELETE ALL RECORDS");
+			
 			stmt = conn.createStatement();
-			  
-			log.debug("delete all records");
+
+			sql =
+					"DELETE FROM participant";
+			stmt.executeUpdate(sql);
+			
 			sql =
 					"DELETE FROM ems.group";
 			stmt.executeUpdate(sql);
@@ -71,7 +75,7 @@ public class MockData {
 			sql =
 					"DELETE FROM user";
 			stmt.executeUpdate(sql);
-			
+			// ############# DELETE RECORDS - END #############			
 			
 			
 			// ############# TABLE USER - START #############
@@ -145,52 +149,28 @@ public class MockData {
 			stmt.executeUpdate(sql);			
 			// ############# TABLE EVENT - END #############
 				
-			
 			// ############# TABLE GROUP - START #############	
-/*			log.debug("TABLE GROUP");
-			log.debug("Insert a dummy id_manager");
+			log.debug("TABLE GROUP");
+			log.debug("Insert a dummy group");
 			sql =
 					"insert " +
-					" into user(fname,lname,date_of_birth,email,password,role)" +
-					" values ('Roger', 'Penroese', '19910101','roger@hotmail.com' ,'password','event_mng');";
+					" into ems.group(id_event,id_group_referent,max_group_number,blocked)" +
+					" values (" + id_event + "," + id_manager + ", 99999, false);";
+			log.debug(sql);
 			stmt.executeUpdate(sql);
 			
-			log.debug("Get id of dummy id_manager");
+			log.debug("Get id of dummy id_group");
 	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
 	    	rs = stmt.executeQuery(sql);
 	    	rs.next();
-	    	id_manager = rs.getInt("last_id");
+	    	id_group = rs.getInt("last_id");
 			
-			log.debug("Insert a dummy id_event");
-			sql = 	
+			log.debug("Insert a second dummy group");
+			sql =
 					"insert " +
-					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
-					" values (" + id_manager + ", 'event1','description1','20130507', '20130607', '20130430', '20130506' );";
-			log.debug("Inserting record 1...");
+					" into ems.group(id_event,id_group_referent,max_group_number,blocked)" +
+					" values (" + id_event + "," + id_manager + ", 999999, true);";
 			stmt.executeUpdate(sql);
-			
-			log.debug("Get id of dummy event");
-	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
-	    	rs = stmt.executeQuery(sql);
-	    	rs.next();
-	    	id_event = rs.getInt("last_id");
-			
-			log.debug("Insert other events");
-			sql = 	
-					"insert " +
-					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
-					" values (" + id_manager + ", 'event2','description2','20130507', '20130607', '20130430', '20130506' );";
-			log.debug("Inserting record 2...");
-			stmt.executeUpdate(sql);
-			
-			sql = 	
-					"insert " +
-					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
-					" values (" + id_manager + ", 'event3','description3','20130507', '20130607', '20130430', '20130506' );";
-
-			log.debug("Inserting record 3...");
-			stmt.executeUpdate(sql);			*/
-
 			// ############# TABLE GROUP - END #############			
 			
 			log.debug("Executed queries");
@@ -222,9 +202,9 @@ public class MockData {
 	public void removeMock(){
 		String sql;
 		try {
-			//STEP 2: Register JDBC driver
+			//Register JDBC driver
 			Class.forName("com.mysql.jdbc.Driver");
-			//STEP 3: Open a connection
+			//Open a connection
 			log.debug("Connecting to a selected database...");
 			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 			log.debug("Connected database successfully...");
@@ -232,7 +212,11 @@ public class MockData {
 			//STEP 4: Execute a query
 			log.debug("Create statement");
 			stmt = conn.createStatement();
-			  
+
+			sql =
+					"DELETE FROM participant";
+			stmt.executeUpdate(sql);
+			
 			sql =
 					"DELETE FROM ems.group";
 			stmt.executeUpdate(sql);
@@ -284,4 +268,11 @@ public class MockData {
 		this.id_event = id_event;
 	}
 
+	public int getId_group() {
+		return id_group;
+	}
+
+	public void setId_group(int id_group) {
+		this.id_group = id_group;
+	}
 }

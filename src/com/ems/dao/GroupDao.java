@@ -91,6 +91,7 @@ public class GroupDao {
             PreparedStatement preparedStatement = connection
                     .prepareStatement("delete from ems.group where id=?");
             preparedStatement.setInt(1, id);
+            log.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
