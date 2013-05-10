@@ -18,8 +18,37 @@ public class Event {
 	private String enrollment_start;
 	private String enrollment_end;
 
+	/**
+	* Constructor with NO parameters
+	* 
+	* @author Luca Barazzuol
+	*/
+	public Event() {
+
+	}
 	
 	
+	/**
+	* Constructor with all parameters
+	* 
+	* @author Luca Barazzuol
+	*/
+	public Event(int id, int id_manager, String name, String description,
+			String start, String end, String enrollment_start,
+			String enrollment_end) {
+		super();
+		this.id = id;
+		this.id_manager = id_manager;
+		this.name = name;
+		this.description = description;
+		this.start = start;
+		this.end = end;
+		this.enrollment_start = enrollment_start;
+		this.enrollment_end = enrollment_end;
+	}
+
+
+
 	public int getId() {
 		return id;
 	}
