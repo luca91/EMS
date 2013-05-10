@@ -19,14 +19,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import com.ems.dao.GroupDao;
 import com.ems.dao.ParticipantDao;
-import com.ems.dao.UserDao;
-import com.ems.model.Group;
 import com.ems.model.Participant;
 
 /**
- * Tests for {@link GroupDao}.
+ * Tests for {@link ParticipantDao}.
  *
  * @author LucaBa)
  */
