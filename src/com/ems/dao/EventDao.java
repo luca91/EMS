@@ -47,11 +47,26 @@ public class EventDao {
      * It initializes the connection to the database
      * 
      */
-    public EventDao() throws NamingException, SQLException {
-        Context initialContext = new InitialContext();
-        Context envContext  = (Context)initialContext.lookup("java:/comp/env");
-        DataSource ds = (DataSource)envContext.lookup("jdbc/ems");
-        connection = ds.getConnection();
+    public EventDao() {
+        Context initialContext;
+		try {
+			initialContext = new InitialContext();
+	        Context envContext;
+			try {
+				envContext = (Context)initialContext.lookup("java:/comp/env");
+		        DataSource ds = (DataSource)envContext.lookup("jdbc/ems");
+		        connection = ds.getConnection();
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -144,6 +159,7 @@ public class EventDao {
                 Event aRecord = new Event();
                 aRecord.setId(rs.getInt("id"));
                 aRecord.setId_manager(rs.getInt("id_manager"));
+                aRecord.setName(rs.getString("name"));
                 aRecord.setDescription(rs.getString("description"));
                 aRecord.setStart(rs.getString("start"));
                 aRecord.setEnd(rs.getString("end"));
