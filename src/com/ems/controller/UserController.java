@@ -21,7 +21,7 @@ import com.ems.model.User;
 public class UserController extends HttpServlet {
 	
 	// commons logging references
-	static Logger log = Logger.getLogger(UserController.class.getName());
+	private static Logger log = Logger.getLogger(UserController.class.getName());
 	
     private static final long serialVersionUID = 1L;
     private static String INSERT_OR_EDIT = "/user.jsp";
@@ -31,7 +31,7 @@ public class UserController extends HttpServlet {
 
     
 
-	public UserController(Connection conn) {
+	public UserController(Connection conn) throws ClassNotFoundException {
     	super();
     	log.trace("START");
 		dao = new UserDao(conn);
@@ -40,7 +40,7 @@ public class UserController extends HttpServlet {
     }
     
     
-	public UserController() {
+	public UserController() throws ClassNotFoundException {
     	super();
     	log.trace("START");
         try {
@@ -85,21 +85,19 @@ public class UserController extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.trace("START");
-    	User user = new User();
-        user.setFname(request.getParameter("fname"));
-        user.setLname(request.getParameter("lname"));
-        user.setDate_of_birth(request.getParameter("date_of_birth"));
-        user.setPassword(request.getParameter("password"));
-        user.setEmail(request.getParameter("email"));
-        user.setRole(request.getParameter("role"));
-        String id = request.getParameter("id");
-        if(id == null || id.isEmpty())
+    	User user = new User(request.getParameter("fname"), 
+    			request.getParameter("lname"), 
+    			request.getParameter("date_of_birth"), 
+    			request.getParameter("password"),
+    			request.getParameter("email"),
+    			request.getParameter("role"));
+        if(request.getParameter("id") == null || request.getParameter("id").isEmpty())
         {
             dao.addUser(user);
         }
         else
         {
-            user.setId(Integer.parseInt(id));
+            user.setId(Integer.parseInt(request.getParameter("id")));
             dao.updateUser(user);
         }
         
@@ -108,4 +106,6 @@ public class UserController extends HttpServlet {
         view.forward(request, response);
     	log.trace("END");
     }
+    
+    
 }

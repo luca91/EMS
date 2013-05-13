@@ -42,12 +42,14 @@ public class LoginController extends HttpServlet {
 	 */
 	private UserDao dao;
 	
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	static final String DB_URL = "jdbc:mysql://localhost:3306/ems";
+	private String role;
+	
+	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/ems";
     //  Database credentials
-	static final String USER = "root";
-	static final String PASS = "";
-	static Connection conn = null;
+	private static final String USER = "root";
+	private static final String PASS = "";
+	private static Connection conn = null;
 	private HttpSession session;
 
 	/**
@@ -55,15 +57,17 @@ public class LoginController extends HttpServlet {
 	 * @param username the username inserted (the email)
 	 * @param password the corresponding password
 	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public LoginController(String username, String password) throws SQLException {
+	public LoginController(String username, String password, String role) throws SQLException {
 		this.username = username;
 		this.password = password;
+		this.role = role;
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		dao = new UserDao(conn);
 	}
 	
-    public LoginController() {
+    public LoginController() throws ClassNotFoundException {
         super();
         try {
 			dao = new UserDao();
@@ -81,9 +85,11 @@ public class LoginController extends HttpServlet {
 		log.trace("Login: START");
 		username = request.getParameter("username");
         password = request.getParameter("password");
+        role = request.getParameter("role");
         HttpSession session = request.getSession(true);
         session.setAttribute("username", username);
         session.setAttribute("password", password);
+        session.setAttribute("role", "role");
         log.debug("Check user validity");
         if(checkValidity()){
     		log.debug("Valid user: redirect to /home.jsp");
@@ -109,6 +115,8 @@ public class LoginController extends HttpServlet {
 	}
 	
 	public boolean checkValidity(){
+		System.out.println("Username: "+username);
+		System.out.println("Password: "+password);
 		return this.dao.isUserValid(this.username, this.password);
 	}
 	
@@ -120,7 +128,7 @@ public class LoginController extends HttpServlet {
 		this.password = password;
 	}
 	
-	public void logout(String username){
-		session.removeAttribute(username);
+	public void setRole(String role){
+		this.role = role;
 	}
 }
