@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>ems</display-name>
+  <resource-env-ref>
+    <resource-env-ref-name>jdbc/ems</resource-env-ref-name>
+    <resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type>
+  </resource-env-ref>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <!-- #################################################################### -->
+  <servlet>
+    <description></description>
+    <display-name>UserController</display-name>
+    <servlet-name>UserController</servlet-name>
+    <servlet-class>com.ems.controller.UserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserController</servlet-name>
+    <url-pattern>/UserController</url-pattern>
+  </servlet-mapping>
+  <!-- #################################################################### -->  
+  <servlet>
+    <description></description>
+    <display-name>PrototypeController</display-name>
+    <servlet-name>PrototypeController</servlet-name>
+    <servlet-class>com.ems.prototype.EntityController</servlet-class>
+  </servlet>  
+    <servlet-mapping>
+    <servlet-name>PrototypeController</servlet-name>
+    <url-pattern>/prototype/PrototypeController</url-pattern>
+  </servlet-mapping>
+  <!-- #################################################################### -->  
+   <servlet>
+    <description>Servlet for login</description>
+    <display-name>LoginController</display-name>
+    <servlet-name>LoginController</servlet-name>
+    <servlet-class>com.ems.controller.LoginController</servlet-class>
+  </servlet>  
+    <servlet-mapping>
+    <servlet-name>LoginController</servlet-name>
+    <url-pattern>/LoginController</url-pattern>
+  </servlet-mapping>
+  <!-- #################################################################### -->  
+
+  <!-- #################################################################### -->  
+   <servlet>
+    <description>Servlet for logout</description>
+    <display-name>LogoutController</display-name>
+    <servlet-name>LogoutController</servlet-name>
+    <servlet-class>com.ems.controller.LogoutController</servlet-class>
+  </servlet>  
+    <servlet-mapping>
+    <servlet-name>LogoutController</servlet-name>
+    <url-pattern>/LogoutController</url-pattern>
+  </servlet-mapping>
+  <!-- #################################################################### -->
+
+  <!-- #################################################################### -->
+	<!-- Define a Security Constraint on this Application -->
+<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+	<!--BASIC AUTH with configuration of users in mysql tables
+		
+		transport-guarantee can be: CONFIDENTIAL, INTEGRAL, or NONE 
+	-->	
+
+   <security-constraint> 
+      
+      <web-resource-collection> 
+         <web-resource-name>All private Pages</web-resource-name> 
+         <url-pattern>/private/*</url-pattern> 
+      </web-resource-collection> 
+      
+      <auth-constraint> 
+         <role-name>admin</role-name> 
+      </auth-constraint> 
+      
+      <user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+   </security-constraint> 
+
+   <login-config> 
+      <auth-method>BASIC</auth-method> 
+      <realm-name>EMS-Advance-Authentication-Realm</realm-name>
+   </login-config> 	
+
+	<!--BASIC AUTH with configuration of users in 
+		WORKSPACE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/conf/tomcat-users.xml
+		
+		transport-guarantee can be: CONFIDENTIAL, INTEGRAL, or NONE 
+	-->
+<!-- 
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+			<url-pattern>/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>DELETE</http-method>
+            <http-method>PUT</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>tomcat</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+-->    
+<!-- #################################################################### -->
+</web-app>
