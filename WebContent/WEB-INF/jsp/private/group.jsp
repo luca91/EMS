@@ -9,7 +9,7 @@
 	    href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
-	<title>Event Form</title>
+	<title>Group form</title>
 	</head>
 	<body>
 		<table>
@@ -39,29 +39,23 @@
 		<hr/>
 		
 		<c:set var="act">
-			<c:url value="/private/eventAdd?action=eventList" /> 
+			<c:url value="/private/groupAdd?action=recordList" /> 
 		</c:set>
 	
-	    <form method="POST" action="${act}" name="frmAddEvent">
-	        Event ID : <input type="text" readonly="readonly" name="id"
+	    <form method="POST" action="${act}" name="frmAddGroup">
+	        Group ID : <input type="text" readonly="readonly" name="id"
 	            value="${record.id}" /> <br /> 
-	        manager ID : <input
-	            type="text" name="id_manager"
-	            value="${record.id_manager}" /> <br /> 
-	        Event Name : <input
-	            type="text" name="name"
-	            value="${record.name}" /> <br /> 
-	        Description : <input
-	            type="text" name="description"
-	            value="${record.description}" /> <br /> 	            
-	        Start : <input type="text" name="start"
-	            value="${record.start}" /> <br />
-	        End : <input type="text" name="end"
-	            value="${record.end}" /> <br /> 
-	        Enrollment start : <input type="text" name="enrollment_start"
-	            value="${record.enrollment_start}" /> <br /> 
-	      	Enrollment end : <input type="text" name="enrollment_end"
-	            value="${record.enrollment_end}" /> <br />             
+	        Event ID : <input
+	            type="text" name="id_event"
+	            value="${record.id_event}" /> <br /> 
+	        Group referent : <input
+	            type="text" name="id_group_referent"
+	            value="${record.id_group_referent}" /> <br /> 
+	        max_group_number : <input
+	            type="text" name="max_group_number"
+	            value="${record.max_group_number}" /> <br /> 	            
+	        blocked : <input type="text" name="blocked"
+	            value="${record.blocked}" /> <br />           
 	        <input type="submit" value="Submit" />
 	    </form>
 	</body>
