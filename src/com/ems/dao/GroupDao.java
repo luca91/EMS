@@ -47,11 +47,26 @@ public class GroupDao {
      * It initializes the connection to the database
      * 
      */
-    public GroupDao() throws NamingException, SQLException {
-        Context initialContext = new InitialContext();
-        Context envContext  = (Context)initialContext.lookup("java:/comp/env");
-        DataSource ds = (DataSource)envContext.lookup("jdbc/ems");
-        connection = ds.getConnection();
+    public GroupDao() {
+        Context initialContext;
+		try {
+			initialContext = new InitialContext();
+	        Context envContext;
+			try {
+				envContext = (Context)initialContext.lookup("java:/comp/env");
+		        DataSource ds = (DataSource)envContext.lookup("jdbc/ems");
+		        connection = ds.getConnection();
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     
@@ -159,6 +174,35 @@ public class GroupDao {
         return list;
     }
 
+    /**
+     * Returns the list of all records stored in the table Group and associated with an event
+     * 
+     * @param id_event Event to which belong the groups
+     * @return List<Group> List of objects Group
+     */
+    public List<Group> getAllRecords() {
+        log.trace("START");
+    	List<Group> list = new ArrayList<Group>();
+        try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("select * from ems.group");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Group aRecord = new Group();
+                aRecord.setId(rs.getInt("id"));
+                aRecord.setId_event(rs.getInt("id_event"));
+                aRecord.setId_group_referent(rs.getInt("id_group_referent"));
+                aRecord.setMax_group_number(rs.getInt("max_group_number"));
+                aRecord.setBlocked(rs.getBoolean("blocked"));
+                list.add(aRecord);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+        return list;
+    }
+    
     /**
      * Returns the record passing its id
      * 

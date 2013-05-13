@@ -34,7 +34,7 @@
 		<a href='<c:url value="/private/index.html"/>'>Home Page</a> |
 		<a href='<c:url value="/private/userList.html"/>'>Users Management</a> |
 		<a href='<c:url value="/private/eventList.html"/>'>Events Management</a> |
-		<a href='<c:url value="/private/gorupList.html"/>'>Groups Management</a> |
+		<a href='<c:url value="/private/groupList.html"/>'>Groups Management</a> |
 		<a href='<c:url value="/private/participantList.html"/>'>Participants Management</a>
 		<hr/>
 		
@@ -46,8 +46,8 @@
 	        Group ID : <input type="text" readonly="readonly" name="id"
 	            value="${record.id}" /> <br /> 
 	        Event ID : <input
-	            type="text" name="id_event"
-	            value="${record.id_event}" /> <br /> 
+	            type="text" name="id_event" readonly="readonly"
+	            value="${id_event}" /> <br /> 
 	        Group referent : <input
 	            type="text" name="id_group_referent"
 	            value="${record.id_group_referent}" /> <br /> 

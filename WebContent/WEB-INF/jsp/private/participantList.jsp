@@ -29,14 +29,29 @@
 		<a href='<c:url value="/private/index.html"/>'>Home Page</a> |
 		<a href='<c:url value="/private/userList.html"/>'>Users Management</a> |
 		<a href='<c:url value="/private/eventList.html"/>'>Events Management</a> |
-		<a href='<c:url value="/private/gorupList.html"/>'>Groups Management</a> |
+		<a href='<c:url value="/private/groupList.html"/>'>Groups Management</a> |
 		<a href='<c:url value="/private/participantList.html"/>'>Participants Management</a>
 		<hr/>
+
+		<h1>Participants for id_group = ${id_group}</h1>
+
+	    Choose a Group:
+	    <select>
+	    	<option selected></option>
+	    	<c:forEach items="${groups}" var="group">
+	    		<c:url value="/private/participantList.html?action=listRecord&id_group=${group.id}" var="url"/>
+	    		<option value="${group.id}" onClick="window.location.href='${url}'">${group.id}</option>
+	    	</c:forEach>
+	    </select>
+	    
+	    <br/>
+	    
 
 	    <table border=1>
 	        <thead>
 	            <tr>
 	                <th>Participant Id</th>
+	                <th>Group Id</th>
 	                <th>First Name</th>
 	                <th>Last Name</th>
 	                <th>Date of birth</th>
@@ -58,12 +73,12 @@
 	                    <td>${record.registration_date}</td>  
 	                   	<td>${record.approved}</td>  
 	                   	<td>${record.blocked}</td>                 	                    	                    	                    
-	                    <td><a href="<c:url value='/private/participant.jsp?action=edit&id=${record.id}'/>">Update</a></td>
-	                    <td><a href="<c:url value='/private/participantDelete?action=delete&id=${record.id}'/>">Delete</a></td>
+	                    <td><a href="<c:url value='/private/participant.jsp?action=edit&id=${record.id}&id_group=${id_group}'/>">Update</a></td>
+	                    <td><a href="<c:url value='/private/participantDelete?action=delete&id=${record.id}&id_group=${id_group}'/>">Delete</a></td>
 	                </tr>
 	            </c:forEach>
 	        </tbody>
 	    </table>
-	    <p><a href="participant.jsp?action=insert">Add Participant</a></p>
+	    <p><a href="participant.jsp?action=insert&id_group=${id_group}">Add Participant</a></p>
 	</body>
 </html>

@@ -48,11 +48,26 @@ public class ParticipantDao {
      * It initializes the connection to the database
      * 
      */
-    public ParticipantDao() throws NamingException, SQLException {
-        Context initialContext = new InitialContext();
-        Context envContext  = (Context)initialContext.lookup("java:/comp/env");
-        DataSource ds = (DataSource)envContext.lookup("jdbc/ems");
-        connection = ds.getConnection();
+    public ParticipantDao(){
+        Context initialContext;
+		try {
+			initialContext = new InitialContext();
+	        Context envContext;
+			try {
+				envContext = (Context)initialContext.lookup("java:/comp/env");
+		        DataSource ds = (DataSource)envContext.lookup("jdbc/ems");
+		        connection = ds.getConnection();
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**

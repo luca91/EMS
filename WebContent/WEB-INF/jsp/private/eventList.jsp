@@ -29,7 +29,7 @@
 		<a href='<c:url value="/private/index.html"/>'>Home Page</a> |
 		<a href='<c:url value="/private/userList.html"/>'>Users Management</a> |
 		<a href='<c:url value="/private/eventList.html"/>'>Events Management</a> |
-		<a href='<c:url value="/private/gorupList.html"/>'>Groups Management</a> |
+		<a href='<c:url value="/private/groupList.html"/>'>Groups Management</a> |
 		<a href='<c:url value="/private/participantList.html"/>'>Participants Management</a>
 		<hr/>
 		
@@ -44,7 +44,7 @@
 	                <th>End</th>
 	                <th>Enrollment_start</th>
 	                <th>Enrollment_end</th>
-	                <th colspan=2>Action</th>
+	                <th colspan=3>Action</th>
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -60,6 +60,7 @@
 	                    <td>${record.enrollment_end}</td>	                    	                    	                    	                    
 	                    <td><a href="<c:url value='/private/event.jsp?action=edit&id=${record.id}'/>">Update</a></td>
 	                    <td><a href="<c:url value='/private/eventDelete?action=delete&id=${record.id}'/>">Delete</a></td>
+	                	<td><a href="<c:url value='/private/groupList.html?action=listRecord&id_event=${record.id}'/>">Groups</a></td>
 	                </tr>
 	            </c:forEach>
 	        </tbody>
