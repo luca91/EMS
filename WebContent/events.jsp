@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>EMS - Enrollment Management System - Homepage</title>
+<title>EMS - Enrollment Management System - Users</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/style_portal.css" type="text/css" media="screen">
@@ -63,10 +63,10 @@
 						<div class="col-3">
 							<div class="indent">
 								<br>
-								<h3 class="p0"><a href="#">Homepage</a></h3><br>
-								<h3 class="p0"><a href="#">Mail</a></h3><br>
-								<h3 class="p0"><a href="#">Settings</a></h3><br>
-								<h3 class="p0"><a href="#">Logout</a></h3><br>								
+								<h3 class="p0"><a href="eventsAdd.jsp">Add event</a></h3><br>
+								<h3 class="p0"><a href="#">List events</a></h3><br>								
+								<h3 class="p0"><a href="#">Update event</a></h3><br>
+								<h3 class="p0"><a href="#">Cancel event</a></h3><br>							
 							</div>							
 						</div>
 					</div>					
