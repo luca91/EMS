@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>EMS - Enrollment Management System - Homepage</title>
+<title>EMS - Enrollment Management System - Users</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/style_portal.css" type="text/css" media="screen">
@@ -62,11 +62,44 @@
 					<div class="wrapper margin-bot">
 						<div class="col-3">
 							<div class="indent">
-								<br>
-								<h3 class="p0"><a href="#">Homepage</a></h3><br>
-								<h3 class="p0"><a href="#">Mail</a></h3><br>
-								<h3 class="p0"><a href="#">Settings</a></h3><br>
-								<h3 class="p0"><a href="#">Logout</a></h3><br>								
+								Choose an Event:
+	    <select>
+	    	<option selected></option>
+	    	<c:forEach items="${events}" var="event">
+	    		<c:url value="/private/groupList.html?action=listRecord&id_event=${event.id}" var="url"/>
+	    		<option value="${event.id}" onClick="window.location.href='${url}'">${event.name}</option>
+	    	</c:forEach>
+	    </select>
+	    
+	    <br/>
+	    
+	    <table border=1>
+	        <thead>
+	            <tr>
+	                <th>Group Id</th>
+	                <th>Event Id</th>
+	                <th>Group referent Id</th>
+	                <th>Max Group Number</th>
+	                <th>Blocked</th>
+	                <th colspan=3>Action</th>
+	            </tr>
+	        </thead>
+	              
+	        <tbody>
+	            <c:forEach items="${records}" var="record">
+	                <tr>
+	                    <td>${record.id}</td>
+	                    <td>${record.id_event}</td>
+	                    <td>${record.id_group_referent}</td>
+	                    <td>${record.max_group_number}</td>
+	                    <td>${record.blocked}</td>                    	                    	                    	                    
+	                    <td><a href="<c:url value='/private/group.jsp?action=edit&id=${record.id}&id_event=${id_event}'/>">Update</a></td>
+	                    <td><a href="<c:url value='/private/groupDelete?action=delete&id=${record.id}&id_event=${id_event}'/>">Delete</a></td>
+   	                	<td><a href="<c:url value='/private/participantList.html?action=listRecord&id_group=${record.id}'/>">Participants</a></td>
+	                </tr>
+	            </c:forEach>
+	        </tbody>
+	    </table>							
 							</div>							
 						</div>
 					</div>					

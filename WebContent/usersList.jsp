@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>EMS - Enrollment Management System - Homepage</title>
+<title>EMS - Enrollment Management System - Users</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/style_portal.css" type="text/css" media="screen">
@@ -62,15 +63,37 @@
 					<div class="wrapper margin-bot">
 						<div class="col-3">
 							<div class="indent">
-								<br>
-								<h3 class="p0"><a href="#">Homepage</a></h3><br>
-								<h3 class="p0"><a href="#">Mail</a></h3><br>
-								<h3 class="p0"><a href="#">Settings</a></h3><br>
-								<h3 class="p0"><a href="#">Logout</a></h3><br>								
+								<br>								
+								<h4>List of users</h4><br>
+								<table border=1>
+							        <thead>
+							            <tr>
+							                <th>User Id</th>
+							                <th>First Name</th>
+							                <th>Last Name</th>
+							                <th>Email</th>
+							                <th colspan=2>Action</th>
+							            </tr>
+							        </thead>
+							        <tbody>
+							            <c:forEach items="${users}" var="user">
+							                <tr>
+							                    <td>${user.id}</td>
+							                    <td>${user.fname}</td>
+							                    <td>${user.lname}</td>
+							                    <td>${user.email}</td>
+							                    <td><a href="<c:url value='/private/user.jsp?action=edit&id=${user.id}'/>">Update</a></td>
+							                    <td><a href="<c:url value='/private/userDelete?action=delete&id=${user.id}'/>">Delete</a></td>
+							                </tr>
+							            </c:forEach>
+							        </tbody>
+							    </table>					
 							</div>							
 						</div>
-					</div>					
-				</div>
+						
+					</div>
+					<a class="button-2" href="userAdd.jsp" onClick="">New user</a>					
+				</div>				
 			</section>			
 		</div>
 	</div>
