@@ -6,6 +6,30 @@
 	<head>
 		<title>Show All Participants</title>
 	</head>
+<script>
+function confirmSend(list){
+	var a = new Array();
+	a = list.split(";");
+	
+	var msg ="You are sending invitation via mail to the following addresses: \n\n";
+	
+	for(i=0;i<a.length;i++){
+		
+		msg += "- " + a[i] + " \n";
+		//alert(a[i]);
+    }
+	
+	if(confirm(msg)){
+		return true;
+	}
+	else {
+		document.getElementById("frmInviteParticipan").reset();
+		return false;
+	}
+}
+</script>
+
+
 	<body>
 		<table>
 			<tr>
@@ -75,19 +99,7 @@
 			                    <td>${record.lname}</td>
 			                    <td>${record.date_of_birth}</td>
 			                    <td>${record.registration_date}</td>  
-			                   	<td>
-			                   		<input 
-			                   			type="checkbox" 
-			                   			name="approved" 
-			                   			<c:if test="${record.approved == false }">
-			                   				value="0"
-			                   			</c:if>
-			                   			<c:if test="${record.approved != false }">
-			                   				value="1"
-			                   				checked
-			                   			</c:if>	                   			
-			                   		/>
-								</td>  
+			                   	<td>${record.approved}</td>  
 			                   	<td>${record.blocked}</td>                 	                    	                    	                    
 			                    <td><a href="<c:url value='/private/participant.jsp?action=edit&id=${record.id}&id_group=${id_group}'/>">Update</a></td>
 			                    <td><a href="<c:url value='/private/participantDelete?action=delete&id=${record.id}&id_group=${id_group}'/>">Delete</a></td>
@@ -97,19 +109,31 @@
 		        </tbody>
 		    </table>
 		    
-		    <input type="submit" value="Approve" /><br />
+		    <input type="submit" value="Approve All" /><br />
 		    
 	    </form>
 	    
 	    <p><a href="participant.jsp?action=insert&id_group=${id_group}">Add Participant</a></p>
 	    <br />
-	   	<c:set var="act">
-			<c:url value="/private/participantInvite?action=invite&id_group=${id_group}" /> 
-		</c:set>
-	  	 <form method="POST" action="${act}" name="frmInviteParticipan">
-	  	 	Email : <input type="text" name="to" /> <br />
-	  	 	<input type="submit" value="Invite" /><br />
-	  	 </form>
+	    
+	    <c:if test="${id_group != 0  }">
+		   	<c:set var="act">
+				<c:url value="/private/participantInvite?action=invite&id_group=${id_group}" /> 
+			</c:set>
+		  	 <form method="POST" action="${act}" id="frmInviteParticipan" name="frmInviteParticipan" onsubmit="return confirmSend(frmInviteParticipan.elements['listTo'].value);">
+		  	 	<fieldset>
+	    			<legend>Invite participants</legend>
+			  	 	Email : <input type="text" name="listTo" /> 
+			  	 	<c:if test="${showCount == 'y' }">
+			  	 		${count} email sent
+			  	 	</c:if>
+			  	 	<br />
+			  	 	<input type="submit" value="Invite"  />
+			  	 	<input type="reset"/>
+		  		</fieldset>
+		  	 </form>
+	  	 </c:if>
+
 	  
 	</body>
 </html>

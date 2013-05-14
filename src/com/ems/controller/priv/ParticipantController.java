@@ -1,37 +1,37 @@
 package com.ems.controller.priv;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.AuthenticationFailedException;
 import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.io.*;
-import java.net.*;
 import org.apache.log4j.Logger;
 
-
+import com.ems.dao.EventDao;
 import com.ems.dao.GroupDao;
-
 import com.ems.dao.ParticipantDao;
+import com.ems.model.Event;
+import com.ems.model.Group;
 import com.ems.model.Participant;
-import com.sun.mail.smtp.SMTPSaslAuthenticator;
 
 
 /**
@@ -74,6 +74,10 @@ public class ParticipantController extends HttpServlet {
     	log.trace("START");
     	
     	log.debug("id_group: " + request.getParameter("id_group"));
+    	
+    	// Used for invitation
+    	request.setAttribute("count", request.getParameter("count"));
+    	request.setAttribute("showCount", request.getParameter("showCount"));
     	
 
     	int id_group = 0;
@@ -203,62 +207,33 @@ public class ParticipantController extends HttpServlet {
     		//invite participant
     		log.debug("Invite Participant");
     		
-
-    		String from = "cestino@gmail.com";
-            String to = request.getParameter("to");
-    		log.debug("TO: " + to);
-            String subject = "Invitation";
-            String message = "sdjnfkasjdnf aksdjf ask dfasdk fasdk fk2";;
-            String login = "cestino@gmail.com";
-            String password = "01abekul";
+    		String[] result = request.getParameter("listTo").toString().split(";", -1);
+    		int count = 0;
     		
+    		GroupDao gd = new GroupDao();
+    		Group g = gd.getRecordById(id_group);
     		
+    		EventDao ed = new EventDao();
+    		Event e = ed.getRecordById(g.getId_event());
     		
-            try {
-            	log.debug("try sending");
-                Properties props = new Properties();
-                
+    		for (int i = 0; i < result.length; i++){
+    			try {
+					if (sendEmail(result[i], g, e)){
+						count++;
+					}
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+    			log.debug(result[i]);
+    		}
 
-                props.put("mail.smtp.starttls.enable", "true"); // added this line
-                props.put("mail.smtp.host", "smtp.googlemail.com");
-                props.put("mail.smtp.user", from);
-                props.put("mail.smtp.password", password);
-                props.put("mail.smtp.port", "587");
-                props.put("mail.smtp.auth", "true");
-                
-            	log.debug("1");
-                Authenticator auth = new SMTPAuthenticator(login, password);
-            	log.debug("2");
-                Session session = Session.getInstance(props, auth);
-            	log.debug("3");
-                MimeMessage msg = new MimeMessage(session);
-            	log.debug("4");
-                msg.setText(message);
-                msg.setSubject(subject);
-                msg.setFrom(new InternetAddress(from));
-                msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            	log.debug("5");
-                Transport.send(msg);
-            	log.debug("6");
+	        String forward = "participantList.html?action=listRecord&id_group=" + id_group + "&count=" + count + "&showCount=y";
+	        log.debug("forward: " + forward);
+	        request.setAttribute("records", dao.getAllRecordsById_group(id_group));
 
-            } catch (AuthenticationFailedException ex) {
-            	log.debug("AuthenticationFailedException");
-                request.setAttribute("ErrorMessage", "Authentication failed");
-
-
-
-            } catch (AddressException ex) {
-            	log.debug("AddressException");
-                request.setAttribute("ErrorMessage", "Wrong email address");
-
-
-
-            } catch (MessagingException ex) {
-            	log.debug("MessagingException");
-                request.setAttribute("ErrorMessage", ex.getMessage());
-
-            }
-
+	        
+	        response.sendRedirect(forward);
     	}
     	else if (request.getParameter("action").equals("approve") ){
     		//approve enrollment
@@ -266,6 +241,17 @@ public class ParticipantController extends HttpServlet {
     		log.debug("action: " + request.getParameter("action"));
 	        GroupDao gd = new GroupDao();
 	        request.setAttribute("groups", gd.getAllRecords());
+	        
+	        ParticipantDao pd = new ParticipantDao();
+	        List<Participant>  list = pd.getAllRecordsById_group(id_group);
+	        Participant p = new Participant();
+	        
+	        for (int i = 0; i < list.size(); i++){
+	        	p = list.get(i);
+	        	if (!p.isApproved()){
+	        		pd.approve(p.getId());
+	        	}
+	        }
 	        
 	        String forward = "participantList.html?action=listRecord&id_group=" + id_group;
 	        log.debug("forward: " + forward);
@@ -292,4 +278,87 @@ public class ParticipantController extends HttpServlet {
         }
     }
 
+    private boolean sendEmail(String to, Group g, Event e) throws ParseException{ 
+    	log.debug("address: " + to);
+
+		DateFormat df = new SimpleDateFormat("dd MMM yyyy");
+		Date fStart = new SimpleDateFormat("yyyy-MM-dd").parse(e.getStart());
+		log.debug("fStart: " + df.format(fStart));
+		Date fEnd = new SimpleDateFormat("yyyy-MM-dd").parse(e.getEnd());
+		log.debug("fEnd: " + df.format(fEnd));
+		Date fenrollment_start = new SimpleDateFormat("yyyy-MM-dd").parse(e.getEnrollment_start());
+		log.debug("fenrollment_start: " + df.format(fenrollment_start));
+		Date fenrollment_end = new SimpleDateFormat("yyyy-MM-dd").parse(e.getEnrollment_end());
+		log.debug("fenrollment_end: " + df.format(fenrollment_end)); 	
+		
+		
+		String from = "cestino@gmail.com";
+        log.debug("TO: " + to);
+        String subject = "Invitation to " + e.getName();
+        
+        String message = "";
+        message += "You are invited to the " + e.getName() + " event.\n";
+        message += "The event will take place from " + df.format(fStart) + " to " + df.format(fEnd) + "\n";
+        message += "\nTo enroll to the event you have to click on the following link and fill up the registration form:\n";
+        message += "\n" +
+        			"http://localhost:8080/ems/public/enrollmentForm.html?id_group=" + 
+        			g.getId() + 
+        			"&email=" + to 
+        			+ "\n";
+        message += "\nDue date: " + df.format(fenrollment_start) +"\n";
+        message += "\nEnrollment until: " + df.format(fenrollment_end) + "\n";
+        message += "\n\nThe staff";
+       
+        String login = "cestino@gmail.com";
+        String password = "01abekul";
+		
+		
+		
+        try {
+        	log.debug("try sending");
+            Properties props = new Properties();
+            
+
+            props.put("mail.smtp.starttls.enable", "true"); // added this line
+            props.put("mail.smtp.host", "smtp.googlemail.com");
+            props.put("mail.smtp.user", from);
+            props.put("mail.smtp.password", password);
+            props.put("mail.smtp.port", "587");
+            props.put("mail.smtp.auth", "true");
+            
+        	log.debug("1");
+            Authenticator auth = new SMTPAuthenticator(login, password);
+        	log.debug("2");
+            Session session = Session.getInstance(props, auth);
+        	log.debug("3");
+            MimeMessage msg = new MimeMessage(session);
+        	log.debug("4");
+            msg.setText(message);
+            msg.setSubject(subject);
+            msg.setFrom(new InternetAddress(from));
+            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        	log.debug("5");
+            Transport.send(msg);
+        	log.debug("6");
+
+        } catch (AuthenticationFailedException ex) {
+        	log.debug("AuthenticationFailedException");
+        	log.debug(ex);
+        	return false;
+
+
+        } catch (AddressException ex) {
+        	log.debug("AddressException");
+        	log.debug(ex);
+        	return false;
+
+
+        } catch (MessagingException ex) {
+        	log.debug("MessagingException");
+        	log.debug(ex);
+        	return false;
+        }
+        return true;
+    }
+    
 }

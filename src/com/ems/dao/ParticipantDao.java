@@ -252,4 +252,26 @@ public class ParticipantDao {
         return record;
     }
     
+    /**
+     * Add a record to table 
+     * 
+     * @param id an id of a participant
+     */
+    public void approve(int anId) {
+    	log.trace("START");
+        try {
+        	
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("UPDATE participant SET approved=TRUE WHERE id =?;");
+            preparedStatement.setInt(1, anId);
+            log.debug(preparedStatement.toString());
+        	log.debug("addRecord Execute Update");
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+    }
+    
 }
