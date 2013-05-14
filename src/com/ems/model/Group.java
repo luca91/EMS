@@ -10,6 +10,7 @@ public class Group {
 	private int id;
 	private int id_event;
 	private int id_group_referent;
+	private String name;
 	private int max_group_number;
 	private boolean blocked;
 
@@ -34,6 +35,13 @@ public class Group {
 		this.id_group_referent = id_group_referent;
 	}
 
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public int getMax_group_number() {
 		return max_group_number;
 	}

@@ -137,6 +137,7 @@ public class GroupController extends HttpServlet {
     	
 		record.setId_event(id_event);
     	record.setId_group_referent(Integer.parseInt(request.getParameter("id_group_referent")));
+    	record.setName(request.getParameter("name"));
     	record.setMax_group_number(Integer.parseInt(request.getParameter("max_group_number")));
     	record.setBlocked(Boolean.parseBoolean(request.getParameter("blocked")));
         

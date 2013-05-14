@@ -52,6 +52,7 @@
 	            <tr>
 	                <th>Group Id</th>
 	                <th>Event Id</th>
+					<th>Group Name</th>
 	                <th>Group referent Id</th>
 	                <th>Max Group Number</th>
 	                <th>Blocked</th>
@@ -64,6 +65,7 @@
 	                <tr>
 	                    <td>${record.id}</td>
 	                    <td>${record.id_event}</td>
+	                    <td>${record.name}</td>
 	                    <td>${record.id_group_referent}</td>
 	                    <td>${record.max_group_number}</td>
 	                    <td>${record.blocked}</td>                    	                    	                    	                    
@@ -74,7 +76,8 @@
 	            </c:forEach>
 	        </tbody>
 	    </table>
-	    
+	    <c:if test="${id_event != 0 }">	    
 		    <p><a href="group.jsp?action=insert&id_event=${id_event}">Add Group</a></p>
+		</c:if>
 	</body>
 </html>

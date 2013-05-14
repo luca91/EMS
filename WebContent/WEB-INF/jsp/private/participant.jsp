@@ -53,7 +53,10 @@
 	            value="${record.fname}" /> <br /> 
 	        Last Name : <input
 	            type="text" name="lname"
-	            value="${record.lname}" /> <br /> 	            
+	            value="${record.lname}" /> <br /> 
+	        Email : <input
+	            type="text" name="email"
+	            value="${record.email}" /> <br /> 	            	            
 	        Date of birth : <input type="text" name="date_of_birth"
 	            value="${record.date_of_birth}" /> <br />     
 	        Registration date: <input type="text" name="registration_date"

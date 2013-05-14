@@ -118,6 +118,7 @@ public class ParticipantController extends HttpServlet {
 		record.setId_group(id_group);
     	record.setFname(request.getParameter("fname"));
     	record.setLname(request.getParameter("lname"));
+    	record.setEmail(request.getParameter("email"));
     	record.setDate_of_birth(request.getParameter("date_of_birth"));
     	
     	String currentdate = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());

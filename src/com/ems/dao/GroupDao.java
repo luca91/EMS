@@ -81,11 +81,12 @@ public class GroupDao {
     	log.trace("START");
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("insert into ems.group(id_event,id_group_referent,max_group_number,blocked) values (?, ?, ?, ? )");
+                    .prepareStatement("insert into ems.group(id_event,id_group_referent, name, max_group_number,blocked) values (?,?, ?, ?, ? )");
             preparedStatement.setInt(1, id_event);
             preparedStatement.setInt(2, aRecord.getId_group_referent());
-            preparedStatement.setInt(3, aRecord.getMax_group_number());
-            preparedStatement.setBoolean(4, aRecord.isBlocked());
+            preparedStatement.setString(3, aRecord.getName());
+            preparedStatement.setInt(4, aRecord.getMax_group_number());
+            preparedStatement.setBoolean(5, aRecord.isBlocked());
         	log.debug("add record");
             preparedStatement.executeUpdate();
 
@@ -127,15 +128,16 @@ public class GroupDao {
     	log.debug(aRecord.toString());
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("update ems.group set id_event=?, id_group_referent=?, max_group_number=?,blocked=? " +
+                    .prepareStatement("update ems.group set id_event=?, id_group_referent=?, name=?, max_group_number=?,blocked=? " +
                             "where id=?");
             
             preparedStatement.setInt(1, aRecord.getId_event());
             preparedStatement.setInt(2, aRecord.getId_group_referent());
-            preparedStatement.setInt(3, aRecord.getMax_group_number());
-            preparedStatement.setBoolean(4, aRecord.isBlocked());
+            preparedStatement.setString(3, aRecord.getName());
+            preparedStatement.setInt(4, aRecord.getMax_group_number());
+            preparedStatement.setBoolean(5, aRecord.isBlocked());
             
-            preparedStatement.setInt(5, aRecord.getId());
+            preparedStatement.setInt(6, aRecord.getId());
             preparedStatement.executeUpdate();
         	log.debug("update done");
         } catch (SQLException e) {
@@ -163,6 +165,7 @@ public class GroupDao {
                 aRecord.setId(rs.getInt("id"));
                 aRecord.setId_event(rs.getInt("id_event"));
                 aRecord.setId_group_referent(rs.getInt("id_group_referent"));
+                aRecord.setName(rs.getString("name"));                
                 aRecord.setMax_group_number(rs.getInt("max_group_number"));
                 aRecord.setBlocked(rs.getBoolean("blocked"));
                 list.add(aRecord);
@@ -192,6 +195,7 @@ public class GroupDao {
                 aRecord.setId(rs.getInt("id"));
                 aRecord.setId_event(rs.getInt("id_event"));
                 aRecord.setId_group_referent(rs.getInt("id_group_referent"));
+                aRecord.setName(rs.getString("name"));                
                 aRecord.setMax_group_number(rs.getInt("max_group_number"));
                 aRecord.setBlocked(rs.getBoolean("blocked"));
                 list.add(aRecord);
@@ -222,6 +226,7 @@ public class GroupDao {
                 aRecord.setId(rs.getInt("id"));
                 aRecord.setId_event(rs.getInt("id_event"));
                 aRecord.setId_group_referent(rs.getInt("id_group_referent"));
+                aRecord.setName(rs.getString("name"));
                 aRecord.setMax_group_number(rs.getInt("max_group_number"));
                 aRecord.setBlocked(rs.getBoolean("blocked"));
             }
@@ -231,6 +236,4 @@ public class GroupDao {
     	log.trace("END");
         return aRecord;
     }
-    
-    
 }

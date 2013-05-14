@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -80,15 +81,17 @@ public class ParticipantDao {
         try {
         	
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("insert into participant(id_group,fname,lname,date_of_birth,registration_date,approved,blocked) " +
-                    					"values (?, ?, ?, ?, ?, ?,? )");
+                    .prepareStatement("insert into participant(id_group,fname,lname,email,uuid,date_of_birth,registration_date,approved,blocked) " +
+                    					"values (?,?,?, ?, ?, ?, ?, ?,? )");
             preparedStatement.setInt(1, anId_group);
             preparedStatement.setString(2, aRecord.getFname());
             preparedStatement.setString(3, aRecord.getLname());
-            preparedStatement.setString(4, aRecord.getDate_of_birth());
-            preparedStatement.setString(5, aRecord.getRegistration_date());
-            preparedStatement.setBoolean(6, false);
-            preparedStatement.setBoolean(7, false);
+            preparedStatement.setString(4, aRecord.getEmail());
+            preparedStatement.setString(5, UUID.randomUUID().toString());            
+            preparedStatement.setString(6, aRecord.getDate_of_birth());
+            preparedStatement.setString(7, aRecord.getRegistration_date());
+            preparedStatement.setBoolean(8, false);
+            preparedStatement.setBoolean(9, false);
             log.debug(preparedStatement.toString());
         	log.debug("addRecord Execute Update");
             preparedStatement.executeUpdate();
@@ -134,6 +137,7 @@ public class ParticipantDao {
                     					"id_group=?, " +
                     					"fname=?, " +
                     					"lname=?, " +
+                    					"email=?, " +
                     					"date_of_birth=?," +
                     					"registration_date=?, " +
                     					"approved=?, " +
@@ -144,11 +148,12 @@ public class ParticipantDao {
             preparedStatement.setInt(1, aRecord.getId_group());
             preparedStatement.setString(2, aRecord.getFname());
             preparedStatement.setString(3, aRecord.getLname());
-            preparedStatement.setString(4, aRecord.getDate_of_birth());
-            preparedStatement.setString(5, aRecord.getRegistration_date());
-            preparedStatement.setBoolean(6, aRecord.isApproved());
-            preparedStatement.setBoolean(7, aRecord.isBlocked());
-            preparedStatement.setInt(8, aRecord.getId());
+            preparedStatement.setString(4, aRecord.getEmail());            
+            preparedStatement.setString(5, aRecord.getDate_of_birth());
+            preparedStatement.setString(6, aRecord.getRegistration_date());
+            preparedStatement.setBoolean(7, aRecord.isApproved());
+            preparedStatement.setBoolean(8, aRecord.isBlocked());
+            preparedStatement.setInt(9, aRecord.getId());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -174,6 +179,8 @@ public class ParticipantDao {
                 record.setId_group(rs.getInt("id_group"));
                 record.setFname(rs.getString("fname"));
                 record.setLname(rs.getString("lname"));
+                record.setEmail(rs.getString("email"));
+                record.setUuid(rs.getString("uuid"));
                 record.setDate_of_birth(rs.getString("date_of_birth"));
                 record.setRegistration_date(rs.getString("registration_date"));
                 record.setApproved(rs.getBoolean("approved"));
@@ -207,6 +214,8 @@ public class ParticipantDao {
                 record.setId_group(rs.getInt("id_group"));
                 record.setFname(rs.getString("fname"));
                 record.setLname(rs.getString("lname"));
+                record.setEmail(rs.getString("email"));
+                record.setUuid(rs.getString("uuid"));
                 record.setDate_of_birth(rs.getString("date_of_birth"));
                 record.setRegistration_date(rs.getString("registration_date"));
                 record.setApproved(rs.getBoolean("approved"));
@@ -240,6 +249,8 @@ public class ParticipantDao {
                 record.setId_group(rs.getInt("id_group"));
                 record.setFname(rs.getString("fname"));
                 record.setLname(rs.getString("lname"));
+                record.setEmail(rs.getString("email"));
+                record.setUuid(rs.getString("uuid"));                
                 record.setDate_of_birth(rs.getString("date_of_birth"));
                 record.setRegistration_date(rs.getString("registration_date"));
                 record.setApproved(rs.getBoolean("approved"));
@@ -253,7 +264,7 @@ public class ParticipantDao {
     }
     
     /**
-     * Add a record to table 
+     * Approve a participant 
      * 
      * @param id an id of a participant
      */

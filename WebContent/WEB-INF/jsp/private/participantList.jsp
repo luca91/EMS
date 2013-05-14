@@ -81,6 +81,7 @@ function confirmSend(list){
 		                <th>Group Id</th>
 		                <th>First Name</th>
 		                <th>Last Name</th>
+		             	<th>Email</th>
 		                <th>Date of birth</th>
 		                <th>Registration Date</th>
 		                <th>Approved</th>
@@ -97,6 +98,7 @@ function confirmSend(list){
 			                    <td>${record.id_group}</td>
 			                    <td>${record.fname}</td>
 			                    <td>${record.lname}</td>
+			                    <td>${record.email}</td>			                    
 			                    <td>${record.date_of_birth}</td>
 			                    <td>${record.registration_date}</td>  
 			                   	<td>${record.approved}</td>  
@@ -125,7 +127,7 @@ function confirmSend(list){
 	    			<legend>Invite participants</legend>
 			  	 	Email : <input type="text" name="listTo" /> 
 			  	 	<c:if test="${showCount == 'y' }">
-			  	 		${count} email sent
+			  	 		${count} email sent!
 			  	 	</c:if>
 			  	 	<br />
 			  	 	<input type="submit" value="Invite"  />

@@ -78,6 +78,7 @@ public class GroupDaoTest {
     public void testAddRecord() throws NamingException, ClassNotFoundException {
 		log.trace("START");
 		
+		String name = "nameGroup1";
 		int max_group_number = 999;
 		boolean blocked = false;
 		
@@ -87,6 +88,7 @@ public class GroupDaoTest {
 	    	GroupDao obj = new GroupDao(conn);
 	    	Group aRecord = new Group();
 	    	
+	    	aRecord.setName(name);
 	    	aRecord.setId_group_referent(id_manager);
 	    	aRecord.setMax_group_number(max_group_number);
 	    	aRecord.setBlocked(blocked);
@@ -130,6 +132,7 @@ public class GroupDaoTest {
     public void testDeleteUser() throws NamingException, ClassNotFoundException {
 		log.debug("START");
 		
+		String name = "nameGroup1";
 		int max_group_number = 9999;
 		boolean blocked = false; //false
 
@@ -140,8 +143,8 @@ public class GroupDaoTest {
 			
 	    	String sql = 
 					"insert " +
-					" into ems.group(id_event,id_group_referent,max_group_number,blocked)" + 
-	    			" VALUES (" + id_event + ", " + id_manager + ", " + max_group_number + ", " + blocked +");";
+					" into ems.group(id_event,id_group_referent,name,max_group_number,blocked)" + 
+	    			" VALUES (" + id_event + ", " + id_manager + ", '" + name + "', " + max_group_number + ", " + blocked +");";
 	    	log.debug(sql);
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
@@ -187,7 +190,7 @@ public class GroupDaoTest {
 	
 	
 	@Test
-    public void testGetAllRecords() throws ClassNotFoundException {
+    public void testGetAllRecordsById_event() throws ClassNotFoundException {
 		log.debug("START");	
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -195,6 +198,49 @@ public class GroupDaoTest {
 			GroupDao obj = new GroupDao(conn);
 	
 	    	List<Group> list = obj.getAllRecordsById_event(id_event);
+	
+	    	String sql = 	
+	    			"SELECT COUNT(*) AS nr_rows" +
+	    			" FROM ems.group" +
+	    			" WHERE id_event = " + id_event;
+	    	stmt = conn.createStatement();
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	int nr_rows = rs.getInt("nr_rows");
+	    	
+	    	log.debug("nr_rows: " + nr_rows);
+	    	log.debug("list.size(): " + list.size());
+	    	Assert.assertEquals("failure - getAllRecordsById_event returns a different list of record", nr_rows, list.size());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+    	
+		log.debug("testGetAllUsers() - END");	
+    }
+
+	@Test
+    public void testGetAllRecords() throws ClassNotFoundException {
+		log.debug("START");	
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			GroupDao obj = new GroupDao(conn);
+	
+	    	List<Group> list = obj.getAllRecords();
 	
 	    	String sql = 	
 	    			"SELECT COUNT(*) AS nr_rows" +
@@ -229,11 +275,11 @@ public class GroupDaoTest {
 		log.debug("testGetAllUsers() - END");	
     }
 	
-	
 	@Test
     public void testGetRecordById() throws ClassNotFoundException {
 		log.trace("START");
-
+		
+		String name = "nameGroup1";
 		int max_group_number = 99999;
 		boolean blocked = false;
 		
@@ -248,8 +294,8 @@ public class GroupDaoTest {
 			
 	    	String sql = 
 					"insert " +
-					" into ems.group(id_event,id_group_referent,max_group_number,blocked)" + 
-	    			" VALUES (" + id_event+", " + id_manager + ", " + max_group_number + ", " + blocked +");";
+					" into ems.group(id_event,id_group_referent,name,max_group_number,blocked)" + 
+	    			" VALUES (" + id_event + ", " + id_manager + ", '" + name + "', " + max_group_number + ", " + blocked +");";
 	    			
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
@@ -292,6 +338,7 @@ public class GroupDaoTest {
     public void testUpdateRecord() throws ClassNotFoundException {
 		log.trace("START");
 
+		String name = "nameGroup1";
 		int max_group_number = 888;
 		boolean blocked = false;
 		
@@ -302,8 +349,8 @@ public class GroupDaoTest {
 			
 	    	String sql = 
 					"insert " +
-					" into ems.group(id_event,id_group_referent,max_group_number,blocked)" + 
-	    			" VALUES (" + id_event+", " + id_manager + ", " + max_group_number + ", " + blocked +");";
+					" into ems.group(id_event,id_group_referent,name,max_group_number,blocked)" + 
+	    			" VALUES (" + id_event + ", " + id_manager + ", '" + name + "', " + max_group_number + ", " + blocked +");";
 
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
@@ -321,11 +368,13 @@ public class GroupDaoTest {
 	
 	    	Group aRecord = new Group();
 	    	
+			String newName = "nameGroupNEW";
 			int newMax_group_number = 8888;
 			boolean newBlocked = true;
 				
 	    	aRecord.setId(last_id);
 	    	aRecord.setId_event(id_event);
+	    	aRecord.setName(newName);
 	    	aRecord.setId_group_referent(id_manager);
 	    	aRecord.setMax_group_number(newMax_group_number);
 	    	aRecord.setBlocked(newBlocked);
@@ -344,6 +393,7 @@ public class GroupDaoTest {
 
 	    	String upId_event = rs.getString("id_event");
 	    	String upId_group_referent = rs.getString("id_group_referent");
+	    	String upName = rs.getString("name");
 	    	int upMax_group_number = rs.getInt("max_group_number");
 	    	boolean upBlocked = rs.getBoolean("blocked");
 	    	
@@ -354,6 +404,7 @@ public class GroupDaoTest {
 	    	log.debug("upBlocked: " + upBlocked);
 	    	
 	    	log.debug("###### " + upId_event + " - " +  upId_group_referent + " - " + upMax_group_number + " - " + upBlocked);
+	    	Assert.assertEquals("failure - field name has not been correctly updated", newName, upName);
 	    	Assert.assertEquals("failure - field max_group_number has not been correctly updated", newMax_group_number, upMax_group_number);
 	    	Assert.assertEquals("failure - field blocked has not been correctly updated", newBlocked, upBlocked);
 	    	

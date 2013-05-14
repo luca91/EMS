@@ -85,7 +85,8 @@ public class ParticipantDaoTest {
 		UUID randomFname = UUID.randomUUID();
 		log.debug("######## -> " + randomFname.toString());
 		String fname = randomFname.toString();
-		String lname = "fakeGrouplname";
+		String lname = "fakeLname";
+		String email = "fakeEmail";
 		String date_of_birth = "29991231";
 		String registration_date = "20991231";
 		boolean approved = false;
@@ -101,6 +102,7 @@ public class ParticipantDaoTest {
             record.setId_group(id_group);
             record.setFname(fname);
             record.setLname(lname);
+            record.setEmail(email);
             record.setDate_of_birth(date_of_birth);
             record.setRegistration_date(registration_date);
             record.setApproved(approved);
@@ -148,6 +150,7 @@ public class ParticipantDaoTest {
 		
 		String fname = "fakeGroupFname";
 		String lname = "fakeGroupLname";
+		String email = "fakeEmail@fake2domain.fake1domain";
 		String date_of_birth = "29991231";
 		String registration_date = "20991231";
 		boolean approved = false;
@@ -160,8 +163,8 @@ public class ParticipantDaoTest {
 			
 	    	String sql = 
 					"insert " +
-					" into participant(id_group,fname,lname,date_of_birth,registration_date,approved,blocked) " +
-	    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + date_of_birth +"', '" + registration_date + "', " + approved +", " + blocked + ");";
+					" into participant(id_group,fname,lname,email,date_of_birth,registration_date,approved,blocked) " +
+	    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + email  + "', '" + date_of_birth +"', '" + registration_date + "', " + approved +", " + blocked + ");";
 	    	log.debug(sql);
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
@@ -253,8 +256,9 @@ public class ParticipantDaoTest {
     public void testGetRecordById() throws ClassNotFoundException {
 		log.trace("START");
 
-		String fname = "fakeGroupFnameById";
-		String lname = "fakeGroupLname";
+		String fname = "fakeFname";
+		String lname = "fakeLname";
+		String email = "fakeEmail";
 		String date_of_birth = "29991231";
 		String registration_date = "20991231";
 		boolean approved = false;
@@ -267,8 +271,8 @@ public class ParticipantDaoTest {
 			
 	    	String sql = 
 					"insert " +
-					" into participant(id_group,fname,lname,date_of_birth,registration_date,approved,blocked) " +
-	    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + date_of_birth +"', '" + registration_date + "', " + approved +", " + blocked + ");";
+					" into participant(id_group,fname,lname,email,date_of_birth,registration_date,approved,blocked) " +
+	    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + email  + "', '" + date_of_birth +"', '" + registration_date + "', " + approved +", " + blocked + ");";
 	    	log.debug(sql);
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
@@ -311,8 +315,9 @@ public class ParticipantDaoTest {
     public void testUpdateRecord() throws ClassNotFoundException {
 		log.trace("START");
 
-		String fname = "fakeGroupFname";
-		String lname = "fakeGroupLname";
+		String fname = "fakeFname";
+		String lname = "fakeLname";
+		String email = "fakeEmail";
 		String date_of_birth = "29991231";
 		String registration_date = "20991231";
 		boolean approved = false;
@@ -325,8 +330,8 @@ public class ParticipantDaoTest {
 			
 	    	String sql = 
 					"insert " +
-					" into participant(id_group,fname,lname,date_of_birth,registration_date,approved,blocked) " +
-	    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + date_of_birth +"', '" + registration_date + "', " + approved +", " + blocked + ");";
+					" into participant(id_group,fname,lname,email,date_of_birth,registration_date,approved,blocked) " +
+	    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + email  + "', '" + date_of_birth +"', '" + registration_date + "', " + approved +", " + blocked + ");";
 	    	log.debug(sql);
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
@@ -345,6 +350,7 @@ public class ParticipantDaoTest {
     	
 	    	String newFname = "fakeGroupFnameUpdated";
 	    	String newLname = "fakeGroupLnameUpdated";
+	    	String newEmail = "fakeEmailUpdated";
 	    	String newDate_of_birth = "19991231";
 	    	String newRegistration_date = "10991231";
 	    	boolean newApproved = true;
@@ -354,6 +360,7 @@ public class ParticipantDaoTest {
 	    	record.setId_group(id_group);
             record.setFname(newFname);
             record.setLname(newLname);
+            record.setEmail(newEmail);            
             record.setDate_of_birth(newDate_of_birth);
             record.setRegistration_date(newRegistration_date);
             record.setApproved(newApproved);
@@ -372,6 +379,7 @@ public class ParticipantDaoTest {
 	    	
 			String upFname = rs.getString("fname");
 			String upLname = rs.getString("lname");
+			String upEmail = rs.getString("email");
 			String upDate_of_birth = rs.getString("date_of_birth_formatted");
 			String upRegistration_date = rs.getString("registration_date_formatted");
 			boolean upApproved = rs.getBoolean("approved");
@@ -381,6 +389,7 @@ public class ParticipantDaoTest {
 	    	log.debug("###### " + upDate_of_birth );
 	    	Assert.assertEquals("failure - field fname has not been correctly updated", newFname, upFname);
 	    	Assert.assertEquals("failure - field lname has not been correctly updated", newLname, upLname);
+	    	Assert.assertEquals("failure - field email has not been correctly updated", newEmail, upEmail);
 	    	Assert.assertEquals("failure - field date_of_birth has not been correctly updated", newDate_of_birth, upDate_of_birth);
 	    	Assert.assertEquals("failure - field registration_date has not been correctly updated", newRegistration_date, upRegistration_date);
 	    	Assert.assertEquals("failure - field approved has not been correctly updated", newApproved, upApproved);

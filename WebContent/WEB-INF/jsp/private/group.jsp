@@ -48,6 +48,9 @@
 	        Event ID : <input
 	            type="text" name="id_event" readonly="readonly"
 	            value="${id_event}" /> <br /> 
+	        Group Name: <input
+	            type="text" name="name"
+	            value="${record.name}" /> <br /> 	            
 	        Group referent : <input
 	            type="text" name="id_group_referent"
 	            value="${record.id_group_referent}" /> <br /> 
