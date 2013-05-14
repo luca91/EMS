@@ -10,11 +10,11 @@
 		<table>
 			<tr>
 				<td>email:</td>
-				<td>${systemUser.email}</td>
+				<td>${sessionScope.systemUser.email}</td>
 			</tr>
 			<tr>
 				<td>role:</td>
-				<td>${systemUser.role}</td>
+				<td>${sessionScope.systemUser.role}</td>
 			</tr>
 			<tr>
 				<td>date:</td>
@@ -80,5 +80,14 @@
 	        </tbody>
 	    </table>
 	    <p><a href="participant.jsp?action=insert&id_group=${id_group}">Add Participant</a></p>
+	    <br />
+	   	<c:set var="act">
+			<c:url value="/private/participantInvite?action=invite&id_group=${id_group}" /> 
+		</c:set>
+	  	 <form method="POST" action="${act}" name="frmInviteParticipan">
+	  	 	Email : <input type="text" name="to" /> <br />
+	  	 	<input type="submit" value="Invite" /><br />
+	  	 </form>
+	  
 	</body>
 </html>
