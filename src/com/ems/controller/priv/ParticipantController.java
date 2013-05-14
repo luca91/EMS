@@ -42,7 +42,8 @@ import com.sun.mail.smtp.SMTPSaslAuthenticator;
 		"/private/participant.jsp", 
 		"/private/participantAdd",
 		"/private/participantDelete",
-		"/private/participantInvite"		
+		"/private/participantInvite",
+		"/private/participantApprove"		
 		})
 public class ParticipantController extends HttpServlet {
 	
@@ -149,12 +150,13 @@ public class ParticipantController extends HttpServlet {
     	int id_group = 0;
     	
     	log.debug("id_group: " + request.getParameter("id_group"));
+    	log.debug("action: " + request.getParameter("action"));
     	
     	if (request.getParameter("id_group") != null){
     		id_group = Integer.parseInt(request.getParameter("id_group").toString());
     	}
     	
-    	if (request.getParameter("action") == null) {
+    	if (request.getParameter("action") == null || request.getParameter("action").equals("edit")) {
     		//form for INSERT or UPDATE
 	    	
 	    	log.debug("----------------> id_group: " + request.getParameter("id_group"));
@@ -224,17 +226,6 @@ public class ParticipantController extends HttpServlet {
                 props.put("mail.smtp.port", "587");
                 props.put("mail.smtp.auth", "true");
                 
-        		/*props.put("mail.smtp.auth", "true");
-        		props.put("mail.smtp.starttls.enable", "true");
-        		props.put("mail.smtp.host", "smtp.googlemail.com");
-        		props.put("mail.smtp.port", "465");
-        		*/
-        		
-                //props.setProperty("mail.smtp.host", "smtp.gmail.com");
-                //props.setProperty("mail.smtp.port", "587");
-              //  props.setProperty("mail.smtp.auth", "true");
-        		//props.setProperty("mail.smtp.starttls.enable", "true");
-
             	log.debug("1");
                 Authenticator auth = new SMTPAuthenticator(login, password);
             	log.debug("2");
@@ -268,6 +259,21 @@ public class ParticipantController extends HttpServlet {
 
             }
 
+    	}
+    	else if (request.getParameter("action").equals("approve") ){
+    		//approve enrollment
+    		log.debug("APPROVE");
+    		log.debug("action: " + request.getParameter("action"));
+	        GroupDao gd = new GroupDao();
+	        request.setAttribute("groups", gd.getAllRecords());
+	        
+	        String forward = "participantList.html?action=listRecord&id_group=" + id_group;
+	        log.debug("forward: " + forward);
+	        request.setAttribute("records", dao.getAllRecordsById_group(id_group));
+
+	        
+	        response.sendRedirect(forward);
+    		
     	}
     	log.trace("END");
 	}

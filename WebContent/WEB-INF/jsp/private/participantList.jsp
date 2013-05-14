@@ -46,39 +46,61 @@
 	    
 	    <br/>
 	    
-
-	    <table border=1>
-	        <thead>
-	            <tr>
-	                <th>Participant Id</th>
-	                <th>Group Id</th>
-	                <th>First Name</th>
-	                <th>Last Name</th>
-	                <th>Date of birth</th>
-	                <th>Registration Date</th>
-	                <th>Approved</th>
-	                <th>Blocked</th>                	                	                
-	                <th colspan=2>Action</th>
-	            </tr>
-	        </thead>
-	              
-	        <tbody>
-	            <c:forEach items="${records}" var="record">
-	                <tr>
-	                    <td>${record.id}</td>
-	                    <td>${record.id_group}</td>
-	                    <td>${record.fname}</td>
-	                    <td>${record.lname}</td>
-	                    <td>${record.date_of_birth}</td>
-	                    <td>${record.registration_date}</td>  
-	                   	<td>${record.approved}</td>  
-	                   	<td>${record.blocked}</td>                 	                    	                    	                    
-	                    <td><a href="<c:url value='/private/participant.jsp?action=edit&id=${record.id}&id_group=${id_group}'/>">Update</a></td>
-	                    <td><a href="<c:url value='/private/participantDelete?action=delete&id=${record.id}&id_group=${id_group}'/>">Delete</a></td>
-	                </tr>
-	            </c:forEach>
-	        </tbody>
-	    </table>
+	    <c:set var="act">
+			<c:url value="/private/participantApprove?action=approve&id_group=${id_group}" /> 
+		</c:set>
+	    <form method="POST" action="${act}" name="frmApproveParticipan">
+		    <table border=1>
+		        <thead>
+		            <tr>
+		                <th>Participant Id</th>
+		                <th>Group Id</th>
+		                <th>First Name</th>
+		                <th>Last Name</th>
+		                <th>Date of birth</th>
+		                <th>Registration Date</th>
+		                <th>Approved</th>
+		                <th>Blocked</th>                	                	                
+		                <th colspan=2>Action</th>
+		            </tr>
+		        </thead>
+		              
+		        <tbody>
+	
+			            <c:forEach items="${records}" var="record">
+			                <tr>
+			                    <td>${record.id}</td>
+			                    <td>${record.id_group}</td>
+			                    <td>${record.fname}</td>
+			                    <td>${record.lname}</td>
+			                    <td>${record.date_of_birth}</td>
+			                    <td>${record.registration_date}</td>  
+			                   	<td>
+			                   		<input 
+			                   			type="checkbox" 
+			                   			name="approved" 
+			                   			<c:if test="${record.approved == false }">
+			                   				value="0"
+			                   			</c:if>
+			                   			<c:if test="${record.approved != false }">
+			                   				value="1"
+			                   				checked
+			                   			</c:if>	                   			
+			                   		/>
+								</td>  
+			                   	<td>${record.blocked}</td>                 	                    	                    	                    
+			                    <td><a href="<c:url value='/private/participant.jsp?action=edit&id=${record.id}&id_group=${id_group}'/>">Update</a></td>
+			                    <td><a href="<c:url value='/private/participantDelete?action=delete&id=${record.id}&id_group=${id_group}'/>">Delete</a></td>
+			                </tr>
+			            </c:forEach>
+			         
+		        </tbody>
+		    </table>
+		    
+		    <input type="submit" value="Approve" /><br />
+		    
+	    </form>
+	    
 	    <p><a href="participant.jsp?action=insert&id_group=${id_group}">Add Participant</a></p>
 	    <br />
 	   	<c:set var="act">

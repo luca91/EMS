@@ -39,7 +39,7 @@
 		<hr/>
 		
 		<c:set var="act">
-			<c:url value="/private/participantAdd?action=recordList" /> 
+			<c:url value="/private/participantAdd?action=edit" /> 
 		</c:set>
 
 	    <form method="POST" action="${act}" name="frmAddParticipan">
