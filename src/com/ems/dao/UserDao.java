@@ -88,9 +88,18 @@ public class UserDao {
             preparedStatement.setString(4, user.getEmail());
             preparedStatement.setString(5, user.getPassword());
             preparedStatement.setString(6, user.getRole());
-        	log.debug("addUser Execute Update");
+                        
+        	log.debug("addUser Execute Update on table user");
             preparedStatement.executeUpdate();
+            
+            preparedStatement = connection
+                    .prepareStatement("insert into user_role(ROLE_NAME,email) values (?, ?, ?, ?, ?, ? )");
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setString(2, user.getRole());
 
+        	log.debug("addUser Execute Update on table user_role");
+            preparedStatement.executeUpdate();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -109,6 +118,13 @@ public class UserDao {
                     .prepareStatement("delete from user where id=?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
+            
+            User u = getUserById(id);
+           
+            preparedStatement = connection
+                    .prepareStatement("delete from user_role where email=?");
+            preparedStatement.setString(1, u.getEmail());
+            preparedStatement.executeUpdate();            
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,6 +151,12 @@ public class UserDao {
             preparedStatement.setString(6, user.getRole());
             preparedStatement.setInt(7, user.getId());
             preparedStatement.executeUpdate();
+            
+            preparedStatement = connection
+                    .prepareStatement("update user_role set ROLE_NAME=? " +
+                            "where email=?");
+            preparedStatement.setString(1, user.getRole());
+            preparedStatement.setString(2, user.getEmail());
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,7 +174,7 @@ public class UserDao {
     	List<User> users = new ArrayList<User>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from user");
+            ResultSet rs = statement.executeQuery("SELECT * FROM user, user_role WHERE user.email = user_role.email");
             while (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
@@ -161,7 +183,7 @@ public class UserDao {
                 user.setDate_of_birth(rs.getString("date_of_birth"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
-                user.setRole(rs.getString("role"));
+                user.setRole(rs.getString("ROLE_NAME"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -182,7 +204,7 @@ public class UserDao {
         User user = new User();
         try {
             PreparedStatement preparedStatement = connection.
-                    prepareStatement("select * from user where id=?");
+                    prepareStatement("SELECT * FROM user, user_role WHERE user.email = user_role.email AND id = ?");
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -193,7 +215,7 @@ public class UserDao {
                 user.setDate_of_birth(rs.getString("date_of_birth"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
-                user.setRole(rs.getString("role"));
+                user.setRole(rs.getString("ROLE_NAME"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -226,13 +248,13 @@ public class UserDao {
         	User user = new User();
         	
         	if (rs.next()) {
-                user.setId(rs.getInt("id"));
-                user.setFname(rs.getString("fname"));
-                user.setLname(rs.getString("lname"));
-                user.setDate_of_birth(rs.getString("date_of_birth"));
-                user.setPassword(rs.getString("password"));
-                user.setEmail(rs.getString("email"));
-                user.setRole(rs.getString("role"));
+                //user.setId(rs.getInt("id"));
+                //user.setFname(rs.getString("fname"));
+                //user.setLname(rs.getString("lname"));
+                //user.setDate_of_birth(rs.getString("date_of_birth"));
+                //user.setPassword(rs.getString("password"));
+                //user.setEmail(rs.getString("email"));
+  
             	isValid = true;
             }
         } catch (SQLException e) {
@@ -259,7 +281,7 @@ public class UserDao {
         User user = new User();
         try {
             PreparedStatement preparedStatement = connection.
-                    prepareStatement("select * from user where email=?");
+                    prepareStatement("SELECT * FROM user, user_role WHERE user.email = user_role.email AND user.email=?");
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -270,7 +292,7 @@ public class UserDao {
                 user.setDate_of_birth(rs.getString("date_of_birth"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
-                user.setRole(rs.getString("role"));
+                user.setRole(rs.getString("ROLE_NAME"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

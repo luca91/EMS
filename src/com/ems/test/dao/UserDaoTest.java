@@ -207,7 +207,8 @@ public class UserDaoTest {
 	
 	    	String sql = 	
 	    			"SELECT COUNT(*) AS nr_rows" +
-	    			" FROM user";
+	    			" FROM user, user_role" +
+	    			" WHERE user.email = user_role.email";	    					;
 	    	stmt = conn.createStatement();
 	    	rs = stmt.executeQuery(sql);
 	    	rs.next();
@@ -258,7 +259,14 @@ public class UserDaoTest {
 	    			" VALUES ('" + fname +"', '" + lname + "', '" + date_of_birth + "', '" +  email + "', '" + password + "', '" + role + "');";
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
-	    	   	
+
+	    	sql = 
+	    			"INSERT" +
+					" INTO user_role(ROLE_NAME, email) " +
+	    			" VALUES ('" + role +"', '" + email + "');";
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);	    	
+	    	
 	    	UserDao obj = new UserDao(conn);
 	
 	    	User aRecord = obj.getUserByEmail(email);
