@@ -241,7 +241,7 @@ public class GroupDaoTest {
 	        }//end finally try
 	    }
     	
-		log.debug("testGetAllUsers() - END");	
+		log.debug("END");	
     }
 
 	@Test
