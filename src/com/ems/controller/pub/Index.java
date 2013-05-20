@@ -9,11 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
+import com.ems.controller.priv.UserController;
+
 /**
  * Servlet implementation class Index
  */
 @WebServlet("/public/index.html")
 public class Index extends HttpServlet {
+	
+	// commons logging references
+	static Logger log = Logger.getLogger(UserController.class.getName());
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -28,11 +36,7 @@ public class Index extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
-		response.setContentType("text/html");
-        PrintWriter printWriter  = response.getWriter();
-        printWriter.println("<h1>Hello World!</h1>");
-        */
+		log.debug("START");
 		try {
 			//request.setAttribute ("servletName", "MyServlet");
 			getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/public/index.jsp").forward(request, response);
