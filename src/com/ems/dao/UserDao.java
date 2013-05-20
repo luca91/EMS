@@ -93,9 +93,10 @@ public class UserDao {
             preparedStatement.executeUpdate();
             
             preparedStatement = connection
-                    .prepareStatement("insert into user_role(ROLE_NAME,email) values (?, ?, ?, ?, ?, ? )");
-            preparedStatement.setString(1, user.getEmail());
-            preparedStatement.setString(2, user.getRole());
+                    .prepareStatement("insert into user_role(ROLE_NAME,email) values (?, ?)");
+            preparedStatement.setString(1, user.getRole());
+            preparedStatement.setString(2, user.getEmail());
+
 
         	log.debug("addUser Execute Update on table user_role");
             preparedStatement.executeUpdate();
@@ -114,16 +115,18 @@ public class UserDao {
     public void deleteUser(int id) {
     	log.trace("START");
         try {
+            User u = getUserById(id);
+            
             PreparedStatement preparedStatement = connection
                     .prepareStatement("delete from user where id=?");
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, id); 
+            log.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();
-            
-            User u = getUserById(id);
-           
+                  
             preparedStatement = connection
                     .prepareStatement("delete from user_role where email=?");
             preparedStatement.setString(1, u.getEmail());
+            log.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();            
 
         } catch (SQLException e) {
@@ -140,6 +143,10 @@ public class UserDao {
     public void updateUser(User user) {
     	log.debug("START");
         try {
+        	
+        	User oldUser = getUserById(user.getId());
+        	log.debug("oldUser.email: " +oldUser.getEmail());
+        	
             PreparedStatement preparedStatement = connection
                     .prepareStatement("update user set fname=?, lname=?, date_of_birth=?,email=?, password=?, role=? " +
                             "where id=?");
@@ -153,17 +160,44 @@ public class UserDao {
             preparedStatement.executeUpdate();
             
             preparedStatement = connection
-                    .prepareStatement("update user_role set ROLE_NAME=? " +
+                    .prepareStatement("update user_role set ROLE_NAME=?, email=? " +
                             "where email=?");
             preparedStatement.setString(1, user.getRole());
             preparedStatement.setString(2, user.getEmail());
-
+            preparedStatement.setString(3, oldUser.getEmail());
+            log.debug(preparedStatement.toString());
+            preparedStatement.executeUpdate();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
     	log.trace("END");
     }
 
+    /**
+     * Update the password of a given user
+     * 
+     * @param email The email of the user
+     * @param passwordr New Password
+     */
+    public boolean updatePassword(int id, String password) {
+    	log.debug("START");
+        try {
+        	     	
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("update user set password=? " +
+                            "where id=?");
+            preparedStatement.setString(1, password);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+            return true;
+                       
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     /**
      * Returns the list of all users stored in table User
      * 
@@ -194,6 +228,42 @@ public class UserDao {
     }
 
     /**
+     * Returns the list of all users with a particular role
+     * 
+     * @return List<User> List of objects User
+     */
+    public List<User> getAllRecordWithRole(String aRole) {
+        log.trace("START");
+    	List<User> users = new ArrayList<User>();
+        try {
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * " +
+						" FROM " +
+						" ems.user, user_role " +
+						" WHERE user.email = user_role.email " +
+						" and user_role.ROLE_NAME = '" + aRole +"'";
+            log.debug(sql);
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setFname(rs.getString("fname"));
+                user.setLname(rs.getString("lname"));
+                user.setDate_of_birth(rs.getString("date_of_birth"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("email"));
+                user.setRole(rs.getString("ROLE_NAME"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+        return users;
+    }
+  
+    /**
      * Returns the user passing its id
      * 
      * @param id Identifier of the user to get
@@ -207,7 +277,6 @@ public class UserDao {
                     prepareStatement("SELECT * FROM user, user_role WHERE user.email = user_role.email AND id = ?");
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-
             if (rs.next()) {
                 user.setId(rs.getInt("id"));
                 user.setFname(rs.getString("fname"));
@@ -284,7 +353,7 @@ public class UserDao {
                     prepareStatement("SELECT * FROM user, user_role WHERE user.email = user_role.email AND user.email=?");
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
-
+            log.debug(preparedStatement.toString());
             if (rs.next()) {
                 user.setId(rs.getInt("id"));
                 user.setFname(rs.getString("fname"));
