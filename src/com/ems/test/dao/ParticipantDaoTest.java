@@ -164,7 +164,7 @@ public class ParticipantDaoTest {
 		String lname = "fakeGroupLname";
 		String email = "fakeEmail@fake2domain.fake1domain";
 		String date_of_birth = "29991231";
-		String registration_date = "20991231";
+		//String registration_date = "20991231";
 		boolean approved = false;
 		boolean blocked = false;
 
@@ -272,7 +272,7 @@ public class ParticipantDaoTest {
 		String lname = "fakeLname";
 		String email = "fakeEmail";
 		String date_of_birth = "29991231";
-		String registration_date = "20991231";
+		//String registration_date = "20991231";
 		boolean approved = false;
 		boolean blocked = false;
 
@@ -331,7 +331,7 @@ public class ParticipantDaoTest {
 		String lname = "fakeLname";
 		String email = "fakeEmail";
 		String date_of_birth = "29991231";
-		String registration_date = "20991231";
+		//String registration_date = "20991231";
 		boolean approved = false;
 		boolean blocked = false;
 
