@@ -23,15 +23,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
 import com.ems.dao.EventDao;
 import com.ems.dao.GroupDao;
 import com.ems.dao.ParticipantDao;
+import com.ems.dao.UserDao;
 import com.ems.model.Event;
 import com.ems.model.Group;
 import com.ems.model.Participant;
+import com.ems.model.User;
 
 
 /**
@@ -53,6 +56,8 @@ public class ParticipantController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static String INSERT_OR_EDIT = "/participant.jsp";
     private static String LIST_USER = "/participantList.jsp";
+    private static String UNAUTHORIZED_PAGE = "/WEB-INF/jsp/private/errors/unauthorized.jsp";
+    
     private ParticipantDao dao;   
 	
     /**
@@ -72,7 +77,15 @@ public class ParticipantController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.trace("START");
-    	
+
+		UserDao ud = new UserDao();
+		User  systemUser = ud.getUserByEmail(request.getUserPrincipal().getName());
+		
+		HttpSession session = request.getSession(true);
+		session.removeAttribute("systemUser");
+		session.setAttribute("systemUser",systemUser);
+		
+
     	log.debug("id_group: " + request.getParameter("id_group"));
     	
     	// Used for invitation
@@ -80,9 +93,13 @@ public class ParticipantController extends HttpServlet {
     	request.setAttribute("showCount", request.getParameter("showCount"));
     	
 
+    	
     	int id_group = 0;
     	if (request.getParameter("id_group") != null){
+    		log.debug("id_group is not null!");
     		id_group = Integer.parseInt(request.getParameter("id_group").toString());
+        	EventDao ed = new EventDao();
+        	request.setAttribute("event", ed.getRecordById_group(id_group));
     	}
     	request.setAttribute("id_group", id_group);
     	
@@ -92,49 +109,101 @@ public class ParticipantController extends HttpServlet {
         	log.debug("action is NULL");
         	action="";
         }
-        
+// #########################################################################################         
         if (action.equalsIgnoreCase("delete")){
             log.debug("action: DELETE - " + action);
             int id = Integer.parseInt(request.getParameter("id"));
-            dao.deleteRecord(id);
-            forward = LIST_USER;
-            request.setAttribute("records", dao.getAllRecords());  
-            GroupDao ed = new GroupDao();
-            request.setAttribute("groups", ed.getAllRecords());
-        } else if (action.equalsIgnoreCase("edit")){
+            
+            List<Integer> listOfAuthorizedId = dao.canBeChangedBy(id);
+            if (listOfAuthorizedId.contains(systemUser.getId())){
+            	dao.deleteRecord(id);
+            	forward = LIST_USER;
+            	request.setAttribute("records", dao.getAllRecords());  
+            	GroupDao ed = new GroupDao();
+            	request.setAttribute("groups", ed.getAllRecords());
+            }
+            else {
+            	forward = UNAUTHORIZED_PAGE;
+            }
+        }
+// #########################################################################################         
+        else if (action.equalsIgnoreCase("edit")){
             log.debug("action: EDIT - " + action);
-            forward = INSERT_OR_EDIT;
+            log.debug("systemUser: " + systemUser.getId());
             int id = Integer.parseInt(request.getParameter("id"));
-            Participant record = dao.getRecordById(id);
-            request.setAttribute("record", record);
-        } else if (action.equalsIgnoreCase("insert")){
+
+            List<Integer> listOfAuthorizedId = dao.canBeChangedBy(id);
+            if (listOfAuthorizedId.contains(systemUser.getId())){
+            	log.debug("systemUser can modify the record");
+                Participant record = dao.getRecordById(id);
+                request.setAttribute("record", record);   
+                forward = INSERT_OR_EDIT;
+            }
+            else {
+            	log.debug("systemUser can NOT modify the record");
+            	forward = UNAUTHORIZED_PAGE;
+            }
+        }
+// ########################################################################################        
+        else if (action.equalsIgnoreCase("insert")){
             log.debug("action: INSERT - " + action);
             request.removeAttribute("record");
             forward = INSERT_OR_EDIT;
-        } else if (action.equalsIgnoreCase("listRecord")){
-            log.debug("action: listRecord - " + action);
-            forward = LIST_USER;
-            request.setAttribute("records", dao.getAllRecordsById_group(id_group));
-            GroupDao gd = new GroupDao();
-            request.setAttribute("groups", gd.getAllRecords());
-        } else {
-            log.debug("action: ELSE - " + action);
-            forward = LIST_USER;
-            request.setAttribute("records", dao.getAllRecordsById_group(id_group));
-            GroupDao gd = new GroupDao();
-            request.setAttribute("groups", gd.getAllRecords());
         }
-    	
+// #########################################################################################
+        //list record using a group_id
+        else if (action.equalsIgnoreCase("listRecord")){
+            log.debug("action: listRecord - " + action);
+            if (systemUser.getRole().equals("admin")){
+                log.debug("admin");
+                forward = LIST_USER;
+                request.setAttribute("records", dao.getAllRecordsById_group(id_group));
+                GroupDao gd = new GroupDao();
+                request.setAttribute("groups", gd.getAllRecords());
+            }
+            else if (systemUser.getRole().equals("event_mng")){
+                log.debug("event_mng");
+                forward = LIST_USER;
+                request.setAttribute("records", dao.getAllRecordsById_group(id_group));
+                GroupDao gd = new GroupDao();
+                request.setAttribute("groups", gd.getRecordsById_manager(systemUser.getId()));
+            }
+            else if (systemUser.getRole().equals("group_mng")){
+                forward = LIST_USER;
+                request.setAttribute("records", dao.getAllRecordsById_group(id_group));
+                GroupDao gd = new GroupDao();
+                request.setAttribute("groups", gd.getRecordsById_group_referent(systemUser.getId()));
+            }   
+        }
+        //list records without an id_group
+        else {
+            if (systemUser.getRole().equals("admin")){
+                log.debug("admin");
+                forward = LIST_USER;
+                request.setAttribute("records", dao.getAllRecordsById_group(id_group));
+                GroupDao gd = new GroupDao();
+                request.setAttribute("groups", gd.getAllRecords());
+            }
+            else if (systemUser.getRole().equals("event_mng")){
+                log.debug("event_mng");
+                forward = LIST_USER;
+                request.setAttribute("records", dao.getAllRecordsById_group(id_group));
+                GroupDao gd = new GroupDao();
+                request.setAttribute("groups", gd.getRecordsById_manager(systemUser.getId()));
+            }
+            else if (systemUser.getRole().equals("group_mng")){
+                forward = LIST_USER;
+                request.setAttribute("records", dao.getAllRecordsById_group(id_group));
+                GroupDao gd = new GroupDao();
+                request.setAttribute("groups", gd.getRecordsById_group_referent(systemUser.getId()));
+            }
+        }
+// #########################################################################################     	
         log.debug("forward: " + forward);
         log.debug("action: " + action);
-    	/*
-        RequestDispatcher view = request.getRequestDispatcher(forward);
-        view.forward(request, response);
-    	log.trace("END");
-    	 */	
-    	
-        forward = "/WEB-INF/jsp/private" + forward;
-        log.debug("forward: " + forward);
+    	        
+		forward = "/WEB-INF/jsp/private" + forward;
+
         
 		try {
 			getServletConfig().getServletContext().getRequestDispatcher(forward).forward(request, response);
@@ -150,6 +219,26 @@ public class ParticipantController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.trace("START");
     	Participant record = new Participant();
+    	
+		UserDao ud = new UserDao();
+		User  systemUser = ud.getUserByEmail(request.getUserPrincipal().getName());
+		
+		HttpSession session = request.getSession(true);
+		session.removeAttribute("systemUser");
+		session.setAttribute("systemUser",systemUser);
+    	
+        if (systemUser.getRole().equals("admin")){
+            GroupDao gd = new GroupDao();
+            request.setAttribute("groups", gd.getAllRecords());
+        }
+        else if (systemUser.getRole().equals("event_mng")){
+            GroupDao gd = new GroupDao();
+            request.setAttribute("groups", gd.getRecordsById_manager(systemUser.getId()));
+        }
+        else if (systemUser.getRole().equals("group_mng")){
+            GroupDao gd = new GroupDao();
+            request.setAttribute("groups", gd.getRecordsById_group_referent(systemUser.getId()));
+        }
     	
     	int id_group = 0;
     	
@@ -189,20 +278,14 @@ public class ParticipantController extends HttpServlet {
 	        	record.setId(Integer.parseInt(id));
 	            dao.updateRecord(record);
 	            request.setAttribute("id_group", id_group);
+	            
 	        }
 	        
-	        GroupDao gd = new GroupDao();
-	        request.setAttribute("groups", gd.getAllRecords());
-	        
-	        String forward = "/WEB-INF/jsp/private" + LIST_USER;
+	        String forward = "participantList.html?action=listRecord&id_group=" + id_group;
 	        log.debug("forward: " + forward);
-	        request.setAttribute("records", dao.getAllRecordsById_group(id_group));
-			try {
-				getServletConfig().getServletContext().getRequestDispatcher(forward).forward(request, response);
-				} 
-			catch (Exception ex) {
-					ex.printStackTrace();
-				}
+
+	        response.sendRedirect(forward);
+			
     	}
     	else if (request.getParameter("action").equals("invite") ){
     		//invite participant
@@ -231,8 +314,6 @@ public class ParticipantController extends HttpServlet {
 
 	        String forward = "participantList.html?action=listRecord&id_group=" + id_group + "&count=" + count + "&showCount=y";
 	        log.debug("forward: " + forward);
-	        request.setAttribute("records", dao.getAllRecordsById_group(id_group));
-
 	        
 	        response.sendRedirect(forward);
     	}
@@ -240,8 +321,6 @@ public class ParticipantController extends HttpServlet {
     		//approve enrollment
     		log.debug("APPROVE");
     		log.debug("action: " + request.getParameter("action"));
-	        GroupDao gd = new GroupDao();
-	        request.setAttribute("groups", gd.getAllRecords());
 	        
 	        ParticipantDao pd = new ParticipantDao();
 	        List<Participant>  list = pd.getAllRecordsById_group(id_group);
@@ -256,9 +335,7 @@ public class ParticipantController extends HttpServlet {
 	        
 	        String forward = "participantList.html?action=listRecord&id_group=" + id_group;
 	        log.debug("forward: " + forward);
-	        request.setAttribute("records", dao.getAllRecordsById_group(id_group));
-
-	        
+        
 	        response.sendRedirect(forward);
     		
     	}

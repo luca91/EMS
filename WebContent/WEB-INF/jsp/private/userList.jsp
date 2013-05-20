@@ -6,34 +6,23 @@
 	<head>
 		<title>Show All Users</title>
 	</head>
+<script>
+function confirmDelete(){
+	var msg ="Are you sure to delete the record?";
+	if(confirm(msg)){
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+</script>	
+	
 	<body>
-		<table>
-			<tr>
-				<td>email:</td>
-				<td>${systemUser.email}</td>
-			</tr>
-			<tr>
-				<td>role:</td>
-				<td>${systemUser.role}</td>
-			</tr>
-			<tr>
-				<td>date:</td>
-				<td>
-					<jsp:useBean id="today" class="java.util.Date" scope="page" />
-					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
-				</td>
-			</tr>
-		</table>
-		
-		<hr/>
-		<a href='<c:url value="/private/index.html"/>'>Home Page</a> |
-		<a href='<c:url value="/private/userList.html"/>'>Users Management</a> |
-		<a href='<c:url value="/private/eventList.html"/>'>Events Management</a> |
-		<a href='<c:url value="/private/groupList.html"/>'>Groups Management</a> |
-		<a href='<c:url value="/private/participantList.html"/>'>Participants Management</a>
-		<hr/>
-		
+		<c:import url="inc/header.jsp"/>
+		<h1>Users</h1>	
 	    <table border=1>
+    	
 	        <thead>
 	            <tr>
 	                <th>User Id</th>
@@ -51,7 +40,7 @@
 	                    <td>${user.lname}</td>
 	                    <td>${user.email}</td>
 	                    <td><a href="<c:url value='/private/user.jsp?action=edit&id=${user.id}'/>">Update</a></td>
-	                    <td><a href="<c:url value='/private/userDelete?action=delete&id=${user.id}'/>">Delete</a></td>
+	                    <td><a href="<c:url value='/private/userDelete?action=delete&id=${user.id}'/>" onclick="return confirmDelete();">Delete</a></td>
 	                </tr>
 	            </c:forEach>
 	        </tbody>

@@ -1,0 +1,18 @@
+		<%
+		/* String name = request.getUserPrincipal().getName();
+		String role = "";
+		
+		if (request.isUserInRole("admin")) {
+		   role = "admin";
+		} else if (request.isUserInRole("staff")) {
+			role = "staff";
+		} else if (request.isUserInRole("student")) {
+			role = "student";
+		}
+		out.println("User: " + name);
+		out.println("<br/>");
+		out.println("Role: " + role);
+		out.println("<br/>"); */
+		%>
+		<%-- ${pageContext.request.userPrincipal.name} 
+		${pageContext.request.remoteUser} --%>

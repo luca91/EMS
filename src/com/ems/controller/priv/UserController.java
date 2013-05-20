@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -30,6 +31,8 @@ public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static String INSERT_OR_EDIT = "/user.jsp";
     private static String LIST_USER = "/userList.jsp";
+    private static String UNAUTHORIZED_PAGE = "/WEB-INF/jsp/private/errors/unauthorized.jsp";
+    
     private UserDao dao;   
 	
     /**
@@ -47,32 +50,54 @@ public class UserController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.trace("START");
     	String forward="";
         String action = request.getParameter("action");
+        
+		UserDao ud = new UserDao();
+		User  systemUser = ud.getUserByEmail(request.getUserPrincipal().getName());
+		
+		HttpSession session = request.getSession(true);
+		session.removeAttribute("systemUser");
+		session.setAttribute("systemUser",systemUser);
+        
+        
+        
         if (action == null){
         	log.debug("action is NULL");
         	action="";
         }
-        
+// #########################################################################################          
         if (action.equalsIgnoreCase("delete")){
             log.debug("action: DELETE - " + action);
             int id = Integer.parseInt(request.getParameter("id"));
-            dao.deleteUser(id);
-            forward = LIST_USER;
-            request.setAttribute("users", dao.getAllUsers());    
-        } else if (action.equalsIgnoreCase("edit")){
+            if (systemUser.getRole().equals("admin")){
+            	dao.deleteUser(id);
+            	forward = LIST_USER;
+            	request.setAttribute("users", dao.getAllUsers());
+            }              
+        } 
+// #########################################################################################        
+        else if (action.equalsIgnoreCase("edit")){
             log.debug("action: EDIT - " + action);
             forward = INSERT_OR_EDIT;
             int id = Integer.parseInt(request.getParameter("id"));
-            User user = dao.getUserById(id);
-            request.setAttribute("user", user);
-        } else if (action.equalsIgnoreCase("insert")){
+            if (systemUser.getRole().equals("admin")){
+            	User user = dao.getUserById(id);
+            	request.setAttribute("user", user);
+            }
+        }
+// #########################################################################################        
+        else if (action.equalsIgnoreCase("insert")){
             log.debug("action: INSERT - " + action);
             request.removeAttribute("user");
-            forward = INSERT_OR_EDIT;
-        } else if (action.equalsIgnoreCase("listUser")){
+            if (systemUser.getRole().equals("admin")){
+            	forward = INSERT_OR_EDIT;
+            }
+        } 
+// #########################################################################################        
+        else if (action.equalsIgnoreCase("listUser")){
             log.debug("action: listUser - " + action);
             forward = LIST_USER;
             request.setAttribute("users", dao.getAllUsers());
@@ -84,14 +109,20 @@ public class UserController extends HttpServlet {
     	
         log.debug("forward: " + forward);
         log.debug("action: " + action);
-    	/*
-        RequestDispatcher view = request.getRequestDispatcher(forward);
-        view.forward(request, response);
-    	log.trace("END");
-    	 */	
     	
-        forward = "/WEB-INF/jsp/private" + forward;
-        log.debug("forward: " + forward);
+        log.debug("######################");
+        log.debug("systemUser.getRole(): " + systemUser.getRole().toString());
+        
+		if (systemUser.getRole().equals("admin")){
+	        log.debug("systemUser is an admin");
+		    forward = "/WEB-INF/jsp/private" + forward;
+		}
+		else {
+	        log.debug("systemUser is NOT an admin");
+			forward = UNAUTHORIZED_PAGE;
+		}
+		        
+		log.debug("forward: " + forward);
         
 		try {
 			getServletConfig().getServletContext().getRequestDispatcher(forward).forward(request, response);

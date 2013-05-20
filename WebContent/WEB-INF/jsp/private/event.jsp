@@ -12,31 +12,7 @@
 	<title>Event Form</title>
 	</head>
 	<body>
-		<table>
-			<tr>
-				<td>email:</td>
-				<td>${systemUser.email}</td>
-			</tr>
-			<tr>
-				<td>role:</td>
-				<td>${systemUser.role}</td>
-			</tr>
-			<tr>
-				<td>date:</td>
-				<td>
-					<jsp:useBean id="today" class="java.util.Date" scope="page" />
-					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
-				</td>
-			</tr>
-		</table>
-
-		<hr/>
-		<a href='<c:url value="/private/index.html"/>'>Home Page</a> |
-		<a href='<c:url value="/private/userList.html"/>'>Users Management</a> |
-		<a href='<c:url value="/private/eventList.html"/>'>Events Management</a> |
-		<a href='<c:url value="/private/groupList.html"/>'>Groups Management</a> |
-		<a href='<c:url value="/private/participantList.html"/>'>Participants Management</a>
-		<hr/>
+		<c:import url="inc/header.jsp"/>
 		
 		<c:set var="act">
 			<c:url value="/private/eventAdd?action=eventList" /> 
@@ -44,10 +20,57 @@
 	
 	    <form method="POST" action="${act}" name="frmAddEvent">
 	        Event ID : <input type="text" readonly="readonly" name="id"
-	            value="${record.id}" /> <br /> 
-	        manager ID : <input
-	            type="text" name="id_manager"
-	            value="${record.id_manager}" /> <br /> 
+	            value="${record.id}" /> - TO BE HIDDEN<br /> 
+	        manager ID : 
+	            <c:choose>
+	               	<c:when test="${record.id_manager != null  && sessionScope.systemUser.role == 'admin'}">
+	            		<select name="id_manager">
+	           				<c:forEach items="${listOfEvent_mng}" var="options">	               
+	                			<option value="${options.id }" 
+	                				<c:if test="${options.id == record.id_manager }">selected</c:if> 
+	                			>${options.id } - ${options.fname} ${options.lname }</option>
+	            			</c:forEach>
+	            		</select>
+	            		<input
+	            			type="text" name="id_manager"
+	            			value="${record.id_manager}"
+	            		/>
+	            	</c:when>
+	               	<c:when test="${record.id_manager != null && sessionScope.systemUser.role == 'event_mng'}">
+	            		<select name="id_manager" disabled>
+	           				<c:forEach items="${listOfEvent_mng}" var="options">	               
+	                			<option value="${options.id }"
+	                				<c:if test="${options.id == record.id_manager }">selected</c:if> 
+	                			>${options.id } - ${options.fname} ${options.lname }</option>
+	            			</c:forEach>
+	            		</select>
+	            		<input
+	            			type="text" name="id_manager"
+	            			value="${record.id_manager}"
+	            			readonly="readonly"
+	            		/>
+	            	</c:when>	            	
+	            	<c:when test="${sessionScope.systemUser.role == 'event_mng' }">
+	            		<input
+	            			type="text" name="id_manager"
+	            			value="${sessionScope.systemUser.id}"
+	            			readonly="readonly"
+	            		/>
+	            		
+	            	</c:when>
+	            	<c:otherwise>
+	               		<select name="id_manager">
+	           				<c:forEach items="${listOfEvent_mng}" var="record">	               
+	                			<option value="${record.id }">${record.id } - ${record.fname} ${record.lname }</option>
+	            			</c:forEach>
+	            		</select>
+	            		<input
+	            			type="text" name="id_manager"
+	            			value=""
+	            		/>
+	            	</c:otherwise>
+	            </c:choose>
+	             <br /> 
 	        Event Name : <input
 	            type="text" name="name"
 	            value="${record.name}" /> <br /> 
@@ -62,7 +85,11 @@
 	            value="${record.enrollment_start}" /> <br /> 
 	      	Enrollment end : <input type="text" name="enrollment_end"
 	            value="${record.enrollment_end}" /> <br />             
-	        <input type="submit" value="Submit" />
+	        <input type="submit" value="Submit" />         
+	        <input type="button" value="Back" onClick="history.go(-1);return true;"/>
+        	<c:if test="${param.id eq null }">
+        		<input type="reset" value="Reset"/>
+        	</c:if>
 	    </form>
 	</body>
 </html>

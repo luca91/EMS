@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>Show All Participants</title>
+		<title>Show Participants</title>
 	</head>
 <script>
 function confirmSend(list){
@@ -27,38 +27,30 @@ function confirmSend(list){
 		return false;
 	}
 }
+
+function confirmDelete(){
+	var msg ="Are you sure to delete the record?";
+	if(confirm(msg)){
+		return true;
+	}
+	else {
+		return false;
+	}
+}
 </script>
 
 
 	<body>
-		<table>
-			<tr>
-				<td>email:</td>
-				<td>${sessionScope.systemUser.email}</td>
-			</tr>
-			<tr>
-				<td>role:</td>
-				<td>${sessionScope.systemUser.role}</td>
-			</tr>
-			<tr>
-				<td>date:</td>
-				<td>
-					<jsp:useBean id="today" class="java.util.Date" scope="page" />
-					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
-				</td>
-			</tr>
-		</table>
+		<c:import url="inc/header.jsp"/>
+
+		<c:choose>
+			<c:when test="${id_group != 0}">
+				<h1>Participants <c:if test="${id_group != 0 }">for Group: ${id_group}</c:if></h1>	
+			</c:when>
+		</c:choose>
 		
-		<hr/>
-		<a href='<c:url value="/private/index.html"/>'>Home Page</a> |
-		<a href='<c:url value="/private/userList.html"/>'>Users Management</a> |
-		<a href='<c:url value="/private/eventList.html"/>'>Events Management</a> |
-		<a href='<c:url value="/private/groupList.html"/>'>Groups Management</a> |
-		<a href='<c:url value="/private/participantList.html"/>'>Participants Management</a>
-		<hr/>
 
-		<h1>Participants for id_group = ${id_group}</h1>
-
+		<c:if test="${groups != null}">
 	    Choose a Group:
 	    <select>
 	    	<option selected></option>
@@ -66,9 +58,9 @@ function confirmSend(list){
 	    		<c:url value="/private/participantList.html?action=listRecord&id_group=${group.id}" var="url"/>
 	    		<option value="${group.id}" onClick="window.location.href='${url}'">${group.id}</option>
 	    	</c:forEach>
-	    </select>
-	    
+	    </select>	    
 	    <br/>
+	    </c:if>
 	    
 	    <c:set var="act">
 			<c:url value="/private/participantApprove?action=approve&id_group=${id_group}" /> 
@@ -85,13 +77,11 @@ function confirmSend(list){
 		                <th>Date of birth</th>
 		                <th>Registration Date</th>
 		                <th>Approved</th>
-		                <th>Blocked</th>                	                	                
+		                <!-- <th>Blocked</th> -->                	                	                
 		                <th colspan=2>Action</th>
 		            </tr>
-		        </thead>
-		              
+		        </thead>		              
 		        <tbody>
-	
 			            <c:forEach items="${records}" var="record">
 			                <tr>
 			                    <td>${record.id}</td>
@@ -102,21 +92,24 @@ function confirmSend(list){
 			                    <td>${record.date_of_birth}</td>
 			                    <td>${record.registration_date}</td>  
 			                   	<td>${record.approved}</td>  
-			                   	<td>${record.blocked}</td>                 	                    	                    	                    
+			                   	<!-- <td>${record.blocked}</td> -->                 	                    	                    	                    
 			                    <td><a href="<c:url value='/private/participant.jsp?action=edit&id=${record.id}&id_group=${id_group}'/>">Update</a></td>
-			                    <td><a href="<c:url value='/private/participantDelete?action=delete&id=${record.id}&id_group=${id_group}'/>">Delete</a></td>
+			                    <td><a href="<c:url value='/private/participantDelete?action=delete&id=${record.id}&id_group=${id_group}'/>" onclick="return confirmDelete();" >Delete</a></td>
 			                </tr>
 			            </c:forEach>
 			         
 		        </tbody>
 		    </table>
 		    
-		    <input type="submit" value="Approve All" /><br />
-		    
+		    <c:if test="${not empty records}">
+		    	<input type="submit" value="Approve All" /><br />
+		    </c:if>
 	    </form>
-	    
-	    <p><a href="participant.jsp?action=insert&id_group=${id_group}">Add Participant</a></p>
-	    <br />
+	   	
+	   	<c:if test="${id_group != 0}">
+	    	<p><a href="participant.jsp?action=insert&id_group=${id_group}">Add Participant</a></p>
+	    	<br />
+	    </c:if>
 	    
 	    <c:if test="${id_group != 0  }">
 		   	<c:set var="act">

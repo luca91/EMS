@@ -6,33 +6,20 @@
 	<head>
 		<title>Show All Events</title>
 	</head>
+<script>
+function confirmDelete(){
+	var msg ="Are you sure to delete the record?";
+	if(confirm(msg)){
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+</script>	
 	<body>
-		<table>
-			<tr>
-				<td>email:</td>
-				<td>${systemUser.email}</td>
-			</tr>
-			<tr>
-				<td>role:</td>
-				<td>${systemUser.role}</td>
-			</tr>
-			<tr>
-				<td>date:</td>
-				<td>
-					<jsp:useBean id="today" class="java.util.Date" scope="page" />
-					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
-				</td>
-			</tr>
-		</table>
-		
-		<hr/>
-		<a href='<c:url value="/private/index.html"/>'>Home Page</a> |
-		<a href='<c:url value="/private/userList.html"/>'>Users Management</a> |
-		<a href='<c:url value="/private/eventList.html"/>'>Events Management</a> |
-		<a href='<c:url value="/private/groupList.html"/>'>Groups Management</a> |
-		<a href='<c:url value="/private/participantList.html"/>'>Participants Management</a>
-		<hr/>
-		
+		<c:import url="inc/header.jsp"/>
+		<h1>Events</h1>	
 	    <table border=1>
 	        <thead>
 	            <tr>
@@ -59,7 +46,7 @@
 	                    <td>${record.enrollment_start}</td>
 	                    <td>${record.enrollment_end}</td>	                    	                    	                    	                    
 	                    <td><a href="<c:url value='/private/event.jsp?action=edit&id=${record.id}'/>">Update</a></td>
-	                    <td><a href="<c:url value='/private/eventDelete?action=delete&id=${record.id}'/>">Delete</a></td>
+	                    <td><a href="<c:url value='/private/eventDelete?action=delete&id=${record.id}'/>" onclick="return confirmDelete();">Delete</a></td>
 	                	<td><a href="<c:url value='/private/groupList.html?action=listRecord&id_event=${record.id}'/>">Groups</a></td>
 	                </tr>
 	            </c:forEach>

@@ -12,31 +12,7 @@
 	<title>Add new user</title>
 	</head>
 	<body>
-		<table>
-			<tr>
-				<td>email:</td>
-				<td>${systemUser.email}</td>
-			</tr>
-			<tr>
-				<td>role:</td>
-				<td>${systemUser.role}</td>
-			</tr>
-			<tr>
-				<td>date:</td>
-				<td>
-					<jsp:useBean id="today" class="java.util.Date" scope="page" />
-					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
-				</td>
-			</tr>
-		</table>
-
-		<hr/>
-		<a href='<c:url value="/private/index.html"/>'>Home Page</a> |
-		<a href='<c:url value="/private/userList.html"/>'>Users Management</a> |
-		<a href='<c:url value="/private/eventList.html"/>'>Events Management</a> |
-		<a href='<c:url value="/private/groupList.html"/>'>Groups Management</a> |
-		<a href='<c:url value="/private/participantList.html"/>'>Participants Management</a>
-		<hr/>
+		<c:import url="inc/header.jsp"/>
 		
 		<c:set var="act">
 			<c:url value="/private/userAdd?action=userList" /> 
@@ -44,7 +20,7 @@
 		
 	    <form method="POST" action="${act}" name="frmAddUser">
 	        User ID : <input type="text" readonly="readonly" name="id"
-	            value="${user.id}" /> <br /> 
+	            value="${user.id}" /> - TO BE HIDDEN<br /> 
 	        First Name : <input
 	            type="text" name="fname"
 	            value="${user.fname}" /> <br /> 
@@ -54,13 +30,35 @@
 	        Date of Birth : <input
 	            type="text" name="date_of_birth"
 	            value="${user.date_of_birth}" /> <br /> 	            
-	        Password : <input type="text" name="password"
-	            value="${user.password}" /> <br />
+	       		<input type="hidden" name="password"
+	            value="${user.password}" />
 	        Email : <input type="text" name="email"
 	            value="${user.email}" /> <br /> 
-	        Role : <input type="text" name="role"
-	            value="${user.role}" /> <br /> 	            
-	        <input type="submit" value="Submit" />
+	        Role :	<select name="role">
+	        			<option value="admin" 
+	        				<c:if test="${user.role == 'admin'}">selected</c:if>
+	        				>
+	        				admin
+	        			</option>
+	        			<option value="event_mng" 
+	        				<c:if test="${user.role == 'event_mng'}">selected</c:if>
+	        				>
+	        				event_mng
+	        			</option>
+	        			<option value="group_mng" 
+	        				<c:if test="${user.role == 'group_mng'}">selected</c:if>
+	        				>
+	        				group_mng
+	        			</option>
+	        		</select>
+	        <br />
+	        
+	        <input type="submit" value="Submit" />         
+	        <input type="button" value="Back" onClick="history.go(-1);return true;"/>
+        	<c:if test="${param.id eq null }">
+        		<input type="reset" value="Reset"/>
+        	</c:if>
+
 	    </form>
 	</body>
 </html>

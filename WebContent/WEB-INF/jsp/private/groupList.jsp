@@ -4,49 +4,56 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>Show All Groups</title>
+		<title>Show Groups</title>
 	</head>
+<script>
+function confirmDelete(){
+	var msg ="Are you sure to delete the record?";
+	if(confirm(msg)){
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+</script>	
 	<body>
-		<table>
-			<tr>
-				<td>email:</td>
-				<td>${systemUser.email}</td>
-			</tr>
-			<tr>
-				<td>role:</td>
-				<td>${systemUser.role}</td>
-			</tr>
-			<tr>
-				<td>date:</td>
-				<td>
-					<jsp:useBean id="today" class="java.util.Date" scope="page" />
-					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
-				</td>
-			</tr>
-		</table>
-		
-		<hr/>
-		<a href='<c:url value="/private/index.html"/>'>Home Page</a> |
-		<a href='<c:url value="/private/userList.html"/>'>Users Management</a> |
-		<a href='<c:url value="/private/eventList.html"/>'>Events Management</a> |
-		<a href='<c:url value="/private/groupList.html"/>'>Groups Management</a> |
-		<a href='<c:url value="/private/participantList.html"/>'>Participants Management</a>
-		<hr/>
-		
-		<h1>Groups for id_event = ${id_event}</h1>
-	    
-	    
-	    Choose an Event:
-	    <select>
-	    	<option selected></option>
-	    	<c:forEach items="${events}" var="event">
-	    		<c:url value="/private/groupList.html?action=listRecord&id_event=${event.id}" var="url"/>
-	    		<option value="${event.id}" onClick="window.location.href='${url}'">${event.name}</option>
-	    	</c:forEach>
-	    </select>
-	    
-	    <br/>
-	    
+		<c:import url="inc/header.jsp"/>
+		<c:choose>
+			<c:when test="${systemUser.role == 'admin'}">
+				<% System.out.println("-> admin"); %>
+				<c:if test="${events != null}">
+    				<h1>Groups <c:if test="${id_event != 0}">for event number ${id_event}</c:if></h1>
+				    Choose an Event: 
+				    <select>
+				    	<option selected></option>
+				    	<c:forEach items="${events}" var="event">
+				    		<c:url value="/private/groupList.html?action=listRecord&id_event=${event.id}" var="url"/>
+				    		<option value="${event.id}" onClick="window.location.href='${url}'">${event.name}</option>
+				    	</c:forEach>
+				    </select>
+			    </c:if>
+			</c:when>
+			<c:when test="${systemUser.role == 'event_mng'}">
+				<% System.out.println("-> event_mng"); %>
+				<c:if test="${events != null}">
+    				<h1>Groups <c:if test="${id_event != 0}">for event  ${id_event}</c:if></h1>
+				    Choose an Event: 
+				    <select>
+				    	<option selected></option>
+				    	<c:forEach items="${events}" var="event">
+				    		<c:url value="/private/groupList.html?action=listRecord&id_event=${event.id}" var="url"/>
+				    		<option value="${event.id}" onClick="window.location.href='${url}'">${event.id} - ${event.name}</option>
+				    	</c:forEach>
+				    </select>
+			    </c:if>
+			</c:when>			
+			<c:when test="${systemUser.role == 'group_mng' }">
+				<% System.out.println("-> group_mng"); %>
+				<h1>Yours Groups</h1>
+			</c:when>
+		</c:choose>
+	     
 	    <table border=1>
 	        <thead>
 	            <tr>
@@ -55,7 +62,7 @@
 					<th>Group Name</th>
 	                <th>Group referent Id</th>
 	                <th>Max Group Number</th>
-	                <th>Blocked</th>
+	                <!-- <th>Blocked</th> -->
 	                <th colspan=3>Action</th>
 	            </tr>
 	        </thead>
@@ -68,15 +75,23 @@
 	                    <td>${record.name}</td>
 	                    <td>${record.id_group_referent}</td>
 	                    <td>${record.max_group_number}</td>
-	                    <td>${record.blocked}</td>                    	                    	                    	                    
-	                    <td><a href="<c:url value='/private/group.jsp?action=edit&id=${record.id}&id_event=${id_event}'/>">Update</a></td>
-	                    <td><a href="<c:url value='/private/groupDelete?action=delete&id=${record.id}&id_event=${id_event}'/>">Delete</a></td>
+	                    <!-- <td>${record.blocked}</td> -->                    	                    	                    	                    
+	                    <td>
+		                    <c:if test="${(systemUser.role == 'admin') || (systemUser.role == 'event_mng') }">
+		                    	<a href="<c:url value='/private/group.jsp?action=edit&id=${record.id}&id_event=${record.id_event}'/>">Update</a>
+		                    </c:if>
+	                    </td>	                    
+	                    <td>
+	                    	<c:if test="${(systemUser.role == 'admin') || (systemUser.role == 'event_mng') }">
+	                    		<a href="<c:url value='/private/groupDelete?action=delete&id=${record.id}&id_event=${record.id_event}'/>" onclick="return confirmDelete();">Delete</a>
+	                    	</c:if>
+	                    </td>
    	                	<td><a href="<c:url value='/private/participantList.html?action=listRecord&id_group=${record.id}'/>">Participants</a></td>
 	                </tr>
 	            </c:forEach>
 	        </tbody>
 	    </table>
-	    <c:if test="${id_event != 0 }">	    
+	    <c:if test="${(id_event != 0) &&(systemUser.role != 'group_mng'  || systemUser.role != 'admin') }">	    
 		    <p><a href="group.jsp?action=insert&id_event=${id_event}">Add Group</a></p>
 		</c:if>
 	</body>

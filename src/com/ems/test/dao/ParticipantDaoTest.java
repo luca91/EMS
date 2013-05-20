@@ -1,6 +1,8 @@
 package com.ems.test.dao;
 
 
+import static org.junit.Assert.assertNotNull;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -221,6 +223,7 @@ public class ParticipantDaoTest {
     }
 	
 	
+	
 	@Test
     public void testGetAllRecords() throws ClassNotFoundException {
 		log.trace("START");	
@@ -238,10 +241,11 @@ public class ParticipantDaoTest {
 	    	rs = stmt.executeQuery(sql);
 	    	rs.next();
 	    	int nr_rows = rs.getInt("nr_rows");
-	    	
+	    		    	
 	    	log.debug("nr_rows: " + nr_rows);
 	    	log.debug("list.size(): " + list.size());
 	    	Assert.assertEquals("failure - getAllRecords returns a different list of record", nr_rows, list.size());
+			    	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

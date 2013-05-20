@@ -188,9 +188,12 @@ public class ParticipantDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return records;
         }
     	log.trace("END");
         return records;
+
+
     }
     
     /**

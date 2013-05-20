@@ -12,31 +12,7 @@
 	<title>Group form</title>
 	</head>
 	<body>
-		<table>
-			<tr>
-				<td>email:</td>
-				<td>${systemUser.email}</td>
-			</tr>
-			<tr>
-				<td>role:</td>
-				<td>${systemUser.role}</td>
-			</tr>
-			<tr>
-				<td>date:</td>
-				<td>
-					<jsp:useBean id="today" class="java.util.Date" scope="page" />
-					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
-				</td>
-			</tr>
-		</table>
-
-		<hr/>
-		<a href='<c:url value="/private/index.html"/>'>Home Page</a> |
-		<a href='<c:url value="/private/userList.html"/>'>Users Management</a> |
-		<a href='<c:url value="/private/eventList.html"/>'>Events Management</a> |
-		<a href='<c:url value="/private/groupList.html"/>'>Groups Management</a> |
-		<a href='<c:url value="/private/participantList.html"/>'>Participants Management</a>
-		<hr/>
+		<c:import url="inc/header.jsp"/>
 		
 		<c:set var="act">
 			<c:url value="/private/groupAdd?action=recordList" /> 
@@ -44,22 +20,32 @@
 	
 	    <form method="POST" action="${act}" name="frmAddGroup">
 	        Group ID : <input type="text" readonly="readonly" name="id"
-	            value="${record.id}" /> <br /> 
+	            value="${record.id}" />  - TO BE HIDDEN <br /> 
 	        Event ID : <input
 	            type="text" name="id_event" readonly="readonly"
-	            value="${id_event}" /> <br /> 
+	            value="${id_event}" />  - TO BE HIDDEN<br /> 
 	        Group Name: <input
 	            type="text" name="name"
 	            value="${record.name}" /> <br /> 	            
-	        Group referent : <input
-	            type="text" name="id_group_referent"
-	            value="${record.id_group_referent}" /> <br /> 
+	        Group referent :
+       	        <select name="id_group_referent">
+          				<c:forEach items="${listOfGroup_mng}" var="options">	               
+               			<option value="${options.id }" 
+               				<c:if test="${options.id == record.id_group_referent }">selected</c:if> 
+               			>${options.id } - ${options.fname} ${options.lname }</option>
+           			</c:forEach>
+           		</select> 
+	        	<br /> 
 	        max_group_number : <input
 	            type="text" name="max_group_number"
 	            value="${record.max_group_number}" /> <br /> 	            
-	        blocked : <input type="text" name="blocked"
+	        <input type="hidden" name="blocked"
 	            value="${record.blocked}" /> <br />           
 	        <input type="submit" value="Submit" />
+	        <input type="button" value="Back" onClick="history.go(-1);return true;"/>
+        	<c:if test="${param.id eq null }">
+        		<input type="reset" value="Reset"/>
+        	</c:if>	        
 	    </form>
 	</body>
 </html>

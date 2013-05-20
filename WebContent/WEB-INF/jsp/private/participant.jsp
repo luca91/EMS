@@ -12,31 +12,7 @@
 	<title>Participant form</title>
 	</head>
 	<body>
-		<table>
-			<tr>
-				<td>email:</td>
-				<td>${systemUser.email}</td>
-			</tr>
-			<tr>
-				<td>role:</td>
-				<td>${systemUser.role}</td>
-			</tr>
-			<tr>
-				<td>date:</td>
-				<td>
-					<jsp:useBean id="today" class="java.util.Date" scope="page" />
-					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
-				</td>
-			</tr>
-		</table>
-
-		<hr/>
-		<a href='<c:url value="/private/index.html"/>'>Home Page</a> |
-		<a href='<c:url value="/private/userList.html"/>'>Users Management</a> |
-		<a href='<c:url value="/private/eventList.html"/>'>Events Management</a> |
-		<a href='<c:url value="/private/groupList.html"/>'>Groups Management</a> |
-		<a href='<c:url value="/private/participantList.html"/>'>Participants Management</a>
-		<hr/>
+		<c:import url="inc/header.jsp"/>
 		
 		<c:set var="act">
 			<c:url value="/private/participantAdd?action=edit" /> 
@@ -44,10 +20,10 @@
 
 	    <form method="POST" action="${act}" name="frmAddParticipan">
 	        Participant ID : <input type="text" readonly="readonly" name="id"
-	            value="${record.id}" /> <br /> 
+	            value="${record.id}" /> - TO BE HIDDEN<br /> 
 	        Group ID : <input
 	            type="text" readonly="readonly" name="id_group" 
-	            value="${id_group}" /> <br /> 
+	            value="${id_group}" /> - TO BE HIDDEN <br /> 
 	        First Name : <input
 	            type="text" name="fname"
 	            value="${record.fname}" /> <br /> 
@@ -61,11 +37,19 @@
 	            value="${record.date_of_birth}" /> <br />     
 	        Registration date: <input type="text" name="registration_date"
 	            value="${record.registration_date}" /> <br /> 
-	        Approved : <input type="text" name="approved"
-	            value="${record.approved}" /> <br /> 
-	        blocked : <input type="text" name="blocked"
+	        Approved : 
+	        	<select name="approved">
+	        		<option value="false" <c:if test="${record.approved == 'false'}">selected </c:if> >false</option>
+	        	    <option value="true" <c:if test="${record.approved == 'true'}">selected</c:if> >true</option>
+	        	</select> 
+				<br /> 
+	       <!--  blocked :  --><input type="hidden" name="blocked"
 	            value="${record.blocked}" /> <br /> 	            	          	                  
 	        <input type="submit" value="Submit" />
+	        <input type="button" value="Back" onClick="history.go(-1);return true;"/>
+        	<c:if test="${param.id eq null }">
+        		<input type="reset" value="Reset"/>
+        	</c:if>	        
 	    </form>
 	</body>
 </html>

@@ -1,17 +1,21 @@
 package com.ems.controller.priv;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
 import com.ems.dao.EventDao;
+import com.ems.dao.UserDao;
 import com.ems.model.Event;
+import com.ems.model.User;
 
 
 /**
@@ -31,6 +35,8 @@ public class EventController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static String INSERT_OR_EDIT = "/event.jsp";
     private static String LIST_USER = "/eventList.jsp";
+    private static String UNAUTHORIZED_PAGE = "/WEB-INF/jsp/private/errors/unauthorized.jsp";
+
     private EventDao dao;   
 	
     /**
@@ -52,54 +58,109 @@ public class EventController extends HttpServlet {
     	log.trace("START");
     	String forward="";
         String action = request.getParameter("action");
+        
+		UserDao ud = new UserDao();
+		User  systemUser = ud.getUserByEmail(request.getUserPrincipal().getName());
+		
+		HttpSession session = request.getSession(true);
+		session.removeAttribute("systemUser");
+		session.setAttribute("systemUser",systemUser);
+		
         if (action == null){
         	log.debug("action is NULL");
         	action="";
         }
-        
+// #########################################################################################        
         if (action.equalsIgnoreCase("delete")){
             log.debug("action: DELETE - " + action);
             int id = Integer.parseInt(request.getParameter("id"));
-            dao.deleteRecord(id);
-            forward = LIST_USER;
-            request.setAttribute("records", dao.getAllRecords());    
-        } else if (action.equalsIgnoreCase("edit")){
+            //check if systemUser is authorized to delete the record
+            if (dao.canBeChangedBy(id).contains(systemUser.getId())){
+            	log.debug("Event is getting deleted");
+            	dao.deleteRecord(id);
+            	forward = LIST_USER;
+                //check if systemUser is admin
+            	if (systemUser.getRole().equals("admin")){
+            		request.setAttribute("records", dao.getAllRecords());
+            	}
+                //check if systemUser is event_mng
+                else if (systemUser.getRole().equals("event_mng")){
+            	   	dao.deleteRecord(id);
+                	forward = LIST_USER;
+                	request.setAttribute("records", dao.getRecordsById_event_mng(systemUser.getId()));
+            	}
+            }            
+        } 
+// #########################################################################################
+        else if (action.equalsIgnoreCase("edit")){
             log.debug("action: EDIT - " + action);
             forward = INSERT_OR_EDIT;
             int id = Integer.parseInt(request.getParameter("id"));
-            Event record = dao.getRecordById(id);
-            request.setAttribute("record", record);
-        } else if (action.equalsIgnoreCase("insert")){
+            //check if systemUser is authorized to delete the record
+            if (dao.canBeChangedBy(id).contains(systemUser.getId())){
+                Event record = dao.getRecordById(id);
+                request.setAttribute("record", record);
+                List<User> listOfEvent_mng = ud.getAllRecordWithRole("event_mng");
+                session.setAttribute("listOfEvent_mng", listOfEvent_mng);
+            }            
+        }
+// #########################################################################################
+        else if (action.equalsIgnoreCase("insert")){
             log.debug("action: INSERT - " + action);
-            request.removeAttribute("record");
-            forward = INSERT_OR_EDIT;
-        } else if (action.equalsIgnoreCase("listRecord")){
+            if (systemUser.getRole().equals("admin") || systemUser.getRole().equals("event_mng")){
+                request.removeAttribute("record");
+                forward = INSERT_OR_EDIT;
+                List<User> listOfEvent_mng = ud.getAllRecordWithRole("event_mng");
+                session.setAttribute("listOfEvent_mng", listOfEvent_mng);
+            }
+        }
+// #########################################################################################        
+        else if (action.equalsIgnoreCase("listRecord")){
             log.debug("action: listRecord - " + action);
-            forward = LIST_USER;
-            request.setAttribute("records", dao.getAllRecords());
+            if (systemUser.getRole().equals("admin")){
+                forward = LIST_USER;
+                request.setAttribute("records", dao.getAllRecords());
+            }
+            else if (systemUser.getRole().equals("event_mng")){
+               forward = LIST_USER;
+               request.setAttribute("records", dao.getRecordsById_event_mng(systemUser.getId()));
+            }
+
         } else {
             log.debug("action: ELSE - " + action);
-            forward = LIST_USER;
-            request.setAttribute("records", dao.getAllRecords());
+            if (systemUser.getRole().equals("admin")){
+                forward = LIST_USER;
+                request.setAttribute("records", dao.getAllRecords());
+            }
+            else if (systemUser.getRole().equals("event_mng")){
+               forward = LIST_USER;
+               request.setAttribute("records", dao.getRecordsById_event_mng(systemUser.getId()));
+            }
         }
-    	
+// #########################################################################################        
         log.debug("forward: " + forward);
         log.debug("action: " + action);
-    	/*
-        RequestDispatcher view = request.getRequestDispatcher(forward);
-        view.forward(request, response);
-    	log.trace("END");
-    	 */	
     	
-        forward = "/WEB-INF/jsp/private" + forward;
-        log.debug("forward: " + forward);
+        log.debug("######################");
+        log.debug("systemUser.getRole(): " + systemUser.getRole().toString());
         
+		if (systemUser.getRole().equals("admin") || systemUser.getRole().equals("event_mng")){
+	        log.debug("systemUser is an admin or event_mng");
+		    forward = "/WEB-INF/jsp/private" + forward;
+		}
+		else {
+			forward = UNAUTHORIZED_PAGE;
+		}
+        
+
+
 		try {
 			getServletConfig().getServletContext().getRequestDispatcher(forward).forward(request, response);
 			} 
 		catch (Exception ex) {
 				ex.printStackTrace();
 			}
+
 	}
 
 	/**

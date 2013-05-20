@@ -31,6 +31,7 @@ public class Index extends HttpServlet {
      */
     public Index() {
         super();
+    	log.trace("START");
         // TODO Auto-generated constructor stub
     }
 
@@ -38,27 +39,15 @@ public class Index extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-		String role = "";
-		if (request.isUserInRole("admin")) {
-     	   role = "admin";
-     	} else if (request.isUserInRole("staff")) {
-     		role = "staff";
-     	} else if (request.isUserInRole("student")) {
-     		role = "student";
-     	}
+		log.trace("START");
 		
 		User u = new User();
 		UserDao ud = new UserDao();
-		log.debug(request.getUserPrincipal().getName());
 		u = ud.getUserByEmail(request.getUserPrincipal().getName());
 		
 		HttpSession session = request.getSession(true);
 		session.setAttribute("systemUser", u);
 		
-		log.debug("--> " + u.getEmail());
-		log.debug("--> " + u.getRole());
-
 		try {
 			getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/jsp/private/index.jsp").forward(request, response);
 			} 
