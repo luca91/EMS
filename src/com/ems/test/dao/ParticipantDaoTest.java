@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,7 @@ import org.junit.runners.JUnit4;
 
 import com.ems.dao.ParticipantDao;
 import com.ems.model.Participant;
+import com.ems.tools.Population;
 
 /**
  * Tests for {@link ParticipantDao}.
@@ -76,6 +78,16 @@ public class ParticipantDaoTest {
 		log.debug("removeMockData() - START");
 		md.removeMock();
 		log.debug("removeMockData() - END");
+		Population p = new Population();
+		p.doPopulation();
+	}
+	
+	@AfterClass
+	public static void repopulate(){
+		log.debug("repopulate() - START");
+		Population p = new Population();
+		p.doPopulation();
+		log.debug("repopulate() - END");
 	}
 	
 	@Test
@@ -163,8 +175,8 @@ public class ParticipantDaoTest {
 			
 	    	String sql = 
 					"insert " +
-					" into participant(id_group,fname,lname,email,date_of_birth,registration_date,approved,blocked) " +
-	    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + email  + "', '" + date_of_birth +"', '" + registration_date + "', " + approved +", " + blocked + ");";
+					" into participant(id_group,fname,lname,email,date_of_birth,approved,blocked) " +
+	    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + email  + "', '" + date_of_birth +"', " + approved +", " + blocked + ");";
 	    	log.debug(sql);
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
@@ -271,8 +283,8 @@ public class ParticipantDaoTest {
 			
 	    	String sql = 
 					"insert " +
-					" into participant(id_group,fname,lname,email,date_of_birth,registration_date,approved,blocked) " +
-	    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + email  + "', '" + date_of_birth +"', '" + registration_date + "', " + approved +", " + blocked + ");";
+							" into participant(id_group,fname,lname,email,date_of_birth,approved,blocked) " +
+			    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + email  + "', '" + date_of_birth +"', " + approved +", " + blocked + ");";	    	
 	    	log.debug(sql);
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
@@ -330,9 +342,8 @@ public class ParticipantDaoTest {
 			
 	    	String sql = 
 					"insert " +
-					" into participant(id_group,fname,lname,email,date_of_birth,registration_date,approved,blocked) " +
-	    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + email  + "', '" + date_of_birth +"', '" + registration_date + "', " + approved +", " + blocked + ");";
-	    	log.debug(sql);
+							" into participant(id_group,fname,lname,email,date_of_birth,approved,blocked) " +
+			    			" VALUES (" + id_group + ", '" + fname + "', '" + lname + "', '" + email  + "', '" + date_of_birth +"', " + approved +", " + blocked + ");";
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
 	    	
@@ -352,7 +363,7 @@ public class ParticipantDaoTest {
 	    	String newLname = "fakeGroupLnameUpdated";
 	    	String newEmail = "fakeEmailUpdated";
 	    	String newDate_of_birth = "19991231";
-	    	String newRegistration_date = "10991231";
+
 	    	boolean newApproved = true;
 	    	boolean newBlocked = true;
 	    	
@@ -362,7 +373,7 @@ public class ParticipantDaoTest {
             record.setLname(newLname);
             record.setEmail(newEmail);            
             record.setDate_of_birth(newDate_of_birth);
-            record.setRegistration_date(newRegistration_date);
+
             record.setApproved(newApproved);
             record.setBlocked(newBlocked);
 	    	
@@ -381,7 +392,6 @@ public class ParticipantDaoTest {
 			String upLname = rs.getString("lname");
 			String upEmail = rs.getString("email");
 			String upDate_of_birth = rs.getString("date_of_birth_formatted");
-			String upRegistration_date = rs.getString("registration_date_formatted");
 			boolean upApproved = rs.getBoolean("approved");
 			boolean upBlocked = rs.getBoolean("blocked");
 	    	
@@ -391,7 +401,6 @@ public class ParticipantDaoTest {
 	    	Assert.assertEquals("failure - field lname has not been correctly updated", newLname, upLname);
 	    	Assert.assertEquals("failure - field email has not been correctly updated", newEmail, upEmail);
 	    	Assert.assertEquals("failure - field date_of_birth has not been correctly updated", newDate_of_birth, upDate_of_birth);
-	    	Assert.assertEquals("failure - field registration_date has not been correctly updated", newRegistration_date, upRegistration_date);
 	    	Assert.assertEquals("failure - field approved has not been correctly updated", newApproved, upApproved);
 	    	Assert.assertEquals("failure - field bblocked has not been correctly updated", newBlocked, upBlocked);
 	    	

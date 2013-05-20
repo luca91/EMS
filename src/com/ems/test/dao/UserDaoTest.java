@@ -11,8 +11,11 @@ import java.util.UUID;
 
 import javax.naming.NamingException;
 
+import junit.framework.AssertionFailedError;
+
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +24,7 @@ import org.junit.runners.JUnit4;
 
 import com.ems.dao.UserDao;
 import com.ems.model.User;
+import com.ems.tools.Population;
 
 /**
  * Tests for {@link UserDao}.
@@ -73,6 +77,14 @@ public class UserDaoTest {
 		log.debug("removeMockData() - START");
 		md.removeMock();
 		log.debug("removeMockData() - END");
+	}
+	
+	@AfterClass
+	public static void repopulate(){
+		log.debug("repopulate() - START");
+		Population p = new Population();
+		p.doPopulation();
+		log.debug("repopulate() - END");
 	}
 	
 	@Test
@@ -312,6 +324,13 @@ public class UserDaoTest {
 	    			"INSERT" +
 					" INTO user(fname,lname,date_of_birth,email, password,role) " +
 	    			" VALUES ('" + fname +"', '" + lname + "', '" + date_of_birth + "', '" +  email + "', '" + password + "', '" + role + "');";
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+	    	
+	    	sql = 
+	    			"INSERT" +
+					" INTO user_role(ROLE_NAME, email) " +
+	    			" VALUES ('" + role +"', '" + email + "');";
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
 	    	

@@ -81,17 +81,17 @@ public class ParticipantDao {
         try {
         	
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("insert into participant(id_group,fname,lname,email,uuid,date_of_birth,registration_date,approved,blocked) " +
-                    					"values (?,?,?, ?, ?, ?, ?, ?,? )");
+                    .prepareStatement("insert into participant(id_group,fname,lname,email,uuid,date_of_birth,approved) " +
+                    					"values (?, ?, ?, ?, ?, ?, ? )");
             preparedStatement.setInt(1, anId_group);
             preparedStatement.setString(2, aRecord.getFname());
             preparedStatement.setString(3, aRecord.getLname());
             preparedStatement.setString(4, aRecord.getEmail());
             preparedStatement.setString(5, UUID.randomUUID().toString());            
             preparedStatement.setString(6, aRecord.getDate_of_birth());
-            preparedStatement.setString(7, aRecord.getRegistration_date());
-            preparedStatement.setBoolean(8, false);
-            preparedStatement.setBoolean(9, false);
+//            preparedStatement.setString(7, aRecord.getRegistration_date());
+            preparedStatement.setBoolean(7, false);
+            //preparedStatement.setBoolean(9, false);
             log.debug(preparedStatement.toString());
         	log.debug("addRecord Execute Update");
             preparedStatement.executeUpdate();
@@ -139,8 +139,7 @@ public class ParticipantDao {
                     					"lname=?, " +
                     					"email=?, " +
                     					"date_of_birth=?," +
-                    					"registration_date=?, " +
-                    					"approved=?, " +
+                      					"approved=?, " +
                     					"blocked=? " +
                             			"where id=?");
             log.debug(aRecord.getDate_of_birth()); 
@@ -150,10 +149,10 @@ public class ParticipantDao {
             preparedStatement.setString(3, aRecord.getLname());
             preparedStatement.setString(4, aRecord.getEmail());            
             preparedStatement.setString(5, aRecord.getDate_of_birth());
-            preparedStatement.setString(6, aRecord.getRegistration_date());
-            preparedStatement.setBoolean(7, aRecord.isApproved());
-            preparedStatement.setBoolean(8, aRecord.isBlocked());
-            preparedStatement.setInt(9, aRecord.getId());
+//            preparedStatement.setString(6, aRecord.getRegistration_date());
+            preparedStatement.setBoolean(6, aRecord.isApproved());
+            preparedStatement.setBoolean(7, aRecord.isBlocked());
+            preparedStatement.setInt(8, aRecord.getId());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -285,4 +284,63 @@ public class ParticipantDao {
     	log.trace("END");
     }
     
+    /**
+     * Return a list of user that can modify the record identified by the passed id 
+     * 
+     * @param anId_participant an id of a participant
+     */
+    public List<Integer>  canBeChangedBy(int anId_participant) {
+    	log.trace("START");
+        List<Integer> listOfId = new ArrayList<Integer>();
+        try {
+        	
+        	//look for group_referent
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("SELECT id_group_referent, id_group " +
+                    					" FROM participant, ems.group" +
+                    					" WHERE participant.id_group = group.id" +
+                    					" AND participant.id = ?");
+            preparedStatement.setInt(1, anId_participant);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            int id_group = 0;
+            if (rs.next()) {
+                listOfId.add(rs.getInt("id_group_referent"));
+                id_group = rs.getInt("id_group");
+            }
+
+            //look for id_event
+            preparedStatement = connection
+                    .prepareStatement("SELECT id_manager " +
+                    					" FROM ems.group, event" +
+                    					" WHERE ems.group.id_event = event.id" +
+                    					" AND ems.group.id = ?");
+            preparedStatement.setInt(1, id_group);
+            rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                listOfId.add(rs.getInt("id_manager"));
+            }
+            
+            //look admins
+            preparedStatement = connection
+                    .prepareStatement("SELECT id " +
+                    					" FROM ems.user, ems.user_role" +
+                    					" WHERE ems.user.email = ems.user_role.email" +
+                    					" AND ems.user_role.ROLE_NAME = 'admin'");
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                listOfId.add(rs.getInt("id"));
+            }
+            
+            for (int  i = 0; i < listOfId.size(); i++){
+            	log.debug("listOfId: " + listOfId.get(i));
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+    	return listOfId;
+    }
 }

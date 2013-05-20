@@ -173,7 +173,43 @@ public class EventDao {
     	log.trace("END");
         return list;
     }
-
+    
+    /**
+     * Returns the list of all record stored in the table Event and associated with an event_mng
+     * 
+     * @param id_event_mng Id of a event manager
+     * @return List<Event> List of objects Event
+     */
+    public List<Event> getRecordsById_event_mng(int id_event_mng) {
+        log.trace("START");
+    	List<Event> list = new ArrayList<Event>();
+        try {
+            
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("select * from event where id_manager=?");
+            preparedStatement.setInt(1, id_event_mng);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Event aRecord = new Event();
+                aRecord.setId(rs.getInt("id"));
+                aRecord.setId_manager(rs.getInt("id_manager"));
+                aRecord.setName(rs.getString("name"));
+                aRecord.setDescription(rs.getString("description"));
+                aRecord.setStart(rs.getString("start"));
+                aRecord.setEnd(rs.getString("end"));
+                aRecord.setEnrollment_start(rs.getString("enrollment_start"));
+                aRecord.setEnrollment_end(rs.getString("enrollment_end"));
+                list.add(aRecord);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+        return list;
+    }
+ 
+    
+    
     /**
      * Returns the record passing its id
      * 
@@ -206,5 +242,113 @@ public class EventDao {
         return aRecord;
     }
     
+  
+    /**
+     * Returns the record passing an id_group
+     * 
+     * @param id Identifier of the id_group 
+     * @return event An object Event
+     */
+    public Event getRecordById_group(int id_group) {
+    	log.trace("START");
+        Event aRecord = new Event();
+        try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("select * " +
+                    				" from event, ems.group" +
+                    				" where event.id = ems.group.id_event" +
+                    				" and ems.group.id=?");
+            preparedStatement.setInt(1, id_group);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                aRecord.setId(rs.getInt("id"));
+                aRecord.setId_manager(rs.getInt("id_manager"));
+                aRecord.setName(rs.getString("name"));
+                aRecord.setDescription(rs.getString("description"));
+                aRecord.setStart(rs.getString("start"));
+                aRecord.setEnd(rs.getString("end"));
+                aRecord.setEnrollment_start(rs.getString("enrollment_start"));
+                aRecord.setEnrollment_end(rs.getString("enrollment_end"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+        return aRecord;
+    }    
     
+    /**
+     * Returns true if the passed id_manager is authorized to perform action on an event
+     * 
+     * @param anId_manager Identifier of a event manager
+     * @param anIdEvent An event
+     * @return isAuthorized
+     */
+    public boolean isAuthorized(int anId_manager, int anIdEvent) {
+    	log.trace("START");
+        try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("select * from event where id_manager=? and id=?" );
+            preparedStatement.setInt(1, anId_manager);
+            preparedStatement.setInt(2, anIdEvent);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+            	return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+        return false;
+    }
+    /**
+     * Return a list of user that can modify the record identified by the passed id 
+     * 
+     * @param anId_participant an id of a participant
+     */
+    public List<Integer>  canBeChangedBy(int anId_event) {
+    	log.trace("START");
+        List<Integer> listOfId = new ArrayList<Integer>();
+        try {
+        	
+        	//look for group_referent
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("SELECT id_manager " +
+                    					" FROM ems.event" +
+                    					" WHERE id = ?");
+            preparedStatement.setInt(1, anId_event);
+            log.debug(preparedStatement.toString());            
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+            	log.debug("add to list id: " + rs.getInt("id_manager"));
+                listOfId.add(rs.getInt("id_manager"));
+            }
+
+            //look for admins
+            PreparedStatement preparedStatement2 = connection
+                    .prepareStatement("SELECT * " +
+                    					" FROM ems.user, ems.user_role" +
+                    					" WHERE ems.user.email = ems.user_role.email" +
+                    					" AND ems.user_role.ROLE_NAME = 'admin'");
+            log.debug(preparedStatement2.toString());
+            rs = preparedStatement2.executeQuery();
+            while (rs.next()) {
+            	log.debug("add to list admin id: " + rs.getInt("id") + rs.getString("fname"));
+                listOfId.add(rs.getInt("id"));
+            }
+            
+            for (int  i = 0; i < listOfId.size(); i++){
+            	log.debug("listOfId: " + listOfId.get(i));
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+    	return listOfId;
+    }  
 }

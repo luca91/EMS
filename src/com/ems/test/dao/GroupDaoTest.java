@@ -12,6 +12,7 @@ import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,7 @@ import org.junit.runners.JUnit4;
 
 import com.ems.dao.GroupDao;
 import com.ems.model.Group;
+import com.ems.tools.Population;
 
 /**
  * Tests for {@link GroupDao}.
@@ -72,7 +74,17 @@ public class GroupDaoTest {
 		log.debug("removeMockData() - START");
 		md.removeMock();
 		log.debug("removeMockData() - END");
+		Population p = new Population();
+		p.doPopulation();
 	}
+	
+	@AfterClass
+	public static void repopulate(){
+		log.debug("repopulate() - START");
+		Population p = new Population();
+		p.doPopulation();
+		log.debug("repopulate() - END");
+	}	
 	
 	@Test
     public void testAddRecord() throws NamingException, ClassNotFoundException {

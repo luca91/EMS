@@ -25,7 +25,7 @@ public class DbConfig {
 	* Constructor
 	* 
 	*/
-	public DbConfig(){
+	public DbConfig(){		
 		log.debug("START");
 		ResourceBundle rb= ResourceBundle.getBundle("DB_Config");
 		DB_JDBC_DRIVER = rb.getString("DB_JDBC_DRIVER");

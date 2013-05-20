@@ -183,6 +183,79 @@ public class GroupDao {
      * @param id_event Event to which belong the groups
      * @return List<Group> List of objects Group
      */
+    public List<Group> getAllRecordsById_manager(int idManager, int id_event) {
+        log.trace("START");
+    	List<Group> list = new ArrayList<Group>();
+        try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("select * " +
+                    				" from ems.group, ems.event " +
+                    				" where ems.group.id_event=ems.event.id" +
+                    				" and ems.event.id_manager=?" +
+                    				" and ems.group.id_event = ?");
+            preparedStatement.setInt(1, idManager);
+            preparedStatement.setInt(2, id_event);
+            log.debug(preparedStatement.toString());
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Group aRecord = new Group();
+                aRecord.setId(rs.getInt("id"));
+                aRecord.setId_event(rs.getInt("id_event"));
+                aRecord.setId_group_referent(rs.getInt("id_group_referent"));
+                aRecord.setName(rs.getString("name"));                
+                aRecord.setMax_group_number(rs.getInt("max_group_number"));
+                aRecord.setBlocked(rs.getBoolean("blocked"));
+                list.add(aRecord);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+        return list;
+    }
+ 
+    /**
+     * Returns the list of all records stored in the table Group and associated with an event
+     * 
+     * @param id_event Event to which belong the groups
+     * @return List<Group> List of objects Group
+     */
+    public List<Group> getAllRecordsById_group_referent(int id_group_referent) {
+        log.trace("START");
+    	List<Group> list = new ArrayList<Group>();
+        try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("select * " +
+                    				" from ems.group" +
+                    				" where ems.group.id_group_referent=?");
+            preparedStatement.setInt(1, id_group_referent);
+            log.debug(preparedStatement.toString());
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+            	log.debug("@@@");
+                Group aRecord = new Group();
+                aRecord.setId(rs.getInt("id"));
+                aRecord.setId_event(rs.getInt("id_event"));
+                aRecord.setId_group_referent(rs.getInt("id_group_referent"));
+                aRecord.setName(rs.getString("name"));                
+                aRecord.setMax_group_number(rs.getInt("max_group_number"));
+                aRecord.setBlocked(rs.getBoolean("blocked"));
+                list.add(aRecord);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+        return list;
+    }
+
+    
+    /**
+     * Returns the list of all records stored in the table Group and associated with an event
+     * 
+     * @param id_event Event to which belong the groups
+     * @return List<Group> List of objects Group
+     */
     public List<Group> getAllRecords() {
         log.trace("START");
     	List<Group> list = new ArrayList<Group>();
@@ -206,6 +279,69 @@ public class GroupDao {
     	log.trace("END");
         return list;
     }
+    /**
+     * Returns the list of all records stored in the table Group editable by a user
+     * 
+     * @param id_event Event to which belong the groups
+     * @return List<Group> List of objects Group
+     */
+    public List<Group> getRecordsById_group_referent(int id_group_referent) {
+        log.trace("START");
+    	List<Group> list = new ArrayList<Group>();
+        try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("select * from ems.group" + 
+                    					" where ems.group.id_group_referent = " + id_group_referent);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Group aRecord = new Group();
+                aRecord.setId(rs.getInt("id"));
+                aRecord.setId_event(rs.getInt("id_event"));
+                aRecord.setId_group_referent(rs.getInt("id_group_referent"));
+                aRecord.setName(rs.getString("name"));                
+                aRecord.setMax_group_number(rs.getInt("max_group_number"));
+                aRecord.setBlocked(rs.getBoolean("blocked"));
+                list.add(aRecord);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+        return list;
+    } 
+   
+    /**
+     * Returns the list of all records stored in the table Group editable by a user
+     * 
+     * @param id_event Event to which belong the groups
+     * @return List<Group> List of objects Group
+     */
+    public List<Group> getRecordsById_manager(int id_manager) {
+        log.trace("START");
+    	List<Group> list = new ArrayList<Group>();
+        try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("select * " +
+                    					" from ems.group, ems.event" + 
+                    					" where ems.group.id_event = ems.event.id" +
+                    					" and ems.event.id_manager = " + id_manager);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Group aRecord = new Group();
+                aRecord.setId(rs.getInt("id"));
+                aRecord.setId_event(rs.getInt("id_event"));
+                aRecord.setId_group_referent(rs.getInt("id_group_referent"));
+                aRecord.setName(rs.getString("name"));                
+                aRecord.setMax_group_number(rs.getInt("max_group_number"));
+                aRecord.setBlocked(rs.getBoolean("blocked"));
+                list.add(aRecord);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+        return list;
+    } 
     
     /**
      * Returns the record passing its id
@@ -235,5 +371,63 @@ public class GroupDao {
         }
     	log.trace("END");
         return aRecord;
+    }
+    
+    /**
+     * Return a list of user that can modify the record identified by the passed id 
+     * 
+     * @param anId_participant an id of a participant
+     */
+    public List<Integer>  canBeChangedBy(int anId_group) {
+    	log.trace("START");
+        List<Integer> listOfId = new ArrayList<Integer>();
+        try {
+        	
+        	//look for group_referent
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("SELECT id_group_referent, id_event " +
+                    					" FROM ems.group" +
+                    					" WHERE id = ?");
+            preparedStatement.setInt(1, anId_group);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            int id_event = 0;
+            if (rs.next()) {
+                listOfId.add(rs.getInt("id_group_referent"));
+                id_event = rs.getInt("id_event");
+            }
+
+            //look for id_event
+            preparedStatement = connection
+                    .prepareStatement("SELECT id_manager " +
+                    					" FROM event" +
+                    					" WHERE id = ?");
+            preparedStatement.setInt(1, id_event);
+            rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                listOfId.add(rs.getInt("id_manager"));
+            }
+            
+            //look admins
+            preparedStatement = connection
+                    .prepareStatement("SELECT id " +
+                    					" FROM ems.user, ems.user_role" +
+                    					" WHERE ems.user.email = ems.user_role.email" +
+                    					" AND ems.user_role.ROLE_NAME = 'admin'");
+            rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                listOfId.add(rs.getInt("id"));
+            }
+            
+            for (int  i = 0; i < listOfId.size(); i++){
+            	log.debug("listOfId: " + listOfId.get(i));
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+    	return listOfId;
     }
 }
