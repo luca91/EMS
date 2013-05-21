@@ -1,3 +1,6 @@
+## To populate DB use com.ems.tools.Populate.java
+
+
 DELETE 
 FROM ems.event;
 
