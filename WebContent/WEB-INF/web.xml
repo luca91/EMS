@@ -60,34 +60,38 @@
     <url-pattern>/LogoutController</url-pattern>
   </servlet-mapping>
   <!-- #################################################################### -->
-<!-- #################################################################### -->
+
+  <!-- #################################################################### -->
 	<!-- Define a Security Constraint on this Application -->
 <!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
 	<!--BASIC AUTH with configuration of users in mysql tables
 		
 		transport-guarantee can be: CONFIDENTIAL, INTEGRAL, or NONE 
 	-->	
-	<!-- 
+
    <security-constraint> 
+      
       <web-resource-collection> 
-         <web-resource-name>All Page</web-resource-name> 
-         <url-pattern>/*</url-pattern> 
+         <web-resource-name>All private Pages</web-resource-name> 
+         <url-pattern>/private/*</url-pattern> 
       </web-resource-collection> 
+      
       <auth-constraint> 
          <role-name>admin</role-name> 
+         <role-name>event_mng</role-name> 
+         <role-name>group_mng</role-name> 
       </auth-constraint> 
       
       <user-data-constraint>
-			
 			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
 		</user-data-constraint>
    </security-constraint> 
 
    <login-config> 
       <auth-method>BASIC</auth-method> 
-      <realm-name>Tomcat-Advance-Authentication-Realm</realm-name>
+      <realm-name>EMS-Advance-Authentication-Realm</realm-name>
    </login-config> 	
-	 -->
+
 	<!--BASIC AUTH with configuration of users in 
 		WORKSPACE/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/conf/tomcat-users.xml
 		

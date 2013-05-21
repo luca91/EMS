@@ -35,7 +35,7 @@
 	            value="${record.email}" /> <br /> 	            	            
 	        Date of birth : <input type="text" name="date_of_birth"
 	            value="${record.date_of_birth}" /> <br />     
-	        Registration date: <input type="text" name="registration_date"
+	        <input type="hidden" name="registration_date"
 	            value="${record.registration_date}" /> <br /> 
 	        Approved : 
 	        	<select name="approved">
