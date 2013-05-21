@@ -78,6 +78,8 @@
       
       <auth-constraint> 
          <role-name>admin</role-name> 
+         <role-name>event_mng</role-name> 
+         <role-name>group_mng</role-name> 
       </auth-constraint> 
       
       <user-data-constraint>
