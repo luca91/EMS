@@ -89,7 +89,7 @@ CREATE  TABLE IF NOT EXISTS `ems`.`participant` (
   `email` VARCHAR(300) NULL ,
   `uuid` VARCHAR(36) NULL ,
   `date_of_birth` DATE NOT NULL ,
-  `registration_date` TIMESTAMP NULL ,
+  `registration_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
   `approved` TINYINT(0) NULL DEFAULT 0 ,
   `blocked` TINYINT(0) NULL DEFAULT 0 ,
   PRIMARY KEY (`id`) ,
