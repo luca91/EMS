@@ -31,10 +31,6 @@
 	                			>${options.id } - ${options.fname} ${options.lname }</option>
 	            			</c:forEach>
 	            		</select>
-	            		<input
-	            			type="text" name="id_manager"
-	            			value="${record.id_manager}"
-	            		/>
 	            	</c:when>
 	               	<c:when test="${record.id_manager != null && sessionScope.systemUser.role == 'event_mng'}">
 	            		<select name="id_manager" disabled>
@@ -44,18 +40,13 @@
 	                			>${options.id } - ${options.fname} ${options.lname }</option>
 	            			</c:forEach>
 	            		</select>
-	            		<input
-	            			type="text" name="id_manager"
-	            			value="${record.id_manager}"
-	            			readonly="readonly"
-	            		/>
 	            	</c:when>	            	
 	            	<c:when test="${sessionScope.systemUser.role == 'event_mng' }">
 	            		<input
 	            			type="text" name="id_manager"
 	            			value="${sessionScope.systemUser.id}"
 	            			readonly="readonly"
-	            		/>
+	            		/> - TO BE HIDDEN!
 	            		
 	            	</c:when>
 	            	<c:otherwise>

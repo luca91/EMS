@@ -111,6 +111,7 @@ public class EventController extends HttpServlet {
                 request.removeAttribute("record");
                 forward = INSERT_OR_EDIT;
                 List<User> listOfEvent_mng = ud.getAllRecordWithRole("event_mng");
+                log.debug("listOfEvent_mng: " + listOfEvent_mng);
                 session.setAttribute("listOfEvent_mng", listOfEvent_mng);
             }
         }
