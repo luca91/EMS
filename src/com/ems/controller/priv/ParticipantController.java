@@ -387,8 +387,8 @@ public class ParticipantController extends HttpServlet {
         message += "\nEnrollment until: " + df.format(fenrollment_end) + "\n";
         message += "\n\nThe staff";
        
-        String login = "cestino@gmail.com";
-        String password = "01abekul";
+        String login = "ems2013.staff@gmail.com";
+        String password = "PaSsWoRd";
 		
 		
 		

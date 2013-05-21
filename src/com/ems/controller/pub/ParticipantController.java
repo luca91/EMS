@@ -176,8 +176,8 @@ public class ParticipantController extends HttpServlet {
         message += "\nYour subscription has been registered by the system\n";
         message += "\n\nThe staff";
        
-        String login = "cestino@gmail.com";
-        String password = "01abekul";
+        String login = "ems2013.staff@gmail.com";
+        String password = "PaSsWoRd";
 		
 		
 		

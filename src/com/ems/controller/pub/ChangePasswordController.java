@@ -205,8 +205,8 @@ public class ChangePasswordController extends HttpServlet {
         			"http://localhost:8080/ems/public/changePassword.html?email=" + to + "\n";
         message += "\n\nThe staff";
        
-        String login = "cestino@gmail.com";
-        String password = "01abekul";
+        String login = "ems2013.staff@gmail.com";
+        String password = "PaSsWoRd";
 		
 		
 		
