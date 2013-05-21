@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 
 import com.ems.dao.ParticipantDao;
 import com.ems.model.Participant;
+import com.ems.tools.Email;
 
 
 /**
@@ -167,7 +168,6 @@ public class ParticipantController extends HttpServlet {
     	log.debug("address: " + to);
 
 	
-		String from = "cestino@gmail.com";
         log.debug("TO: " + to);
         String subject = "Subscription registered";
         
@@ -175,57 +175,9 @@ public class ParticipantController extends HttpServlet {
         message += "Hi " + p.getFname() + "\n";
         message += "\nYour subscription has been registered by the system\n";
         message += "\n\nThe staff";
-       
-        String login = "ems2013.staff@gmail.com";
-        String password = "PaSsWoRd";
 		
-		
-		
-        try {
-        	log.debug("try sending");
-            Properties props = new Properties();
-            
-
-            props.put("mail.smtp.starttls.enable", "true"); // added this line
-            props.put("mail.smtp.host", "smtp.googlemail.com");
-            props.put("mail.smtp.user", from);
-            props.put("mail.smtp.password", password);
-            props.put("mail.smtp.port", "587");
-            props.put("mail.smtp.auth", "true");
-            
-        	log.debug("1");
-            Authenticator auth = new SMTPAuthenticator(login, password);
-        	log.debug("2");
-            Session session = Session.getInstance(props, auth);
-        	log.debug("3");
-            MimeMessage msg = new MimeMessage(session);
-        	log.debug("4");
-            msg.setText(message);
-            msg.setSubject(subject);
-            msg.setFrom(new InternetAddress(from));
-            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        	log.debug("5");
-            Transport.send(msg);
-        	log.debug("6");
-
-        } catch (AuthenticationFailedException ex) {
-        	log.debug("AuthenticationFailedException");
-        	log.debug(ex);
-        	return false;
-
-
-        } catch (AddressException ex) {
-        	log.debug("AddressException");
-        	log.debug(ex);
-        	return false;
-
-
-        } catch (MessagingException ex) {
-        	log.debug("MessagingException");
-        	log.debug(ex);
-        	return false;
-        }
-        return true;
+		Email e = new Email();
+		return e.sendEmail(to, subject, message);
     }
 	
 }

@@ -35,6 +35,7 @@ import com.ems.model.Event;
 import com.ems.model.Group;
 import com.ems.model.Participant;
 import com.ems.model.User;
+import com.ems.tools.Email;
 
 
 /**
@@ -225,8 +226,8 @@ public class ParticipantController extends HttpServlet {
 		
 		HttpSession session = request.getSession(true);
 		session.removeAttribute("systemUser");
-		session.setAttribute("systemUser",systemUser);
-    	
+		session.setAttribute("systemUser",systemUser);	
+	  
         if (systemUser.getRole().equals("admin")){
             GroupDao gd = new GroupDao();
             request.setAttribute("groups", gd.getAllRecords());
@@ -302,7 +303,7 @@ public class ParticipantController extends HttpServlet {
     		
     		for (int i = 0; i < result.length; i++){
     			try {
-					if (sendEmail(result[i], g, e)){
+					if (sendEmail(result[i], g, e, request.getServerName())){
 						count++;
 					}
 				} catch (ParseException e1) {
@@ -341,22 +342,8 @@ public class ParticipantController extends HttpServlet {
     	}
     	log.trace("END");
 	}
-	
-	//http://zetcode.com/tutorials/jeetutorials/sendingemail/
-    private class SMTPAuthenticator extends Authenticator {
 
-        private PasswordAuthentication authentication;
-
-        public SMTPAuthenticator(String login, String password) {
-            authentication = new PasswordAuthentication(login, password);
-        }
-
-        protected PasswordAuthentication getPasswordAuthentication() {
-            return authentication;
-        }
-    }
-
-    private boolean sendEmail(String to, Group g, Event e) throws ParseException{ 
+    private boolean sendEmail(String to, Group g, Event e, String serverName) throws ParseException{ 
     	log.debug("address: " + to);
 
 		DateFormat df = new SimpleDateFormat("dd MMM yyyy");
@@ -370,7 +357,6 @@ public class ParticipantController extends HttpServlet {
 		log.debug("fenrollment_end: " + df.format(fenrollment_end)); 	
 		
 		
-		String from = "cestino@gmail.com";
         log.debug("TO: " + to);
         String subject = "Invitation to " + e.getName();
         
@@ -379,7 +365,7 @@ public class ParticipantController extends HttpServlet {
         message += "The event will take place from " + df.format(fStart) + " to " + df.format(fEnd) + "\n";
         message += "\nTo enroll to the event you have to click on the following link and fill up the registration form:\n";
         message += "\n" +
-        			"http://localhost:8080/ems/public/enrollmentForm.html?id_group=" + 
+        			"http://" + serverName + ":8080/ems/public/enrollmentForm.html?id_group=" + 
         			g.getId() + 
         			"&email=" + to 
         			+ "\n";
@@ -387,56 +373,7 @@ public class ParticipantController extends HttpServlet {
         message += "\nEnrollment until: " + df.format(fenrollment_end) + "\n";
         message += "\n\nThe staff";
        
-        String login = "ems2013.staff@gmail.com";
-        String password = "PaSsWoRd";
-		
-		
-		
-        try {
-        	log.debug("try sending");
-            Properties props = new Properties();
-            
-
-            props.put("mail.smtp.starttls.enable", "true"); // added this line
-            props.put("mail.smtp.host", "smtp.googlemail.com");
-            props.put("mail.smtp.user", from);
-            props.put("mail.smtp.password", password);
-            props.put("mail.smtp.port", "587");
-            props.put("mail.smtp.auth", "true");
-            
-        	log.debug("1");
-            Authenticator auth = new SMTPAuthenticator(login, password);
-        	log.debug("2");
-            Session session = Session.getInstance(props, auth);
-        	log.debug("3");
-            MimeMessage msg = new MimeMessage(session);
-        	log.debug("4");
-            msg.setText(message);
-            msg.setSubject(subject);
-            msg.setFrom(new InternetAddress(from));
-            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        	log.debug("5");
-            Transport.send(msg);
-        	log.debug("6");
-
-        } catch (AuthenticationFailedException ex) {
-        	log.debug("AuthenticationFailedException");
-        	log.debug(ex);
-        	return false;
-
-
-        } catch (AddressException ex) {
-        	log.debug("AddressException");
-        	log.debug(ex);
-        	return false;
-
-
-        } catch (MessagingException ex) {
-        	log.debug("MessagingException");
-        	log.debug(ex);
-        	return false;
-        }
-        return true;
+        Email em = new Email();
+        return em.sendEmail(to, subject, message);
     }
-    
 }

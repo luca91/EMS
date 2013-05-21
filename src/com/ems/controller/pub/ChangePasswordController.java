@@ -1,33 +1,18 @@
 package com.ems.controller.pub;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
 
-import javax.mail.AuthenticationFailedException;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
 import com.ems.dao.UserDao;
 import com.ems.model.User;
+import com.ems.tools.Email;
 
 /**
  * Servlet implementation class UserController
@@ -99,7 +84,7 @@ public class ChangePasswordController extends HttpServlet {
     	
     	if (action.equals("")){
     		log.debug("form to send link");
-    		if (sendEmail(email)){
+    		if (sendEmail(email, request.getServerName())){
         		log.debug("sent mail");
         		request.setAttribute("message", 1);
         	}
@@ -160,8 +145,6 @@ public class ChangePasswordController extends HttpServlet {
     		
     	}
     	
-
-    	
         log.debug("forward: " + forward);
 
 		try {
@@ -170,31 +153,12 @@ public class ChangePasswordController extends HttpServlet {
 		catch (Exception ex) {
 				ex.printStackTrace();
 			}
-			
-			
     	log.trace("END");
 	}
 
-	
-	//http://zetcode.com/tutorials/jeetutorials/sendingemail/
-    private class SMTPAuthenticator extends Authenticator {
-
-        private PasswordAuthentication authentication;
-
-        public SMTPAuthenticator(String login, String password) {
-            authentication = new PasswordAuthentication(login, password);
-        }
-
-        protected PasswordAuthentication getPasswordAuthentication() {
-            return authentication;
-        }
-    }
-
-    private boolean sendEmail(String to){ 
+    private boolean sendEmail(String to, String serverName){ 
     	log.debug("address: " + to);
 
-
-		String from = "cestino@gmail.com";
         log.debug("TO: " + to);
         String subject = "Reset password for site EMS";
         
@@ -202,60 +166,10 @@ public class ChangePasswordController extends HttpServlet {
         message += "You have asket to change the password for you user";
         message += "\nClick on the following link and change it:\n";
         message += "\n" +
-        			"http://localhost:8080/ems/public/changePassword.html?email=" + to + "\n";
+        			"http://" + serverName + ":8080/ems/public/changePassword.html?email=" + to + "\n";
         message += "\n\nThe staff";
        
-        String login = "ems2013.staff@gmail.com";
-        String password = "PaSsWoRd";
-		
-		
-		
-        try {
-        	log.debug("try sending");
-            Properties props = new Properties();
-            
-
-            props.put("mail.smtp.starttls.enable", "true"); // added this line
-            props.put("mail.smtp.host", "smtp.googlemail.com");
-            props.put("mail.smtp.user", from);
-            props.put("mail.smtp.password", password);
-            props.put("mail.smtp.port", "587");
-            props.put("mail.smtp.auth", "true");
-            
-        	log.debug("1");
-            Authenticator auth = new SMTPAuthenticator(login, password);
-        	log.debug("2");
-            Session session = Session.getInstance(props, auth);
-        	log.debug("3");
-            MimeMessage msg = new MimeMessage(session);
-        	log.debug("4");
-            msg.setText(message);
-            msg.setSubject(subject);
-            msg.setFrom(new InternetAddress(from));
-            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        	log.debug("5");
-            Transport.send(msg);
-        	log.debug("6");
-
-        } catch (AuthenticationFailedException ex) {
-        	log.debug("AuthenticationFailedException");
-        	log.debug(ex);
-        	return false;
-
-
-        } catch (AddressException ex) {
-        	log.debug("AddressException");
-        	log.debug(ex);
-        	return false;
-
-
-        } catch (MessagingException ex) {
-        	log.debug("MessagingException");
-        	log.debug(ex);
-        	return false;
-        }
-        return true;
-    }
-	
-	
+		Email e = new Email();
+		return e.sendEmail(to, subject, message);		
+    }	
 }
