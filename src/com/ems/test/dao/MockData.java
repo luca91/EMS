@@ -75,6 +75,10 @@ public class MockData {
 			sql =
 					"DELETE FROM user";
 			stmt.executeUpdate(sql);
+			
+			sql =
+					"DELETE FROM user_role";
+			stmt.executeUpdate(sql);
 			// ############# DELETE RECORDS - END #############			
 			
 			
