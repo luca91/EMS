@@ -46,7 +46,7 @@
 						  <li><a href="#">Events</a></li>
 						  <li><a href="#">Media</a></li>
 						  <li><a href="#">Contact Us</a></li>
-						  <li class="last-item"><a href="login.jsp">Login</a></li>						  
+						  <li class="last-item"><a href="/ems/private/index.html">Login</a></li>						  
 						</ul>
 					</nav>
 				</div>
