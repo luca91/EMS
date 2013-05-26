@@ -208,6 +208,52 @@ public class UserDaoTest {
 	
 	
 	@Test
+    public void testGetAllRecordWithRole() throws ClassNotFoundException {
+		log.debug("START");	
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			UserDao obj = new UserDao(conn);
+	
+			String role = "admin";
+	    	List<User> list = obj.getAllRecordWithRole(role);
+	
+	    	String sql = 	
+	    			"SELECT COUNT(*) AS nr_rows" +
+	    			" FROM user, user_role" +
+	    			" WHERE user.email = user_role.email" + 
+	    			" AND user_role.ROLE_NAME = " + role;
+	    	stmt = conn.createStatement();
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	int nr_rows = rs.getInt("nr_rows");
+	    	
+	    	log.debug("nr_rows: " + nr_rows);
+	    	log.debug("list.size(): " + list.size());
+	    	Assert.assertEquals("failure - getAllUsers returns a different list of record", nr_rows, list.size());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+    	
+		log.debug("testGetAllUsers() - END");	
+    }
+	
+	
+	@Test
     public void testGetAllUsers() throws ClassNotFoundException {
 		log.debug("testGetAllUsers() - START");	
 		try{
@@ -367,6 +413,143 @@ public class UserDaoTest {
     }	
 	
 	@Test
+    public void testIsUserValid() throws ClassNotFoundException {
+		log.debug("testUpdateUser() - START");
+		String fname = "FakeFname";
+		String lname = "FakeLname";
+		String date_of_birth = "20130416";
+		String email = "FakeEmail";
+		String password = "FakePassword";
+		String role = "admin";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			
+			
+	    	String sql = 
+	    			"INSERT" +
+					" INTO user(fname,lname,date_of_birth,email, password,role) " +
+	    			" VALUES ('" + fname +"', '" + lname + "', '" + date_of_birth + "', '" +  email + "', '" + password + "', '" + role + "');";
+
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+	    	
+	    	UserDao dao = new UserDao(conn);
+	    	
+	    	//test if method checks correctly a valid user
+	    	boolean isUserValid = dao.isUserValid(email, password);
+	    	Assert.assertTrue("failure - user and password are not valid", isUserValid);
+	    	
+	    	
+	    	String userNotValid = UUID.randomUUID().toString();
+	    	String passwordNotValid = UUID.randomUUID().toString();
+	    	
+	    	//test if method checks correctly a valid user with invalid password
+	    	isUserValid = dao.isUserValid(email, passwordNotValid);
+	    	Assert.assertTrue("failre - method checks as valid an user with invalid password", !isUserValid);
+	    	
+	    	//test if method checks correctly an invalid user
+	    	isUserValid = dao.isUserValid(userNotValid, passwordNotValid);
+	    	Assert.assertTrue("faliure - method checks as avalis an invalid user", !isUserValid);	
+	    	
+	    	
+	    	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+		log.debug("testUpdateUser() - END");
+    }
+	
+	@Test
+    public void testUpdatePassword() throws ClassNotFoundException {
+		log.debug("START");
+		String fname = "FakeFname";
+		String lname = "FakeLname";
+		String date_of_birth = "20130416";
+		String email = "FakeEmail";
+		String password = "FakePassword";
+		String role = "admin";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			
+			
+	    	String sql = 
+	    			"INSERT" +
+					" INTO user(fname,lname,date_of_birth,email, password,role) " +
+	    			" VALUES ('" + fname +"', '" + lname + "', '" + date_of_birth + "', '" +  email + "', '" + password + "', '" + role + "');";
+
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+	    	
+			
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+			
+	    	rs.next();
+	    	int  last_id = rs.getInt("last_id");
+	    	
+	    	log.debug(last_id);
+	    	
+	    	UserDao obj = new UserDao(conn);
+	
+	    	User aRecord = new User();
+	    	
+
+	    	String newPassword = "PasswordUpdated";
+
+	    	
+	    	aRecord.setId(last_id);
+	    	
+	    	
+	    	obj.updatePassword(last_id, newPassword);
+	    	
+	    	sql = 	"SELECT *" +
+	    			" FROM user" +
+	    			" WHERE id = " + last_id;
+	    	
+	    	rs = stmt.executeQuery(sql);
+			
+	    	rs.next();
+
+	    	String upPassword = rs.getString("password");
+	    	
+	    	Assert.assertEquals("failure - field password has not been correctly updated", newPassword, upPassword);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+		log.debug("testUpdateUser() - END");
+    }
+	
+	@Test
     public void testUpdateUser() throws ClassNotFoundException {
 		log.debug("testUpdateUser() - START");
 		String fname = "FakeFname";
@@ -461,66 +644,6 @@ public class UserDaoTest {
 		log.debug("testUpdateUser() - END");
     }
 	
-	@Test
-    public void testIsUserValid() throws ClassNotFoundException {
-		log.debug("testUpdateUser() - START");
-		String fname = "FakeFname";
-		String lname = "FakeLname";
-		String date_of_birth = "20130416";
-		String email = "FakeEmail";
-		String password = "FakePassword";
-		String role = "admin";
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			
-			
-	    	String sql = 
-	    			"INSERT" +
-					" INTO user(fname,lname,date_of_birth,email, password,role) " +
-	    			" VALUES ('" + fname +"', '" + lname + "', '" + date_of_birth + "', '" +  email + "', '" + password + "', '" + role + "');";
 
-	    	stmt = conn.createStatement();
-	    	stmt.executeUpdate(sql);
-	    	
-	    	UserDao dao = new UserDao(conn);
-	    	
-	    	//test if method checks correctly a valid user
-	    	boolean isUserValid = dao.isUserValid(email, password);
-	    	Assert.assertTrue("failure - user and password are not valid", isUserValid);
-	    	
-	    	
-	    	String userNotValid = UUID.randomUUID().toString();
-	    	String passwordNotValid = UUID.randomUUID().toString();
-	    	
-	    	//test if method checks correctly a valid user with invalid password
-	    	isUserValid = dao.isUserValid(email, passwordNotValid);
-	    	Assert.assertTrue("failre - method checks as valid an user with invalid password", !isUserValid);
-	    	
-	    	//test if method checks correctly an invalid user
-	    	isUserValid = dao.isUserValid(userNotValid, passwordNotValid);
-	    	Assert.assertTrue("faliure - method checks as avalis an invalid user", !isUserValid);	
-	    	
-	    	
-	    	
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	    finally{
-	        //finally block used to close resources
-	        try{
-	           if(stmt!=null)
-	              conn.close();
-	        }catch(SQLException se){
-	        }// do nothing
-	        try{
-	           if(conn!=null)
-	              conn.close();
-	        }catch(SQLException se){
-	           se.printStackTrace();
-	        }//end finally try
-	    }
-		log.debug("testUpdateUser() - END");
-    }
 	
 }

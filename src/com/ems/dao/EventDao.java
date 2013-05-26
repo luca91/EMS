@@ -278,31 +278,8 @@ public class EventDao {
         return aRecord;
     }    
     
-    /**
-     * Returns true if the passed id_manager is authorized to perform action on an event
-     * 
-     * @param anId_manager Identifier of a event manager
-     * @param anIdEvent An event
-     * @return isAuthorized
-     */
-    public boolean isAuthorized(int anId_manager, int anIdEvent) {
-    	log.trace("START");
-        try {
-            PreparedStatement preparedStatement = connection.
-                    prepareStatement("select * from event where id_manager=? and id=?" );
-            preparedStatement.setInt(1, anId_manager);
-            preparedStatement.setInt(2, anIdEvent);
-            ResultSet rs = preparedStatement.executeQuery();
-
-            if (rs.next()) {
-            	return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    	log.trace("END");
-        return false;
-    }
+ 
+    
     /**
      * Return a list of user that can modify the record identified by the passed id 
      * 

@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.NamingException;
@@ -20,6 +21,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import com.ems.dao.EventDao;
+import com.ems.dao.ParticipantDao;
 import com.ems.model.Event;
 import com.ems.tools.Population;
 
@@ -46,6 +48,7 @@ public class EventDaoTest {
 	static ResultSet rs = null;
 	
 	int id_manager;
+	int id_group_referent;
 	int id_event;
 
 	MockData md = new MockData();
@@ -65,6 +68,7 @@ public class EventDaoTest {
 		
 		id_manager = md.getId_manager();
 		id_event = md.getId_event();
+		id_group_referent = md.getId_group_referent();
 		
 		log.debug("loadMockData() - END");
 	}
@@ -148,7 +152,94 @@ public class EventDaoTest {
 	
 	
 	@Test
-    public void testDeleteUser() throws NamingException, ClassNotFoundException {
+    public void testCanBeChangedById() throws ClassNotFoundException {
+		log.debug("START");
+		
+		//int id_manager = 28;
+		String name = "nameTest";
+		String description = "descriptiontest";
+		String start = "20130601";
+		String end = "20130630";
+		String enrollment_start = "20130515";
+		String enrollment_end = "20130530";
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			
+			
+	    	String sql = 
+					"insert " +
+					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
+	    			" VALUES (" + id_manager+", '" + name + "', '" + description + "', '" +  start + "', '" + end + "', '" + enrollment_start + "','" + enrollment_end +"');";
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+	    	
+			
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+			
+	    	rs.next();
+	    	int  last_id = rs.getInt("last_id");
+	    	
+			
+	    	EventDao obj = new EventDao(conn);
+	    	List<Integer> lu = obj.canBeChangedBy(last_id) ;  
+	    	
+	    	
+	    	sql = 	" SELECT event.id_manager " + 
+	    			" FROM event " +
+	    			" WHERE event.id = " + last_id + 
+	    			" UNION " +
+	    			" SELECT ems.user.id" +
+	    			" FROM ems.user, ems.user_role" +
+	    			" WHERE ems.user.email = ems.user_role.email" +
+	    			" AND ems.user_role.ROLE_NAME = 'admin';";
+	    	log.debug(sql);
+	    	rs = stmt.executeQuery(sql);
+
+	    	List<Integer> lu2 = new ArrayList<Integer>();
+	    	int count = 1;
+	    	while (rs.next()) {
+	    		log.debug("Record " + count + " - " + rs.getInt(1));
+	    		lu2.add(rs.getInt(1));
+	    		count++;
+	    	}
+			log.debug("1");
+	    	log.debug("lu: " + lu.size());
+	    	for (int i = 0; i < lu.size(); i++){
+	    		log.debug(lu.get(i));
+	    	}
+
+	    	log.debug("lu2: " + lu2.size());
+	    	for (int i = 0; i < lu2.size(); i++){
+	    		log.debug(lu2.get(i));
+	    	}
+	    	
+	    	Assert.assertEquals("failure - the users that can change the Participant are non correct", lu.size(), lu2.size());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+		log.trace("END");
+    }	
+	
+	
+	@Test
+    public void testDeleteRecord() throws NamingException, ClassNotFoundException {
 		log.debug("START");
 		
 		//int id_manager = 28;
@@ -255,7 +346,7 @@ public class EventDaoTest {
 	
 	
 	@Test
-    public void testGetUserById() throws ClassNotFoundException {
+    public void testGetRecordById() throws ClassNotFoundException {
 		log.trace("START");
 
 		//int id_manager = 28;
@@ -312,6 +403,149 @@ public class EventDaoTest {
 	    }
 		log.trace("END");
     }	
+	
+	
+	@Test
+    public void testGetRecordById_group() throws ClassNotFoundException {
+		log.trace("START");
+
+		//int id_manager = 28;
+		String name = "nameTest";
+		String description = "descriptiontest";
+		String start = "20130601";
+		String end = "20130630";
+		String enrollment_start = "20130515";
+		String enrollment_end = "20130530";
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			
+			
+			// Insert an event
+	    	String sql = 
+   					"insert " +
+   					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
+   	    			" VALUES (" + id_manager +", '" + name + "', '" + description + "', '" +  start + "', '" + end + "', '" + enrollment_start + "','" + enrollment_end +"');";
+	    			
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+	    	
+			
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+			
+	    	rs.next();
+	    	int  last_id = rs.getInt("last_id");
+	    	
+	    	log.debug("last_id: " + last_id);
+	    	
+			// Insert a group
+	    	sql = 
+					"insert " +
+					" into ems.group(id_event,id_group_referent,name,max_group_number,blocked)" + 
+	    			" VALUES (" + last_id + ", " + id_group_referent + ", 'name',10,false);";
+	    			
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+	    	
+			
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+			
+	    	rs.next();
+	    	int  last_id_group = rs.getInt("last_id");
+	    	
+	    	log.debug("last_id_group: " + last_id_group);
+	    	
+	    	
+	    	EventDao obj = new EventDao(conn);
+	
+	    	Event aRecord = obj.getRecordById_group(last_id_group);
+	    	log.debug("record inserted: " + aRecord.toString());
+	    	
+	    	Assert.assertEquals("failure - record returned by id_group is different from record inserted", aRecord.getName(), name);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+		log.trace("END");
+    }		
+	
+
+	@Test
+    public void testGetRecordById_event_mng() throws ClassNotFoundException {
+		log.trace("START");
+
+		//int id_manager = 28;
+		String name = "nameTest";
+		String description = "descriptiontest";
+		String start = "20130601";
+		String end = "20130630";
+		String enrollment_start = "20130515";
+		String enrollment_end = "20130530";
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			
+			
+			// Insert an event
+	    	String sql = 
+   					"insert " +
+   					" into event(id_manager,name,description,start,end,enrollment_start,enrollment_end)" + 
+   	    			" VALUES (" + id_manager +", '" + name + "', '" + description + "', '" +  start + "', '" + end + "', '" + enrollment_start + "','" + enrollment_end +"');";
+	    			
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+
+	    	EventDao obj = new EventDao(conn);
+	
+	    	List<Event> records = obj.getRecordsById_event_mng(id_manager);
+	    	
+	    	
+			// Insert an event
+	    	sql = "SELECT * FROM event WHERE id_manager = " + id_manager;   			
+	    	stmt = conn.createStatement();
+	    	rs = stmt.executeQuery(sql);
+		
+	    	List<Integer> li = new ArrayList<Integer>();
+	    	while(rs.next()){	       
+	    		li.add(rs.getInt(1));
+	    	}
+	    	Assert.assertEquals("failure - record returned are different", records.size(), li.size());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+		log.trace("END");
+    }			
 	
 	@Test
     public void testUpdateRecord() throws ClassNotFoundException {

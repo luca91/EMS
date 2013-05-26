@@ -298,45 +298,57 @@ public class ParticipantDao {
         try {
         	
         	//look for group_referent
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("SELECT id_group_referent, id_group " +
+            PreparedStatement preparedStatement1 = connection
+                    .prepareStatement("SELECT ems.group.id_group_referent, ems.group.id " +
                     					" FROM participant, ems.group" +
-                    					" WHERE participant.id_group = group.id" +
+                    					" WHERE participant.id_group = ems.group.id" +
                     					" AND participant.id = ?");
-            preparedStatement.setInt(1, anId_participant);
-            ResultSet rs = preparedStatement.executeQuery();
+            preparedStatement1.setInt(1, anId_participant);
+            log.debug(preparedStatement1.toString());
+            ResultSet rs1 = preparedStatement1.executeQuery();
 
+            
             int id_group = 0;
-            if (rs.next()) {
-                listOfId.add(rs.getInt("id_group_referent"));
-                id_group = rs.getInt("id_group");
+
+            if (rs1.next()) {
+                listOfId.add(rs1.getInt("id_group_referent"));
+                log.debug("id_group_referent: " + rs1.getInt("id_group_referent"));
+                id_group = rs1.getInt("id");
+                log.debug("id_group: " + rs1.getInt("id"));
             }
 
-            //look for id_event
-            preparedStatement = connection
-                    .prepareStatement("SELECT id_manager " +
+            
+            //look for id_event manager
+            PreparedStatement preparedStatement2 = connection
+                    .prepareStatement("SELECT event.id_manager " +
                     					" FROM ems.group, event" +
                     					" WHERE ems.group.id_event = event.id" +
                     					" AND ems.group.id = ?");
-            preparedStatement.setInt(1, id_group);
-            rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                listOfId.add(rs.getInt("id_manager"));
+            preparedStatement2.setInt(1, id_group);
+            log.debug(preparedStatement2.toString());
+            ResultSet rs2 = preparedStatement2.executeQuery();
+            if (rs2.next()) {
+                listOfId.add(rs2.getInt("id_manager"));
+                log.debug("id_manager: " + rs2.getInt("id_manager"));
             }
+
             
-            //look admins
-            preparedStatement = connection
+            //look for admins
+            PreparedStatement preparedStatement3= connection
                     .prepareStatement("SELECT id " +
                     					" FROM ems.user, ems.user_role" +
                     					" WHERE ems.user.email = ems.user_role.email" +
                     					" AND ems.user_role.ROLE_NAME = 'admin'");
-            rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                listOfId.add(rs.getInt("id"));
+            log.debug(preparedStatement3.toString());
+            ResultSet rs3 = preparedStatement3.executeQuery();
+            while (rs3.next()) {
+            	log.debug("there are admins");
+                listOfId.add(rs3.getInt("id"));
+                log.debug("id_admin: " + rs3.getInt("id"));
             }
             
             for (int  i = 0; i < listOfId.size(); i++){
-            	log.debug("listOfId: " + listOfId.get(i));
+            	log.debug("listOfId[" + i + "]: " + listOfId.get(i));
             }
             
             

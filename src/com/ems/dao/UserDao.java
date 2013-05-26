@@ -314,7 +314,7 @@ public class UserDao {
             
             ResultSet rs = preparedStatement.executeQuery();
                  	
-        	User user = new User();
+        	//User user = new User();
         	
         	if (rs.next()) {
                 //user.setId(rs.getInt("id"));

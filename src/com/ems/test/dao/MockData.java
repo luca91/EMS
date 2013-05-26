@@ -31,6 +31,7 @@ public class MockData {
 	static ResultSet rs = null;;
 	
 	int id_manager;
+	int id_group_referent;
 	int id_event;
 	int id_group;
 
@@ -92,17 +93,52 @@ public class MockData {
 			log.debug("Inserting record 1...");
 			stmt.executeUpdate(sql);
 			
+	    	sql = 	"INSERT"+
+	    			" INTO ems.user_role(ROLE_NAME, email)" +
+	    			" VALUES ('admin', 'lucabelles@gmail.com');";	    	
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+	    	
+	// ########################################### 			
+			
 			sql = 	"insert " +
 					" into user(fname,lname,date_of_birth,email,password,role)" +
 					" values ('Luca', 'Ba', '19710703','luca.barazzuol@gmail.com' ,'password','event_mng');";
 			log.debug("Inserting record 2...");
 			stmt.executeUpdate(sql);
 			
+			log.debug("Get id of dummy id_manager");
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	id_manager = rs.getInt("last_id");
+	    	
+	    	sql = 	"INSERT"+
+	    			" INTO ems.user_role(ROLE_NAME, email)" +
+	    			" VALUES ('event_mng', 'luca.barazzuol@gmail.comm');";	    	
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+	    	
+	// ###########################################    	
+			
 			sql = 	"insert " +
 					" into user(fname,lname,date_of_birth,email,password,role)" +
 					" values ('Alex', 'Stan','19910202','alexstannumberone@gmail.com' ,'password','group_mng');";
 			log.debug("Inserting record 3...");
 			stmt.executeUpdate(sql);
+			
+			log.debug("Get id of dummy id_group_referent");
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	id_group_referent = rs.getInt("last_id");
+	    	
+	    	
+	    	sql = 	"INSERT"+
+	    			" INTO ems.user_role(ROLE_NAME, email)" +
+	    			" VALUES ('group_mng', 'alexstannumberone@gmail.comm');";	    	
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
 			// ############# TABLE USER - END #############
 			
 			
@@ -110,7 +146,7 @@ public class MockData {
 			// ############# TABLE EVENT - START #############
 			log.debug("TABLE EVENT");
 			
-			log.debug("Insert a dummy id_manager");
+/*			log.debug("Insert a dummy id_manager");
 			sql =
 					"insert " +
 					" into user(fname,lname,date_of_birth,email,password,role)" +
@@ -121,7 +157,7 @@ public class MockData {
 	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
 	    	rs = stmt.executeQuery(sql);
 	    	rs.next();
-	    	id_manager = rs.getInt("last_id");
+	    	id_manager = rs.getInt("last_id");*/
 			
 			sql = 	
 					"insert " +
@@ -159,7 +195,7 @@ public class MockData {
 			sql =
 					"insert " +
 					" into ems.group(id_event,id_group_referent,max_group_number,blocked)" +
-					" values (" + id_event + "," + id_manager + ", 99999, false);";
+					" values (" + id_event + "," + id_group_referent + ", 99999, false);";
 			log.debug(sql);
 			stmt.executeUpdate(sql);
 			
@@ -173,7 +209,7 @@ public class MockData {
 			sql =
 					"insert " +
 					" into ems.group(id_event,id_group_referent,max_group_number,blocked)" +
-					" values (" + id_event + "," + id_manager + ", 999999, true);";
+					" values (" + id_event + "," + id_group_referent + ", 999999, true);";
 			stmt.executeUpdate(sql);
 			// ############# TABLE GROUP - END #############			
 			
@@ -234,6 +270,10 @@ public class MockData {
 					"DELETE FROM user";
 			stmt.executeUpdate(sql);	
 			
+			sql =
+					"DELETE FROM user";
+			stmt.executeUpdate(sql);	
+			
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
@@ -278,5 +318,13 @@ public class MockData {
 
 	public void setId_group(int id_group) {
 		this.id_group = id_group;
+	}
+	
+	public int getId_group_referent() {
+		return id_group_referent;
+	}
+
+	public void setId_group_referent(int id_group_referent) {
+		this.id_group_referent = id_group_referent;
 	}
 }
