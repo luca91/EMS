@@ -10,6 +10,7 @@ System.out.println("index.html");
 <title>EMS - Enrollment Management System - Private Portal</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../css/tables_style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../css/style_portal.css" type="text/css" media="screen">
 <link rel="stylesheet" href="../css/layout.css" type="text/css" media="screen">
 <script type="text/javascript" src="../js/jquery-1.6.min.js"></script>
@@ -20,6 +21,8 @@ System.out.println("index.html");
 <script src="../js/Open_Sans_Semibold_600.font.js" type="text/javascript"></script> 
 <script src="../js/FF-cash.js" type="text/javascript"></script>  
 <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="../js/ajax-section.js" type="text/javascript"></script>  
 <!--[if lt IE 7]>
 	<div style=' clear: both; text-align:center; position: relative;'>
 		<a href="http://www.microsoft.com/windows/internet-explorer/default.aspx?ocid=ie6_countdown_bannercode"><img src="http://www.theie6countdown.com/images/upgrade.jpg" border="0"  alt="" /></a>
@@ -41,16 +44,16 @@ System.out.println("index.html");
 					<a class="logo" href="index.html">EMS</a>
 					<strong class="slog">Enrollment Management System</strong>						
 				</h1>
-				<fieldset>
-					<div class="login-form">
-						Welcome - ${systemUser.email}
-					</div>
-				</fieldset>
+				<form id="session-id">
+					Welcome - ${systemUser.email}<br>
+					Role: ${systemUser.role}<br>
+					Time: <jsp:useBean id="today" class="java.util.Date" scope="page" />
+					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
+				</form>				
 			</div>
 			<!-- MENU -->
 			<div class="row-2">
 				<nav>
-					<!-- HERE HEADER JSP -->
 					<ul class="menu">										
 						  <c:import url="inc/header.jsp"/>					  
 					</ul>
@@ -59,16 +62,19 @@ System.out.println("index.html");
 		</header>
 		<!-- CONTENT -->
 		<section id="content">
-			<div class="padding">
+			<div class="padding">				
 				<div class="wrapper margin-bot">
-					<div class="col-3">
+				<!-- AJAX CONTENT -->				
+					<div class="col-3" id="ajax-parse">
 						<div class="indent">
-							<br>
 							<h3 class="p0">Enrollment Management System - private site</h3>
-							<h3 class="p0"><a href="#">Homepage</a></h3>
-							<h3 class="p0"><a href="#">TEST</a></h3>
-						</div>
-					</div>									
+							<h3 class="p0"><a href="../public/index.html" target="_blank">Homepage</a></h3>
+							<h3 class="p2"><a href="#">TEST - load content</a></h3>
+							<h3 class="p3"><a href="#">TEST - delete content</a></h3>
+							<a class="button-2" id="btn1">Append text</a>
+							<!-- TEST -->																				
+						</div>					
+					</div>										
 				</div>			
 			</div>		
 		</section>	

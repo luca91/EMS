@@ -36,11 +36,10 @@
 						<a class="logo" href="index.html">EMS</a>
 						<strong class="slog">Enrollment Management System</strong>
 					</h1>
-					<fieldset>							
-						<div class="login-form">
-							Welcome - ${username} - <a href="LogoutController" >logout</a>
-						</div>
-					</fieldset>
+					<form id="search-form">											
+								<input type="text" name="search" value="Type Keyword Here" onBlur="if(this.value=='') this.value='Type Keyword Here'" onFocus="if(this.value =='Type Keyword Here' ) this.value=''" />
+					</form>
+					
 				</div>
 				<!-- Menu -->
 				<div class="row-2">
