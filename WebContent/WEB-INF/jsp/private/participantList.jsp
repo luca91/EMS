@@ -50,6 +50,7 @@ function confirmDelete(){
 				Participants
 				<c:if test="${id_group != 0 }">for Group: ${id_group}</c:if>
 			</h1>
+			<h3>Max # Participants for the group: ${group.max_group_number}</h3>
 		</c:when>
 	</c:choose>
 
@@ -117,15 +118,11 @@ function confirmDelete(){
 		</c:if>
 	</form>
 
-	<c:if test="${id_group != 0}">
+	<c:if test="${id_group != 0 && (nrEnrolledParticipant < group.max_group_number)}">
 		<p>
-			<a href="participant.jsp?action=insert&id_group=${id_group}">Add
-				Participant</a>
+			<a href="participant.jsp?action=insert&id_group=${id_group}">Add Participant</a>
 		</p>
 		<br />
-	</c:if>
-
-	<c:if test="${id_group != 0  }">
 		<c:set var="act">
 			<c:url
 				value="/private/participantInvite?action=invite&id_group=${id_group}" />
@@ -143,7 +140,9 @@ function confirmDelete(){
 			</fieldset>
 		</form>
 	</c:if>
-
+	<c:if test="${id_group != 0 && (nrEnrolledParticipant >= group.max_group_number)}">
+		<h3>Max number of enrolled people reached for this group!</h3>
+	</c:if>
 
 </body>
 </html>

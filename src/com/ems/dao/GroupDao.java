@@ -433,4 +433,39 @@ public class GroupDao {
     	log.trace("END");
     	return listOfId;
     }
+    
+    /**
+     * Return the number of participant enrolled in the group 
+     * 
+     * @param anId_group an id of a group
+     * @return int number of actual participant enrolled in the group 
+     */
+    public int  getNrEnrolledParticipant(int anId_group) {
+    	log.trace("START");
+    	int nrEnrolledParticipant = 0;
+        try {	
+        	//look for group_referent
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("SELECT count(*) AS count" +
+                    					" FROM participant" +
+                    					" WHERE id_group = ?");
+            preparedStatement.setInt(1, anId_group);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            
+            
+            if (rs.next()) {
+            	nrEnrolledParticipant = rs.getInt("count");
+            	log.debug("nrEnrolledParticipant: " + nrEnrolledParticipant);
+
+            }
+
+                      
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+    	return nrEnrolledParticipant;
+    }    
 }

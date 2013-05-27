@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 import com.ems.dao.EventDao;
 import com.ems.dao.GroupDao;
 import com.ems.dao.UserDao;
-import com.ems.model.Event;
 import com.ems.model.Group;
 import com.ems.model.User;
 

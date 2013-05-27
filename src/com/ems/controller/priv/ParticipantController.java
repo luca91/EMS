@@ -6,18 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
-import javax.mail.AuthenticationFailedException;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -101,6 +90,12 @@ public class ParticipantController extends HttpServlet {
     		id_group = Integer.parseInt(request.getParameter("id_group").toString());
         	EventDao ed = new EventDao();
         	request.setAttribute("event", ed.getRecordById_group(id_group));
+        	
+        	GroupDao gdao = new GroupDao();
+        	Group g = gdao.getRecordById(id_group);
+        	request.setAttribute("group", g);
+        	request.setAttribute("nrEnrolledParticipant", gdao.getNrEnrolledParticipant(id_group));
+
     	}
     	request.setAttribute("id_group", id_group);
     	
