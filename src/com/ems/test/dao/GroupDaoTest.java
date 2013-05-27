@@ -705,4 +705,65 @@ public class GroupDaoTest {
 	    }
 		log.trace("END");
     }
+	
+	
+	@Test
+    public void testGetNrEnrolledParticipant() throws ClassNotFoundException {
+		log.debug("START");	
+		String name = "nameGroup1";
+		int max_group_number = 99999;
+		boolean blocked = false;
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+	    	String sql = 
+					"insert " +
+					" into ems.group(id_event,id_group_referent,name,max_group_number,blocked)" + 
+	    			" VALUES (" + id_event + ", " + id_manager + ", '" + name + "', " + max_group_number + ", " + blocked +");";
+
+	    	stmt = conn.createStatement();
+	    	stmt.executeUpdate(sql);
+	    	
+			log.debug("Get id");
+	    	sql = "SELECT LAST_INSERT_ID() AS last_id";
+	    	rs = stmt.executeQuery(sql);
+			
+	    	rs.next();
+	    	int  id_group = rs.getInt("last_id");
+			
+			GroupDao obj = new GroupDao(conn);
+	
+			int nrEnrolledParticipant = obj.getNrEnrolledParticipant(id_group);
+	
+	    	sql = 	
+	    			"SELECT count(*) AS count" +
+     				" FROM participant" +
+     				" WHERE id_group = " + id_group;
+	    	stmt = conn.createStatement();
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	int nr_rows = rs.getInt("count");
+	    	
+	    	Assert.assertEquals("failure - testGetNrEnrolledParticipant returns a different number of Participant", nr_rows, nrEnrolledParticipant);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+    	
+		log.debug("testGetAllUsers() - END");	
+    }
+		
 }
