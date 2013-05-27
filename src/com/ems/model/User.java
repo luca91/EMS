@@ -16,6 +16,18 @@ public class User {
 	private String password;
 	private String email;
 	private String role;
+	
+	public User(){ }
+	
+	public User(String name, String surname, String dateOfBirth, String password, String email, String role){
+		fname = name;
+		lname = surname;
+		date_of_birth = dateOfBirth;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+	}
+	
 	public int getId() {
 		return id;
 	}

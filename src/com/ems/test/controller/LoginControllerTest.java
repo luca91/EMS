@@ -36,7 +36,7 @@ public class LoginControllerTest {
 	
 	@Before
 	public void setUp() throws SQLException{
-		toTest = new LoginController("name.surname@unibz.it", "admin");
+		toTest = new LoginController("name.surname@unibz.it", "admin", "admin");
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 	}
 

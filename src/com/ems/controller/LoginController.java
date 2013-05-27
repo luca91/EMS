@@ -68,16 +68,9 @@ public class LoginController extends HttpServlet {
 	}
 	
     public LoginController() throws ClassNotFoundException {
-        super();
-        try {
-			dao = new UserDao();
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        super();      
+		dao = new UserDao();
+	
     }
 
 	@Override 

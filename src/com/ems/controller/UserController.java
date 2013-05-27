@@ -43,17 +43,7 @@ public class UserController extends HttpServlet {
 	public UserController() throws ClassNotFoundException {
     	super();
     	log.trace("START");
-        try {
-			dao = new UserDao();
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			log.debug("NamingException");
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			log.debug("SQLException");
-			e.printStackTrace();
-		}
+		dao = new UserDao();
     	log.trace("END");
     }
 
