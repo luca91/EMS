@@ -33,7 +33,7 @@ public class EventDao {
     private Connection connection;
 
     /**
-     * Constructor with no parameters
+     * Constructor with a Connection as a parameter
      * used by JUnit
      * 
      * @param  c A connection object used to access database by test units
@@ -284,6 +284,7 @@ public class EventDao {
      * Return a list of user that can modify the record identified by the passed id 
      * 
      * @param anId_participant an id of a participant
+     * @return List of id that can change the Event
      */
     public List<Integer>  canBeChangedBy(int anId_event) {
     	log.trace("START");

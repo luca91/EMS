@@ -33,7 +33,7 @@ public class UserDao {
     private Connection connection;
 
     /**
-     * Constructor with no parameters
+     * Constructor with a Connection as parameter
      * used by JUnit
      * 
      * @param  c A connection object used to access database by test units
@@ -179,6 +179,7 @@ public class UserDao {
      * 
      * @param email The email of the user
      * @param passwordr New Password
+     * @return boolean to signal that the password has been changed
      */
     public boolean updatePassword(int id, String password) {
     	log.debug("START");

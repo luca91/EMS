@@ -19,7 +19,6 @@ import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 
 import com.ems.model.Participant;
-import com.ems.model.User;
 
 
 /**
@@ -35,7 +34,7 @@ public class ParticipantDao {
     private Connection connection;
 
     /**
-     * Constructor with no parameters
+     * Constructor with a Connection as parameter
      * used by JUnit
      * 
      * @param  c A connection object used to access database by test units
@@ -199,6 +198,7 @@ public class ParticipantDao {
     /**
      * Returns the list of all records stored in table associated with a group
      * 
+     * @param anId_group
      * @return List<User> List of objects Participant
      */
     public List<Participant> getAllRecordsById_group(int anId_group) {
@@ -291,6 +291,7 @@ public class ParticipantDao {
      * Return a list of user that can modify the record identified by the passed id 
      * 
      * @param anId_participant an id of a participant
+     * @return List<Integer> List of id
      */
     public List<Integer>  canBeChangedBy(int anId_participant) {
     	log.trace("START");

@@ -33,7 +33,7 @@ public class GroupDao {
     private Connection connection;
 
     /**
-     * Constructor with no parameters
+     * Constructor with a Connection as parameter
      * used by JUnit
      * 
      * @param  c A connection object used to access database by test units
@@ -178,7 +178,7 @@ public class GroupDao {
     }
 
     /**
-     * Returns the list of all records stored in the table Group and associated with an event
+     * Returns the list of all records stored in the table Group and associated with an event and an event_manager
      * 
      * @param id_event Event to which belong the groups
      * @return List<Group> List of objects Group
@@ -215,7 +215,7 @@ public class GroupDao {
     }
  
     /**
-     * Returns the list of all records stored in the table Group and associated with an event
+     * Returns the list of all records stored in the table Group and associated with an id_group_referent
      * 
      * @param id_event Event to which belong the groups
      * @return List<Group> List of objects Group
@@ -232,7 +232,6 @@ public class GroupDao {
             log.debug(preparedStatement.toString());
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-            	log.debug("@@@");
                 Group aRecord = new Group();
                 aRecord.setId(rs.getInt("id"));
                 aRecord.setId_event(rs.getInt("id_event"));
@@ -251,7 +250,7 @@ public class GroupDao {
 
     
     /**
-     * Returns the list of all records stored in the table Group and associated with an event
+     * Returns the list of all records stored in the table Group
      * 
      * @param id_event Event to which belong the groups
      * @return List<Group> List of objects Group
@@ -280,7 +279,7 @@ public class GroupDao {
         return list;
     }
     /**
-     * Returns the list of all records stored in the table Group editable by a user
+     * Returns the list of all records stored in the table Group editable by a id_group_referent
      * 
      * @param id_event Event to which belong the groups
      * @return List<Group> List of objects Group
@@ -311,7 +310,7 @@ public class GroupDao {
     } 
    
     /**
-     * Returns the list of all records stored in the table Group editable by a user
+     * Returns the list of all records stored in the table Group editable by a id_manager
      * 
      * @param id_event Event to which belong the groups
      * @return List<Group> List of objects Group
@@ -377,6 +376,7 @@ public class GroupDao {
      * Return a list of user that can modify the record identified by the passed id 
      * 
      * @param anId_participant an id of a participant
+     * @return List<Integer> List of id of users 
      */
     public List<Integer>  canBeChangedBy(int anId_group) {
     	log.trace("START");
@@ -393,6 +393,7 @@ public class GroupDao {
 
             int id_event = 0;
             if (rs.next()) {
+            	log.debug("id_group_referent: " + rs.getInt("id_group_referent"));
                 listOfId.add(rs.getInt("id_group_referent"));
                 id_event = rs.getInt("id_event");
             }
@@ -405,6 +406,7 @@ public class GroupDao {
             preparedStatement.setInt(1, id_event);
             rs = preparedStatement.executeQuery();
             if (rs.next()) {
+            	log.debug("id_manager: " + rs.getInt("id_manager"));
                 listOfId.add(rs.getInt("id_manager"));
             }
             
@@ -416,6 +418,7 @@ public class GroupDao {
                     					" AND ems.user_role.ROLE_NAME = 'admin'");
             rs = preparedStatement.executeQuery();
             if (rs.next()) {
+            	log.debug("id_admin:" + rs.getInt("id"));
                 listOfId.add(rs.getInt("id"));
             }
             
