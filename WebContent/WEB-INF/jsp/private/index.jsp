@@ -13,7 +13,7 @@ System.out.println("index.html");
 <link rel="stylesheet" href="css/tables_style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/style_portal.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
-<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
+<script src="js/jquery-1.6.min.js" type="text/javascript"></script>
 <script src="js/cufon-yui.js" type="text/javascript"></script>
 <script src="js/cufon-replace.js" type="text/javascript"></script>
 <script src="js/Open_Sans_400.font.js" type="text/javascript"></script>
@@ -68,7 +68,7 @@ System.out.println("index.html");
 					<div class="col-3" id="ajax-parse">
 						<div class="indent">
 							<h3 class="p0">Enrollment Management System - private site</h3>
-							<h3 class="p0"><a href="../public/index.html" target="_blank">Homepage</a></h3>
+							<h3 class="p0"><a href="../index.html" target="_blank">Homepage</a></h3>
 							<h3 class="p2"><a href="#">TEST - load content</a></h3>
 							<h3 class="p3"><a href="#">TEST - delete content</a></h3>
 							<a class="button-2" id="btn1">Append text</a>
