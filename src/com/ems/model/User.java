@@ -2,12 +2,16 @@
 
 package com.ems.model;
 
+import java.io.Serializable;
+
 /**
 * User is the JavaBean representing the record of the table User
 * 
 * @author Luca Barazzuol
 */
-public class User {
+public class User implements Serializable {
+   
+	private static final long serialVersionUID = 1L;
 
 	private int id;
 	private String fname;
