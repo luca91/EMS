@@ -20,7 +20,7 @@
 	</c:set>
 
 	<form method="POST" action="${act}" name="frmAddEvent">
-		Event ID : <input type="text" readonly="readonly" name="id"
+		Event ID : <input type="t ext" readonly="readonly" name="id"
 			value="${record.id}" /> - TO BE HIDDEN<br /> manager ID :
 		<c:choose>
 			<c:when
