@@ -13,7 +13,7 @@ function confirmDelete(){
 	}
 }
 </script>
-<h3>Events</h3>
+<h3>Events</h3> 
 <table id="box-table-a">
 	<thead>
 		<tr>
@@ -33,7 +33,7 @@ function confirmDelete(){
 			test="${systemUser.role == 'admin' || systemUser.role == 'event_mng'}">
 			<c:forEach items="${records}" var="record">
 				<tr>
-					<td><c:out value="${record.id}"></c:out></td>
+					<td>${record.id}</td>
 					<td><c:out value="${record.id_manager}"></c:out></td>
 					<td><c:out value="${record.name}"></c:out></td>
 					<td><c:out value="${record.description}"></c:out></td>
