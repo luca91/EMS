@@ -5,25 +5,25 @@
 	<c:when test="${systemUser.role == 'admin' }">
 		<% System.out.println("admin"); %>
 		<li><a href='<c:url value="/private/index.html"/>'>Home Page</a></li>
-		<li><a href='<c:url value="/private/usersList.html"/>'>Users Management</a></li>
-		<li><a href='<c:url value="/private/eventList.html"/>'>Events Management</a></li>
-		<li><a href='<c:url value="/private/groupList.html"/>'>Groups Management</a></li>
-		<li><a href='<c:url value="/private/participantList.html"/>'>Participants Management</a></li>
+		<li><a href='#' id="listusers">Users Management</a></li>
+		<li><a href='#' id="listevents">Events Management</a></li>
+		<li><a href='#' id="listgroups">Groups Management</a></li>
+		<li><a href='#' id="listparticip">Participants Management</a></li>
 		<li><a href='<c:url value="/private/badgeList.html"/>'>Badges</a></li>
 	</c:when>
 	<c:when test="${systemUser.role == 'event_mng' }">
 		<% System.out.println("event_mng"); %>
-		<li><a href='<c:url value="/private/index.html"/>'>Home Page</a></li>
-		<li><a href='<c:url value="/private/events.html"/>'>Events Management</a></li>
-		<li><a href='<c:url value="/private/groupList.html"/>'>Groups Management</a></li>
-		<li><a href='<c:url value="/private/participantList.html"/>'>Participants Management</a></li>
+		<li><a href='<c:url value="/private/index.html"/>'>Home Page</a></li>		
+		<li><a href='#' id="listevents">Events Management</a></li>
+		<li><a href='#' id="listgroups">Groups Management</a></li>
+		<li><a href='#' id="listparticip">Participants Management</a></li>
 		<li><a href='<c:url value="/private/badgeList.html"/>'>Badges</a></li>
 	</c:when>
 	<c:when test="${systemUser.role == 'group_mng' }">
 		<% System.out.println("group_mng"); %>
-		<li><a href='<c:url value="/private/index.html"/>'>Home Page</a></li>
-		<li><a href='<c:url value="/private/groups.html"/>'>Groups Management</a></li>
-		<li><a href='<c:url value="/private/participants.html"/>'>Participants Management</a></li>
+		<li><a href='<c:url value="/private/index.html"/>'>Home Page</a></li>		
+		<li><a href='#' id="listgroups">Groups Management</a></li>
+		<li><a href='#' id="listparticip">Participants Management</a></li>
 	</c:when>
 </c:choose>
 		

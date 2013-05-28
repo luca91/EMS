@@ -13,6 +13,18 @@ function confirmDelete(){
 	}
 }
 </script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+	  $("#addevent").click(function(){
+		  	$("#ajax-parse").load("event.jsp?action=insert");
+	  });
+	  
+	  $("#updateevent").click(function(){
+		  	$("#ajax-parse").load("${updatevnt}");
+	  });
+	  
+});
+</script>
 <h3>Events</h3> 
 <table id="box-table-a">
 	<thead>
@@ -29,8 +41,7 @@ function confirmDelete(){
 		</tr>
 	</thead>
 	<tbody>
-		<c:if
-			test="${systemUser.role == 'admin' || systemUser.role == 'event_mng'}">
+		<c:if test="${systemUser.role == 'admin' || systemUser.role == 'event_mng'}">
 			<c:forEach items="${records}" var="record">
 				<tr>
 					<td>${record.id}</td>
@@ -41,16 +52,15 @@ function confirmDelete(){
 					<td><c:out value="${record.end}"></c:out></td>
 					<td><c:out value="${record.enrollment_start}"></c:out></td>
 					<td><c:out value="${record.enrollment_end}"></c:out></td>
-					<td><a
-						href="<c:url value='/private/event.jsp?action=edit&id=${record.id}'/>">Update</a></td>
-					<td><a
-						href="<c:url value='/private/eventDelete?action=delete&id=${record.id}'/>"
-						onclick="return confirmDelete();">Delete</a></td>
-					<td><a
-						href="<c:url value='/private/groupList.html?action=listRecord&id_event=${record.id}'/>">Groups</a></td>
+					<td><a href="<c:set value='event.jsp?action=edit&id=${record.id}' var="updatevnt"/>" id="updateevent">Update url ${updatevnt}</a></td>
+					<!-- <td><c:set value='event.jsp?action=edit&id=${record.id}' var="updatevnt"/><a href="${updatevnt}" id="updateevent">Update url ${updatevnt}</a></td> -->
+					<!-- <td><c:set value='event.jsp?action=edit&id=${record.id}' var="updatevnt"/><a href="${updatevnt}" id="updateevent">Update url ${updatevnt}</a></td> -->
+					<td><a href="<c:url value='/private/eventDelete?action=delete&id=${record.id}'/>" onclick="return confirmDelete();">Delete</a></td>
+					<td><a href="<c:url value='/private/groupList.html?action=listRecord&id_event=${record.id}'/>">Groups</a></td>
 				</tr>
 			</c:forEach>
 		</c:if>
 	</tbody>
 </table>
+<p><a class="button-2" href="#" id="addevent">Add Event</a></p>
 <hr>

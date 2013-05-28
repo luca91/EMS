@@ -68,7 +68,18 @@ System.out.println("index.html");
 					<div class="col-3" id="ajax-parse">
 						<h3>Enrollment Management System - private site</h3><br>
 						<div class="indent">							
-							<h3 class="p0"><a href="../index.html" target="_blank">Homepage</a></h3>							
+							<h3 class="p0"><a href="../index.html" target="_blank">Homepage</a></h3>
+							<h3 class="p2"><a href="#">TEST - load content</a></h3>
+							<h3 class="p3"><a href="#">TEST - delete content</a></h3>
+							<a class="button-2" id="btn1">Append text</a>
+							<h3 class="p0"><a href="#" id="listusers">List Users</a></h3>
+							<h3 class="p0"><a href="#" id="listevents">List Events</a></h3>
+							<h3 class="p0"><a href="#" id="listgroups">List Groups - todo</a></h3>
+							<h3 class="p0"><a href="#" id="listparticip">List Participants - todo</a></h3>
+							<h3 class="p0"><a href="#" id="adduser">Add User - todo</a></h3>
+							<h3 class="p0"><a href="#" id="addevent">Add Event - todo</a></h3>
+							<h3 class="p0"><a href="#" id="addgroup">Add Group - todo</a></h3>
+							<h3 class="p0"><a href="#" id="addparticip">Add Participants - todo</a></h3>
 							<!-- TEST -->																				
 						</div>					
 					</div>										
