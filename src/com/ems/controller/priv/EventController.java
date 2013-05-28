@@ -168,9 +168,10 @@ public class EventController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	log.trace("START");
+    	log.debug("START");
     	Event record = new Event();
-
+    	log.debug("request.getParameter(id_manager): " +  request.getParameter("id_manager"));
+    	log.debug("request.getParameter(id_manager): " +  request.getParameter("id_manager"));
 		record.setId_manager(Integer.parseInt(request.getParameter("id_manager")));
     	record.setName(request.getParameter("name"));
     	record.setDescription(request.getParameter("description"));

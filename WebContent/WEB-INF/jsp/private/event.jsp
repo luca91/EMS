@@ -35,7 +35,7 @@
 			</c:when>
 			<c:when
 				test="${record.id_manager != null && sessionScope.systemUser.role == 'event_mng'}">
-				<select name="id_manager" disabled>
+				<select name="id_manager" >
 					<c:forEach items="${listOfEvent_mng}" var="options">
 						<option value="${options.id }"
 							<c:if test="${options.id == record.id_manager }">selected</c:if>>${options.id
@@ -45,7 +45,7 @@
 			</c:when>
 			<c:when test="${sessionScope.systemUser.role == 'event_mng' }">
 				<input type="text" name="id_manager"
-					value="${sessionScope.systemUser.id}" readonly="readonly" /> - TO BE HIDDEN!
+					value="${sessionScope.systemUser.id}" /> - TO BE HIDDEN!
 	            		
 	            	</c:when>
 			<c:otherwise>
