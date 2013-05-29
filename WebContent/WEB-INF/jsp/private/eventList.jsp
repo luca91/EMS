@@ -13,18 +13,6 @@ function confirmDelete(){
 	}
 }
 </script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-	  $("#addevent").click(function(){
-		  	$("#ajax-parse").load("event.jsp?action=insert");
-	  });
-	  
-	  $("#updateevent").click(function(){
-		  	$("#ajax-parse").load("${updatevnt}");
-	  });
-	  
-});
-</script>
 <h3>Events</h3> 
 <table id="box-table-a">
 	<thead>
@@ -52,15 +40,31 @@ $(document).ready(function(){
 					<td><c:out value="${record.end}"></c:out></td>
 					<td><c:out value="${record.enrollment_start}"></c:out></td>
 					<td><c:out value="${record.enrollment_end}"></c:out></td>
-					<td><a href="<c:set value='event.jsp?action=edit&id=${record.id}' var="updatevnt"/>" id="updateevent">Update url ${updatevnt}</a></td>
+					<td><a href="#" id="record">Update url ${record.id}</a></td>
 					<!-- <td><c:set value='event.jsp?action=edit&id=${record.id}' var="updatevnt"/><a href="${updatevnt}" id="updateevent">Update url ${updatevnt}</a></td> -->
 					<!-- <td><c:set value='event.jsp?action=edit&id=${record.id}' var="updatevnt"/><a href="${updatevnt}" id="updateevent">Update url ${updatevnt}</a></td> -->
 					<td><a href="<c:url value='/private/eventDelete?action=delete&id=${record.id}'/>" onclick="return confirmDelete();">Delete</a></td>
 					<td><a href="<c:url value='/private/groupList.html?action=listRecord&id_event=${record.id}'/>">Groups</a></td>
 				</tr>
+				<script type="text/javascript">
+					$(document).ready(function(){						  
+						  
+						  $("#record").click(function(){
+							  $("#ajax-parse").load("event.jsp?action=edit&id=${record.id}");
+						  });	  
+					});
+				</script>
 			</c:forEach>
 		</c:if>
 	</tbody>
 </table>
+<script type="text/javascript">
+					$(document).ready(function(){						  
+						  
+							$("#addevent").click(function(){
+							  	$("#ajax-parse").load("event.jsp?action=insert");
+						  });	  
+					});
+</script>
 <p><a class="button-2" href="#" id="addevent">Add Event</a></p>
 <hr>
