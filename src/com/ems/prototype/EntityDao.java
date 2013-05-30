@@ -27,6 +27,9 @@ public class EntityDao {
 	// commons logging references
 	static Logger log = Logger.getLogger(EntityDao.class.getName());
 
+    /**
+	 * @uml.property  name="connection"
+	 */
     private Connection connection;
 
     //used to load the connection in JUnit tests

@@ -30,6 +30,9 @@ public class EventDao {
 	// commons logging references
 	static Logger log = Logger.getLogger(EventDao.class.getName());
 
+    /**
+	 * @uml.property  name="connection"
+	 */
     private Connection connection;
 
     /**

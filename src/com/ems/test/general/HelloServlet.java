@@ -16,6 +16,10 @@ import org.apache.commons.logging.LogFactory;
 public class HelloServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
  
+    /**
+	 * @uml.property  name="log"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private Log log = LogFactory.getLog(HelloServlet.class);
  
     /**

@@ -31,6 +31,8 @@ public class LogoutController extends HttpServlet {
 	
 	/**
 	 * The user database object.
+	 * @uml.property  name="dao"
+	 * @uml.associationEnd  readOnly="true"
 	 */
 	private UserDao dao;
 	
@@ -40,6 +42,10 @@ public class LogoutController extends HttpServlet {
 	static final String USER = "root";
 	static final String PASS = "";
 	static Connection conn = null;
+	/**
+	 * @uml.property  name="session"
+	 * @uml.associationEnd  
+	 */
 	private HttpSession session;
 
 	

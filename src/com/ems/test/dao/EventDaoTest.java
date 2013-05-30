@@ -47,10 +47,23 @@ public class EventDaoTest {
 	static Statement stmt = null;
 	static ResultSet rs = null;
 	
+	/**
+	 * @uml.property  name="id_manager"
+	 */
 	int id_manager;
+	/**
+	 * @uml.property  name="id_group_referent"
+	 */
 	int id_group_referent;
+	/**
+	 * @uml.property  name="id_event"
+	 */
 	int id_event;
 
+	/**
+	 * @uml.property  name="md"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	MockData md = new MockData();
 	
 	public EventDaoTest(){

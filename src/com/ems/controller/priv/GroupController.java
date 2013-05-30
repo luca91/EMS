@@ -38,6 +38,10 @@ public class GroupController extends HttpServlet {
     private static String LIST_USER = "/groupList.jsp";
     private static String UNAUTHORIZED_PAGE = "/WEB-INF/jsp/private/errors/unauthorized.jsp";
 
+    /**
+	 * @uml.property  name="dao"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private GroupDao dao;   
 	
     /**

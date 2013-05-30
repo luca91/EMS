@@ -18,9 +18,21 @@ import org.mockito.Mockito;
 
 public class HelloServletTest {
 
+	/**
+	 * @uml.property  name="request"
+	 * @uml.associationEnd  
+	 */
 	HttpServletRequest request;
+	/**
+	 * @uml.property  name="response"
+	 * @uml.associationEnd  
+	 */
 	HttpServletResponse response;
 
+	/**
+	 * @uml.property  name="servlet"
+	 * @uml.associationEnd  
+	 */
 	HelloServlet servlet;
 
 	@BeforeClass

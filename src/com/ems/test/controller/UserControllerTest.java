@@ -33,9 +33,21 @@ public class UserControllerTest {
 	// commons logging references
 	static Logger log = Logger.getLogger(UserControllerTest.class.getName());
 
+	/**
+	 * @uml.property  name="request"
+	 * @uml.associationEnd  
+	 */
 	HttpServletRequest request;
+	/**
+	 * @uml.property  name="response"
+	 * @uml.associationEnd  
+	 */
 	HttpServletResponse response;
 	
+	/**
+	 * @uml.property  name="servlet"
+	 * @uml.associationEnd  
+	 */
 	UserController servlet;
 
 	

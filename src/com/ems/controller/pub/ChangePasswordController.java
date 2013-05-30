@@ -29,6 +29,10 @@ public class ChangePasswordController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
     
+    /**
+	 * @uml.property  name="dao"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private UserDao dao;   
 	
     /**

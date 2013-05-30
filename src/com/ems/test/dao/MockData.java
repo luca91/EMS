@@ -30,9 +30,21 @@ public class MockData {
 	static Statement stmt = null;
 	static ResultSet rs = null;;
 	
+	/**
+	 * @uml.property  name="id_manager"
+	 */
 	int id_manager;
+	/**
+	 * @uml.property  name="id_group_referent"
+	 */
 	int id_group_referent;
+	/**
+	 * @uml.property  name="id_event"
+	 */
 	int id_event;
+	/**
+	 * @uml.property  name="id_group"
+	 */
 	int id_group;
 
 
@@ -296,34 +308,66 @@ public class MockData {
 	    }	
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="id_manager"
+	 */
 	public int getId_manager() {
 		return id_manager;
 	}
 
+	/**
+	 * @param id_manager
+	 * @uml.property  name="id_manager"
+	 */
 	public void setId_manager(int id_manager) {
 		this.id_manager = id_manager;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="id_event"
+	 */
 	public int getId_event() {
 		return id_event;
 	}
 
+	/**
+	 * @param id_event
+	 * @uml.property  name="id_event"
+	 */
 	public void setId_event(int id_event) {
 		this.id_event = id_event;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="id_group"
+	 */
 	public int getId_group() {
 		return id_group;
 	}
 
+	/**
+	 * @param id_group
+	 * @uml.property  name="id_group"
+	 */
 	public void setId_group(int id_group) {
 		this.id_group = id_group;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="id_group_referent"
+	 */
 	public int getId_group_referent() {
 		return id_group_referent;
 	}
 
+	/**
+	 * @param id_group_referent
+	 * @uml.property  name="id_group_referent"
+	 */
 	public void setId_group_referent(int id_group_referent) {
 		this.id_group_referent = id_group_referent;
 	}

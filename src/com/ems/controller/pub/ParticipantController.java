@@ -48,6 +48,10 @@ public class ParticipantController extends HttpServlet {
 	
 	private static String feedback = "enrollmentForm.html?message=y";
 	
+    /**
+	 * @uml.property  name="dao"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private ParticipantDao dao;   
 	
     /**

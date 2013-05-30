@@ -26,6 +26,10 @@ public class EntityController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static String INSERT_OR_EDIT = "/prototype/entityForm.jsp";
     private static String LIST_RECORDS = "/prototype/entityList.jsp";
+    /**
+	 * @uml.property  name="dao"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private EntityDao dao;
 
 

@@ -22,10 +22,23 @@ public class Email {
 	// commons logging references
 	static Logger log = Logger.getLogger(Email.class.getName());
 	
+	/**
+	 * @uml.property  name="from"
+	 */
 	String from = "ems2013.staff@gmail.com";
+    /**
+	 * @uml.property  name="login"
+	 */
     String login = "ems2013.staff@gmail.com";
+    /**
+	 * @uml.property  name="password"
+	 */
     String password = "PaSsWoRd";
 	
+    /**
+	 * @uml.property  name="props"
+	 * @uml.associationEnd  qualifier="constant:java.lang.String java.lang.String"
+	 */
     Properties props = new Properties();
     
 	public Email(){

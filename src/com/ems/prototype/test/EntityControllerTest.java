@@ -46,10 +46,26 @@ public class EntityControllerTest {
 	// commons logging references
 	static Logger log = Logger.getLogger(EntityControllerTest.class.getName());
 
+	/**
+	 * @uml.property  name="request"
+	 * @uml.associationEnd  
+	 */
 	HttpServletRequest request;
+	/**
+	 * @uml.property  name="response"
+	 * @uml.associationEnd  
+	 */
 	HttpServletResponse response;
 	
+	/**
+	 * @uml.property  name="servlet"
+	 * @uml.associationEnd  
+	 */
 	EntityController servlet;
+	/**
+	 * @uml.property  name="dao"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	EntityDao dao = mock(EntityDao.class);
 	
 	// JDBC driver name and database URL
@@ -60,6 +76,9 @@ public class EntityControllerTest {
 	static final String PASS = "";
 	static Connection conn = null;
 	
+	/**
+	 * @uml.property  name="pageSource"
+	 */
 	private StringWriter pageSource = new StringWriter();
 	
 	@BeforeClass

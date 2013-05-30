@@ -9,7 +9,7 @@
 		<li><a href='#events' id="listevents">Events Management</a></li>
 		<li><a href='#groups' id="listgroups">Groups Management</a></li>
 		<li><a href='#participants' id="listparticip">Participants Management</a></li>
-		<li><a href='<c:url value="/private/badgeList.html"/>'>Badges</a></li>
+		<li><a href='#badges' id="listbadges">Badges</a></li>
 	</c:when>
 	<c:when test="${systemUser.role == 'event_mng' }">
 		<% System.out.println("event_mng"); %>
@@ -17,7 +17,7 @@
 		<li><a href='#events' id="listevents">Events Management</a></li>
 		<li><a href='#groups' id="listgroups">Groups Management</a></li>
 		<li><a href='#participants' id="listparticip">Participants Management</a></li>
-		<li><a href='<c:url value="/private/badgeList.html"/>'>Badges</a></li>
+		<li><a href='#badges' id="listbadges">Badges</a></li>
 	</c:when>
 	<c:when test="${systemUser.role == 'group_mng' }">
 		<% System.out.println("group_mng"); %>
@@ -43,6 +43,7 @@ $(function(){
         $events = $('#listevents'),
         $groups = $('#listgroups'),
         $participants = $('#listparticip');
+		$badges = $('#badges');
    
     // Get the tabs
     var $tabs = $ajaxparse.children();

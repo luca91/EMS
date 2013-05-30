@@ -31,6 +31,9 @@ public class ParticipantDao {
 	// commons logging references
 	static Logger log = Logger.getLogger(ParticipantDao.class.getName());
 
+    /**
+	 * @uml.property  name="connection"
+	 */
     private Connection connection;
 
     /**

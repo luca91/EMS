@@ -50,12 +50,28 @@ public class ParticipantDaoTest {
 	static Statement stmt = null;
 	static ResultSet rs = null;
 	
+	/**
+	 * @uml.property  name="id_manager"
+	 */
 	int id_manager;
+	/**
+	 * @uml.property  name="id_group_referent"
+	 */
 	int id_group_referent;
+	/**
+	 * @uml.property  name="id_event"
+	 */
 	int id_event;
+	/**
+	 * @uml.property  name="id_group"
+	 */
 	int id_group;
 
 	
+	/**
+	 * @uml.property  name="md"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	MockData md = new MockData();
 	
 	public ParticipantDaoTest(){

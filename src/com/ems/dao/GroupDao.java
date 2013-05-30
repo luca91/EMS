@@ -30,6 +30,9 @@ public class GroupDao {
 	// commons logging references
 	static Logger log = Logger.getLogger(GroupDao.class.getName());
 
+    /**
+	 * @uml.property  name="connection"
+	 */
     private Connection connection;
 
     /**

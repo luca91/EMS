@@ -19,6 +19,10 @@ import com.ems.test.dao.UserDaoTest;
 
 public class LoginControllerTest {
 	
+	/**
+	 * @uml.property  name="toTest"
+	 * @uml.associationEnd  
+	 */
 	private LoginController toTest;
 	
 	// commons logging references

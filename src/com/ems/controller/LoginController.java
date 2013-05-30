@@ -29,19 +29,26 @@ public class LoginController extends HttpServlet {
 	
 	/**
 	 * The username of the user.
+	 * @uml.property  name="username"
 	 */
 	private String username;
 	
 	/**
 	 * The password of the user.
+	 * @uml.property  name="password"
 	 */
 	private String password;
 	
 	/**
 	 * The user database object.
+	 * @uml.property  name="dao"
+	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private UserDao dao;
 	
+	/**
+	 * @uml.property  name="role"
+	 */
 	private String role;
 	
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
@@ -50,6 +57,10 @@ public class LoginController extends HttpServlet {
 	private static final String USER = "root";
 	private static final String PASS = "";
 	private static Connection conn = null;
+	/**
+	 * @uml.property  name="session"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	private HttpSession session;
 
 	/**
@@ -103,6 +114,10 @@ public class LoginController extends HttpServlet {
 		return this.username;
 	}
 	
+	/**
+	 * @return
+	 * @uml.property  name="password"
+	 */
 	public String getPassword(){
 		return this.password;
 	}
@@ -113,14 +128,26 @@ public class LoginController extends HttpServlet {
 		return this.dao.isUserValid(this.username, this.password);
 	}
 	
+	/**
+	 * @param username
+	 * @uml.property  name="username"
+	 */
 	public void setUsername(String username){
 		this.username = username;
 	}
 	
+	/**
+	 * @param password
+	 * @uml.property  name="password"
+	 */
 	public void setPassword(String password){
 		this.password = password;
 	}
 	
+	/**
+	 * @param role
+	 * @uml.property  name="role"
+	 */
 	public void setRole(String role){
 		this.role = role;
 	}
