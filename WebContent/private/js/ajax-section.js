@@ -27,6 +27,11 @@ $(document).ready(function(){
 	  	$("#ajax-parse").load("participantList.html");
 	  });
 	  
+	  
+	  $("#listbadges").click(function(){
+	  	$("#ajax-parse").load("badgeList.html");
+	  });
+	  
 	  $("#addusers").click(function(){
 		  	$("#ajax-parse").load("event.jsp?action=insert");
 	  });
