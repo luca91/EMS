@@ -40,31 +40,28 @@ function confirmDelete(){
 					<td><c:out value="${record.end}"></c:out></td>
 					<td><c:out value="${record.enrollment_start}"></c:out></td>
 					<td><c:out value="${record.enrollment_end}"></c:out></td>
-					<td><a href="#" id="record">Update url ${record.id}</a></td>
-					<!-- <td><c:set value='event.jsp?action=edit&id=${record.id}' var="updatevnt"/><a href="${updatevnt}" id="updateevent">Update url ${updatevnt}</a></td> -->
-					<!-- <td><c:set value='event.jsp?action=edit&id=${record.id}' var="updatevnt"/><a href="${updatevnt}" id="updateevent">Update url ${updatevnt}</a></td> -->
+					<!-- CHECK RECORD VARIABLE -->								
+					<td><a href="#updateevent" id="record${record.id}">Update</a></td>					
 					<td><a href="<c:url value='/private/eventDelete?action=delete&id=${record.id}'/>" onclick="return confirmDelete();">Delete</a></td>
 					<td><a href="<c:url value='/private/groupList.html?action=listRecord&id_event=${record.id}'/>">Groups</a></td>
 				</tr>
 				<script type="text/javascript">
-					$(document).ready(function(){						  
+					$(document).ready(function(){ 
+						  $("#addevent").click(function(){
+							  	$("#ajax-parse").empty();
+							  	$("#ajax-parse").load("event.jsp?action=insert");
+						  });
 						  
-						  $("#record").click(function(){
-							  $("#ajax-parse").load("event.jsp?action=edit&id=${record.id}");
-						  });	  
+						  $("#record${record.id}").click(function(){
+							  	$("#ajax-parse").empty();
+							  	$("#ajax-parse").load("event.jsp?action=edit&id=${record.id}");
+						  });
+						  
 					});
 				</script>
 			</c:forEach>
 		</c:if>
 	</tbody>
 </table>
-<script type="text/javascript">
-					$(document).ready(function(){						  
-						  
-							$("#addevent").click(function(){
-							  	$("#ajax-parse").load("event.jsp?action=insert");
-						  });	  
-					});
-</script>
-<p><a class="button-2" href="#" id="addevent">Add Event</a></p>
+<p><a class="button-2" href="#addevent" id="addevent">Add Event</a></p>
 <hr>

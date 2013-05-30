@@ -13,16 +13,18 @@ System.out.println("index.html");
 <link rel="stylesheet" href="css/tables_style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/style_portal.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
-<script src="js/jquery-1.6.min.js" type="text/javascript"></script>
-<script src="js/cufon-yui.js" type="text/javascript"></script>
-<script src="js/cufon-replace.js" type="text/javascript"></script>
-<script src="js/Open_Sans_400.font.js" type="text/javascript"></script>
-<script src="js/Open_Sans_Light_300.font.js" type="text/javascript"></script> 
-<script src="js/Open_Sans_Semibold_600.font.js" type="text/javascript"></script> 
-<script src="js/FF-cash.js" type="text/javascript"></script>  
+<script type="text/javascript" src="js/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="js/cufon-yui.js"></script>
+<script type="text/javascript" src="js/cufon-replace.js"></script>
+<script type="text/javascript" src="js/Open_Sans_400.font.js"></script>
+<script type="text/javascript" src="js/Open_Sans_Light_300.font.js"></script> 
+<script type="text/javascript" src="js/Open_Sans_Semibold_600.font.js"></script> 
+<script type="text/javascript" src="js/FF-cash.js"></script>  
 <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="js/ajax-section.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/ajax-section.js"></script>
+<script  type="text/javascript" src="js/jquery.ba-bbq.js"></script>
+<script  type="text/javascript" src="js/jquery.history.js"></script>	
 <!--[if lt IE 7]>
 	<div style=' clear: both; text-align:center; position: relative;'>
 		<a href="http://www.microsoft.com/windows/internet-explorer/default.aspx?ocid=ie6_countdown_bannercode"><img src="http://www.theie6countdown.com/images/upgrade.jpg" border="0"  alt="" /></a>
@@ -68,7 +70,7 @@ System.out.println("index.html");
 					<div class="col-3" id="ajax-parse">
 						<h3>Enrollment Management System - private site</h3><br>
 						<div class="indent">							
-							<h3 class="p0"><a href="../index.html" target="_blank">Homepage</a></h3>							
+							<h3 class="p0"><a href="../" target="_blank">Homepage</a></h3>							
 							<!-- TEST -->																				
 						</div>					
 					</div>										

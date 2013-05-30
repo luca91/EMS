@@ -24,10 +24,8 @@
 					<td><c:out value="${user.fname}"></c:out></td>
 					<td><c:out value="${user.lname}"></c:out></td>
 					<td><c:out value="${user.email}"></c:out></td>
-					<td><a
-						href="#">Update</a></td>
-					<td><a
-						href="#">Delete</a></td>					
+					<td><a href="#">Update</a></td>
+					<td><a href="#">Delete</a></td>					
 				</tr>
 			</c:forEach>
 		</c:if>

@@ -1,41 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />
+<link type="text/css"
+	href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
-<!-- CONTROL ACT -->
-<script type="text/javascript">
-$(document).ready(function(){
-	$("#act-control").append("<h3>Event Management</h3>");
-	/*
-	if('${act}' == 'insert'){
-  	$("#act-control").append("<h3>Add Event</h3>");}
-	else('${act}' == 'edit'){
-		  	$("#act-control").append("<h3>Edit Event</h3>");*/
-  	$("#submitajax").click(function(){
-  		var initialPage = window.location.pathname;
-  	    window.location.replace(initialPage+'#events');
-	  	$("#ajax-parse").load("eventList.html");
-	  });	
-});
-</script>
-<script type="text/javascript">
-function reloadPageWithHash() {
-	  var initialPage = window.location.pathname;
-	  window.location.replace(initialPage+'#events');
-	  $("#ajax-parse").empty();
-	  $("#ajax-parse").load("eventList.html");
-	} 
-</script>
 <title>Event Form</title>
 </head>
 <body>
-<div id="act-control"></div>
+	<c:import url="inc/header.jsp" />
 
 	<c:set var="act">
 		<c:url value="/private/eventAdd?action=eventList" />
@@ -88,13 +65,11 @@ function reloadPageWithHash() {
 		Enrollment start : <input type="text" name="enrollment_start"
 			value="${record.enrollment_start}" /> <br /> Enrollment end : <input
 			type="text" name="enrollment_end" value="${record.enrollment_end}" />
-		<br />
-		<a class="button-2" id="submitajax">Submit</a> 
-		<input class="button-2" type="submit" value="Submit" id="submitajax"/>
-		<a class="button-2" onClick=reloadPageWithHash() >Back</a>
+		<br /> <input type="submit" value="Submit" /> <input type="button"
+			value="Back" onClick="history.go(-1);return true;" />
 		<c:if test="${param.id eq null }">
 			<input type="reset" value="Reset" />
 		</c:if>
-	</form>		
+	</form>
 </body>
 </html>
