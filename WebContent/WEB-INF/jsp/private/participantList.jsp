@@ -2,7 +2,7 @@
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <title>Show Participants</title>
@@ -39,11 +39,8 @@ function confirmDelete(){
 	}
 }
 </script>
-
-
 <body>
-	<c:import url="inc/header.jsp" />
-
+<h3>Participants</h3> 
 	<c:choose>
 		<c:when test="${id_group != 0}">
 			<h1>
@@ -74,19 +71,20 @@ function confirmDelete(){
 			value="/private/participantApprove?action=approve&id_group=${id_group}" />
 	</c:set>
 	<form method="POST" action="${act}" name="frmApproveParticipan">
-		<table border=1>
+	<!-- TABLES -->
+		<table id="box-table-a">
 			<thead>
 				<tr>
-					<th>Participant Id</th>
-					<th>Group Id</th>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Email</th>
-					<th>Date of birth</th>
-					<th>Registration Date</th>
-					<th>Approved</th>
-					<!-- <th>Blocked</th> -->
-					<th colspan=2>Action</th>
+					<th scope="col">Participant Id</th>
+					<th scope="col">Group Id</th>
+					<th scope="col">First Name</th>
+					<th scope="col">Last Name</th>
+					<th scope="col">Email</th>
+					<th scope="col">Date of birth</th>
+					<th scope="col">Registration Date</th>
+					<th scope="col">Approved</th>
+					<!-- <th scope="col">Blocked</th> -->
+					<th scope="col" colspan=3>Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -143,6 +141,6 @@ function confirmDelete(){
 	<c:if test="${id_group != 0 && (nrEnrolledParticipant >= group.max_group_number)}">
 		<h3>Max number of enrolled people reached for this group!</h3>
 	</c:if>
-
+<hr>
 </body>
 </html>

@@ -7,7 +7,7 @@
 	<title>Badge download</title>
 </head>
 <body>
-<h3>Badges</h3> 
+<c:import url="inc/header.jsp"/>
 		<c:choose>
 			<c:when test="${id_group != 0}">
 				<h1>Badges <c:if test="${id_group != 0 }">for Group: ${id_group}</c:if></h1>	
@@ -28,16 +28,18 @@
 	  	</c:set> 
 	  
 	    <form method="POST" action="${act}" name="downloadBadge">
-		    <table id="box-table-a">
+		    <table border=1>
 		        <thead>
 		            <tr>
-		                <th scope="col">Participant</th>
-		                <th scope="col">First Name</th>
-		                <th scope="col">Last Name</th>             	                	                
-		                <th scope="col">Badge</th>
+		                <th>Participant</th>
+		                <th>First Name</th>
+		                <th>Last Name</th>             	                	                
+		                <th>Badge</th>
 		            </tr>
-		        </thead>		              
+		        </thead>
+		              
 		        <tbody>
+	
 			            <c:forEach items="${records}" var="record">
 			                <tr>
 			                    <td>${record.id}</td>
