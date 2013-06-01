@@ -44,6 +44,7 @@
 	        manager ID : 
 	            <c:choose>
 	               	<c:when test="${record.id_manager != null  && sessionScope.systemUser.role == 'admin'}">
+	            		<!-- UPDATE -->
 	            		<select name="id_manager">
 	           				<c:forEach items="${listOfEvent_mng}" var="options">	               
 	                			<option value="${options.id }" 
@@ -53,15 +54,11 @@
 	            		</select>
 	            	</c:when>
 	               	<c:when test="${record.id_manager != null && sessionScope.systemUser.role == 'event_mng'}">
-	            		<select name="id_manager" disabled>
-	           				<c:forEach items="${listOfEvent_mng}" var="options">	               
-	                			<option value="${options.id }"
-	                				<c:if test="${options.id == record.id_manager }">selected</c:if> 
-	                			>${options.id } - ${options.fname} ${options.lname }</option>
-	            			</c:forEach>
-	            		</select>
+	            		<!-- UPDATE -->
+	            		<input type="hidden" name="id_manager" value="${record.id_manager}"/>
 	            	</c:when>	            	
 	            	<c:when test="${sessionScope.systemUser.role == 'event_mng' }">
+	            		<!-- INSERT -->
 	            		<input
 	            			type="text" name="id_manager"
 	            			value="${sessionScope.systemUser.id}"
@@ -70,6 +67,7 @@
 	            		
 	            	</c:when>
 	            	<c:otherwise>
+	            		<!-- INSERT -->
 	               		<select name="id_manager">
 	           				<c:forEach items="${listOfEvent_mng}" var="record">	               
 	                			<option value="${record.id }">${record.id } - ${record.fname} ${record.lname }</option>

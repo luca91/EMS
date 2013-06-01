@@ -35,11 +35,11 @@
 	<div class="main">
 	<!-- TOPHEAD --><c:import url="inc/tophead.jsp"/>
 	<!-- CONTENT -->
-		<h3>Participants</h3> 
+		<h3>Participants management</h3> 
 			<c:choose>
 				<c:when test="${id_group != 0}">
 						Participants
-						<c:if test="${id_group != 0 }">of Group: ${id_group}</c:if> - 			
+						<c:if test="${id_group != 0 }">for Group: ${id_group}<br/></c:if> - 			
 				</c:when>
 			</c:choose>
 			<!-- 

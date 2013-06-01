@@ -68,7 +68,7 @@
 						</div>
 						<!-- SINGLE INDIVIDUAL CONTENT -->						
 					</div>
-					<h3>Events</h3>
+					<h3>Events management</h3>
 					<table id="box-table-a">
 						<thead>
 							<tr>

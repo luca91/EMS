@@ -35,12 +35,12 @@
 	<div class="main">
 	<!-- TOPHEAD --><c:import url="inc/tophead.jsp"/>
 	<!-- CONTENT -->
-		<h3>Groups</h3>
+		<h3>Groups management</h3>
 		<!-- DROPDOWN BOX SELECTION -->
 		<c:choose>
 			<c:when test="${systemUser.role == 'admin'}">
 				<c:if test="${events != null}">					
-						<c:if test="${id_event != 0}">Group of event # ${id_event} - </c:if>
+						<c:if test="${id_event != 0}">Group of event # ${id_event} <br/></c:if>
 					    Choose an Event:
 					    <select>
 						<option selected></option>
@@ -53,8 +53,7 @@
 			</c:when>
 			<c:when test="${systemUser.role == 'event_mng'}">
 				<c:if test="${events != null}">
-					<h3>Groups</h3>
-						<c:if test="${id_event != 0}">for event  ${id_event}</c:if>
+						<c:if test="${id_event != 0}">Groups for event  ${id_event}<br/></c:if>
 					    Choose an Event:
 					    <select>
 						<option selected></option>
