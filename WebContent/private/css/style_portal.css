@@ -524,10 +524,21 @@ h5 {
 	font-weight: normal
 }
 
+h5.alert {
+	color: #ff7f00;
+	font-size: 20px;
+	line-height: 1.3em;
+	margin-top: -5px;
+	letter-spacing: -1px;
+	text-decoration: underline;
+}
+
 h6 {
 	color: #0f0f0f;
-	font-weight: normal;
-	margin-bottom: 5px
+	font-size: 18px;
+	line-height: 1.3em;
+	margin-bottom: 5px;
+	font-weight: normal
 }
 
 .border-bot {
@@ -639,6 +650,24 @@ h6 {
 }
 
 .button-2:hover {
+	background: #3c3c3c
+}
+
+.input {
+	display: inline-block;
+	border: none;
+	font-size: 19px;
+	line-height: 1.21em;
+	letter-spacing: -1px;
+	color: #fefefe;
+	padding: 9px 20px 11px;
+	background: url(../images/button-tail.gif) 0 0 repeat-x #3c3c3c;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px
+}
+
+.input:hover {
 	background: #3c3c3c
 }
 

@@ -68,7 +68,7 @@ System.out.println("index.html");
 						<h3>Enrollment Management System - private site</h3><br>
 						<div class="indent">							
 							<h3 class="p0"><a href="../public/index.html" target="_blank">Homepage</a></h3>							
-							<!-- TEST -->																				
+							<!-- TEST -->																											
 						</div>					
 					</div>										
 				</div>			

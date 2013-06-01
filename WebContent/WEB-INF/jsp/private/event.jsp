@@ -91,18 +91,15 @@
 	        End : <input type="text" name="end"
 	            value="${record.end}" /> <br> 
 	        Enrollment start : <input type="text" name="enrollment_start"
-	            value="${record.enrollment_start}" /> <br> 
+	            value="${record.enrollment_start}" /><br> 
 	      	Enrollment end : <input type="text" name="enrollment_end"
-	            value="${record.enrollment_end}" /> <br>
+	            value="${record.enrollment_end}" /><br><br>
 	        <!-- BUTTONS -->             
-	        <input type="submit" value="Submit" />       
-	        <input type="button" value="Back" onClick="history.go(-1);return true;"/>
+	        <input type="submit" value="Submit" class="input" />       
+	        <input type="button" value="Back" onClick="history.go(-1);return true;" class="input" />
         	<c:if test="${param.id eq null }">
-        		<input type="reset" value="Reset"/>
+        		<input type="reset" value="Reset" class="input" />
         	</c:if>
-        	<a class="button-2" href="" id="Submit">Submit</a>
-        	<a class="button-2" href="" id="Back">Back</a>
-        	<a class="button-2" href="" id="reset">Reset</a>
 	    </form>		
 	<!-- BOTTOM -->
 	<c:import url="inc/bottom.jsp"/>	

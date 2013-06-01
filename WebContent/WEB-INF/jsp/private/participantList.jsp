@@ -69,7 +69,12 @@
 			<c:choose>
 				<c:when test="${id_group != 0}">
 						<h6>Max #${group.max_group_number} participants</h6>		
-				</c:when>
+				</c:when>				
+			</c:choose>
+			<c:choose>				
+				<c:when test="${id_group != 0 && (nrEnrolledParticipant >= group.max_group_number)}">
+				<h5 class="alert">ATTENTION: Max nr. of enrolled people reached for this group!</h5>
+				</c:when>				
 			</c:choose>
 				
 		
@@ -94,8 +99,7 @@
 									</tr>
 							</c:when>
 					</c:choose>
-					 -->
-						
+					 -->						
 						<tr>
 							<th scope="col">Participant Id</th>
 							<th scope="col">Group Id</th>
@@ -128,20 +132,17 @@
 									onclick="return confirmDelete();">Delete</a></td>
 							</tr>
 						</c:forEach>
-		
-					</tbody>
+					</tbody>					
 				</table>
+				<!-- APPROVE ALL / DISAPPROVE ALL -->
 				<c:if test="${not empty records}">
-					<input type="submit" value="Approve All" /><br>
-					<a class="button-2" href="" id="Approve All">Approve All</a>					
-				</c:if>
+					<input type="submit" value="Approve All" class="input" /><br>	
+				</c:if>	
 			</form>
-		
+				
 			<c:if test="${id_group != 0 && (nrEnrolledParticipant < group.max_group_number)}">
-				<p>
-					<a class="button-2" href="participant.jsp?action=insert&id_group=${id_group}">Add Participant</a>
-				</p>
-				<br>
+				<a class="button-2" href="participant.jsp?action=insert&id_group=${id_group}">Add Participant</a>
+				<br><br>
 				<c:set var="act">
 					<c:url
 						value="/private/participantInvite?action=invite&id_group=${id_group}" />
@@ -151,22 +152,17 @@
 					onsubmit="return confirmSend(frmInviteParticipan.elements['listTo'].value);">
 					<fieldset>
 						<legend>Invite participants</legend>
-						Email : <input type="text" name="listTo" />
+						Email : <input type="text" name="listTo"/>
 						<c:if test="${showCount == 'y' }">
 					  	 		${count} email sent!
-					  	 	</c:if>
-						<br>
-						<input type="submit" value="Invite" />
-						<input type="reset" />
-						<a class="button-2" href="" id="Invite">Invite</a>
-						<a class="button-2" href="" id="Reset">Reset</a>
+					  	 </c:if>
+						<br><br>
+						<input type="submit" value="Invite" class="input" />
+						<input type="reset" value="Reset" class="input" />
 						
 					</fieldset>
 				</form>
-			</c:if>
-			<c:if test="${id_group != 0 && (nrEnrolledParticipant >= group.max_group_number)}">
-				<h1>Max number of enrolled people reached for this group!</h1>
-			</c:if>
+			</c:if>			
 		<hr>
 	<!-- BOTTOM --><c:import url="inc/bottom.jsp"/>
 </html>
