@@ -92,6 +92,8 @@ public class GroupDao {
             preparedStatement.setBoolean(5, aRecord.isBlocked());
         	log.debug("add record");
             preparedStatement.executeUpdate();
+            
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -112,6 +114,8 @@ public class GroupDao {
             preparedStatement.setInt(1, id);
             log.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();
+            
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -143,6 +147,8 @@ public class GroupDao {
             preparedStatement.setInt(6, aRecord.getId());
             preparedStatement.executeUpdate();
         	log.debug("update done");
+        	
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -173,6 +179,8 @@ public class GroupDao {
                 aRecord.setBlocked(rs.getBoolean("blocked"));
                 list.add(aRecord);
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -210,6 +218,8 @@ public class GroupDao {
                 aRecord.setBlocked(rs.getBoolean("blocked"));
                 list.add(aRecord);
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -244,6 +254,8 @@ public class GroupDao {
                 aRecord.setBlocked(rs.getBoolean("blocked"));
                 list.add(aRecord);
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -275,6 +287,8 @@ public class GroupDao {
                 aRecord.setBlocked(rs.getBoolean("blocked"));
                 list.add(aRecord);
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -305,6 +319,8 @@ public class GroupDao {
                 aRecord.setBlocked(rs.getBoolean("blocked"));
                 list.add(aRecord);
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -338,6 +354,8 @@ public class GroupDao {
                 aRecord.setBlocked(rs.getBoolean("blocked"));
                 list.add(aRecord);
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -368,6 +386,8 @@ public class GroupDao {
                 aRecord.setMax_group_number(rs.getInt("max_group_number"));
                 aRecord.setBlocked(rs.getBoolean("blocked"));
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -428,6 +448,8 @@ public class GroupDao {
             for (int  i = 0; i < listOfId.size(); i++){
             	log.debug("listOfId: " + listOfId.get(i));
             }
+            rs.close();
+            preparedStatement.close();
             
             
         } catch (SQLException e) {
@@ -462,6 +484,8 @@ public class GroupDao {
             	log.debug("nrEnrolledParticipant: " + nrEnrolledParticipant);
 
             }
+            rs.close();
+            preparedStatement.close();
 
                       
             

@@ -227,12 +227,13 @@ public class UserDaoTest {
 	
 			String role = "admin";
 	    	List<User> list = obj.getAllRecordWithRole(role);
-	
+	    	log.debug("Select: " );
 	    	String sql = 	
 	    			"SELECT COUNT(*) AS nr_rows" +
 	    			" FROM user, user_role" +
 	    			" WHERE user.email = user_role.email" + 
-	    			" AND user_role.ROLE_NAME = " + role;
+	    			" AND user_role.ROLE_NAME = '" + role + "';";
+	    	log.debug(sql);
 	    	stmt = conn.createStatement();
 	    	rs = stmt.executeQuery(sql);
 	    	rs.next();

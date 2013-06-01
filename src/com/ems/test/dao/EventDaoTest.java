@@ -21,7 +21,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import com.ems.dao.EventDao;
-import com.ems.dao.ParticipantDao;
 import com.ems.model.Event;
 import com.ems.tools.Population;
 

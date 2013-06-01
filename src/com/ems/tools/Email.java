@@ -41,6 +41,11 @@ public class Email {
 	 */
     Properties props = new Properties();
     
+	public Properties getProps() {
+		return props;
+	}
+
+
 	public Email(){
         props.put("mail.smtp.starttls.enable", "true"); // added this line
         props.put("mail.smtp.host", "smtp.googlemail.com");

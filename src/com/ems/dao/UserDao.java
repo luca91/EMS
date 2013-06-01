@@ -104,6 +104,8 @@ public class UserDao {
         	log.debug("addUser Execute Update on table user_role");
             preparedStatement.executeUpdate();
             
+            preparedStatement.close();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -130,7 +132,9 @@ public class UserDao {
                     .prepareStatement("delete from user_role where email=?");
             preparedStatement.setString(1, u.getEmail());
             log.debug(preparedStatement.toString());
-            preparedStatement.executeUpdate();            
+            preparedStatement.executeUpdate();
+            
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -171,6 +175,8 @@ public class UserDao {
             log.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();
             
+            preparedStatement.close();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -194,6 +200,9 @@ public class UserDao {
             preparedStatement.setString(1, password);
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
+            
+            preparedStatement.close();
+            
             return true;
                        
         } catch (SQLException e) {
@@ -224,6 +233,8 @@ public class UserDao {
                 user.setRole(rs.getString("ROLE_NAME"));
                 users.add(user);
             }
+            rs.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -260,6 +271,8 @@ public class UserDao {
                 user.setRole(rs.getString("ROLE_NAME"));
                 users.add(user);
             }
+            rs.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -290,6 +303,8 @@ public class UserDao {
                 user.setEmail(rs.getString("email"));
                 user.setRole(rs.getString("ROLE_NAME"));
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -330,6 +345,9 @@ public class UserDao {
   
             	isValid = true;
             }
+        	
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -367,6 +385,8 @@ public class UserDao {
                 user.setEmail(rs.getString("email"));
                 user.setRole(rs.getString("ROLE_NAME"));
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

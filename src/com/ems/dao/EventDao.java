@@ -91,6 +91,8 @@ public class EventDao {
             preparedStatement.setString(7, aRecord.getEnrollment_end());            
         	log.debug("add record");
             preparedStatement.executeUpdate();
+            
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,6 +113,7 @@ public class EventDao {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -141,6 +144,7 @@ public class EventDao {
             preparedStatement.setInt(8, aRecord.getId());
             preparedStatement.executeUpdate();
         	log.debug("update done");
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -170,6 +174,8 @@ public class EventDao {
                 aRecord.setEnrollment_end(rs.getString("enrollment_end"));
                 list.add(aRecord);
             }
+            rs.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -204,6 +210,8 @@ public class EventDao {
                 aRecord.setEnrollment_end(rs.getString("enrollment_end"));
                 list.add(aRecord);
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -238,6 +246,8 @@ public class EventDao {
                 aRecord.setEnrollment_start(rs.getString("enrollment_start"));
                 aRecord.setEnrollment_end(rs.getString("enrollment_end"));
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -274,6 +284,8 @@ public class EventDao {
                 aRecord.setEnrollment_start(rs.getString("enrollment_start"));
                 aRecord.setEnrollment_end(rs.getString("enrollment_end"));
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -324,7 +336,8 @@ public class EventDao {
             for (int  i = 0; i < listOfId.size(); i++){
             	log.debug("listOfId: " + listOfId.get(i));
             }
-            
+            rs.close();
+            preparedStatement.close();
             
         } catch (SQLException e) {
             e.printStackTrace();

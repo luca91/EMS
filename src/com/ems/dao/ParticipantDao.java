@@ -97,6 +97,8 @@ public class ParticipantDao {
             log.debug(preparedStatement.toString());
         	log.debug("addRecord Execute Update");
             preparedStatement.executeUpdate();
+            
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -118,6 +120,7 @@ public class ParticipantDao {
             log.debug(preparedStatement.toString());
             preparedStatement.executeUpdate();
             
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -156,6 +159,8 @@ public class ParticipantDao {
             preparedStatement.setBoolean(7, aRecord.isBlocked());
             preparedStatement.setInt(8, aRecord.getId());
             preparedStatement.executeUpdate();
+            
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -188,6 +193,8 @@ public class ParticipantDao {
                 record.setBlocked(rs.getBoolean("blocked"));
                 records.add(record);
             }
+            rs.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return records;
@@ -227,6 +234,8 @@ public class ParticipantDao {
                 record.setBlocked(rs.getBoolean("blocked"));
                 records.add(record);
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -261,6 +270,8 @@ public class ParticipantDao {
                 record.setApproved(rs.getBoolean("approved"));
                 record.setBlocked(rs.getBoolean("blocked"));
             }
+            rs.close();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -283,6 +294,8 @@ public class ParticipantDao {
             log.debug(preparedStatement.toString());
         	log.debug("addRecord Execute Update");
             preparedStatement.executeUpdate();
+            
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -355,6 +368,12 @@ public class ParticipantDao {
             	log.debug("listOfId[" + i + "]: " + listOfId.get(i));
             }
             
+            rs1.close();
+            rs2.close();
+            rs3.close();
+            preparedStatement1.close();
+            preparedStatement2.close();
+            preparedStatement3.close();
             
         } catch (SQLException e) {
             e.printStackTrace();
