@@ -89,6 +89,7 @@ public class PDFGenerator {
 	 */
 	public boolean createDocument() throws DocumentException, MalformedURLException, IOException{
 		log.trace("START");
+		aDocument.open();
 		boolean check = false;
 	    PdfWriter.getInstance(aDocument, new FileOutputStream(path+"/"+name+surname+id+".pdf"));
 	    check = addData();
@@ -101,6 +102,7 @@ public class PDFGenerator {
 	    if(!check)
 	    	return false;
 	    log.debug("Output set");
+	    aDocument.close();
 	    return check;
 	}
 	
@@ -111,7 +113,6 @@ public class PDFGenerator {
 	 */
 	public boolean addData() throws DocumentException{
 		log.trace("START");
-		aDocument.open();
 		Paragraph container = new Paragraph();
 		Paragraph event = new Paragraph(eventName, subFont);
 		Paragraph data = new Paragraph(name+surname, catFont);
@@ -123,7 +124,6 @@ public class PDFGenerator {
 		boolean added = aDocument.add(container);
 		log.debug("Container set");
 		log.trace("END");
-		aDocument.close();
 		return added;
 	}
 	
@@ -136,7 +136,6 @@ public class PDFGenerator {
 	 */
 	public boolean addQR() throws MalformedURLException, IOException, DocumentException{
 		log.trace("START");
-		aDocument.open();
 		 QRGenerator aQR = QRGenerator.from(name+surname+String.valueOf(id));
 		 aQR.to(ImageType.PNG);
 		 File qrFile = aQR.file();
@@ -147,7 +146,6 @@ public class PDFGenerator {
 		 boolean added = aDocument.add(qrImage);
 		 log.debug("QR added");
 		 log.trace("END");
-		 aDocument.close();
 		 return added;
 	}
 	
@@ -168,14 +166,12 @@ public class PDFGenerator {
 	 */
 	public boolean addImage() throws MalformedURLException, IOException, DocumentException{
 		log.trace("START");
-		aDocument.open();
-		Image anImage = Image.getInstance("/home/luca/emlogo.png");
+		Image anImage = Image.getInstance(path+"/private/images/logo_unibz.jpg");
 		anImage.scaleAbsolute(100f, 70f);
 		anImage.setAbsolutePosition(20f, 270f);
 		boolean added = aDocument.add(anImage);
 		log.debug("Image added");
 		log.trace("END");
-		aDocument.close();
 		return added;
 	}
 	

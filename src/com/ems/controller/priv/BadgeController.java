@@ -114,7 +114,7 @@ public class BadgeController extends HttpServlet {
         	Participant aPar = pDao.getRecordById(id);
         	PDFGenerator badge = new PDFGenerator();
         	try {
-				 badge = new PDFGenerator(aPar.getFname(), aPar.getLname(), aPar.getId_group(), "event_name", getServletContext().getRealPath("/"));
+				 badge = new PDFGenerator(aPar.getFname(), aPar.getLname(), aPar.getId_group(), "event_name", getServletContext().getRealPath("/")+"/private/pdf/");
 				 badge.createDocument();
 				 log.debug("badge folder: "+getServletContext().getRealPath("/"+badge.getFilePath()));
 			} catch (NumberFormatException e) {

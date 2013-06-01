@@ -46,7 +46,7 @@
 			<option selected></option>
 			<c:forEach items="${groups}" var="group">
 			<c:url value="/private/badgeList.html?action=listRecord&id_group=${group.id}" var="url"/>
-			<option value="${url}">${group.id}</option>
+			<option value="${url}" onClick="window.location.href='${url}'">${group.id}</option>
 			</c:forEach>
 			</select>
 			
