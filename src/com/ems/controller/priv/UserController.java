@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import com.ems.dao.UserDao;
 import com.ems.model.User;
+import com.ems.tools.Email;
 
 /**
  * Servlet implementation class UserController
@@ -150,11 +151,28 @@ public class UserController extends HttpServlet {
         user.setRole(request.getParameter("role"));
         String id = request.getParameter("id");
         
+
     	log.debug("id: " + id);
     	
         if(id == null || id.isEmpty()) {
+        	//new user
+        	
+            String password = Long.toHexString(Double.doubleToLongBits(Math.random()));
+            log.debug("passowrd: " + password);
+            user.setPassword(password);
+
         	log.debug("INSERT");
             dao.addUser(user);
+            Email e = new Email();
+            String message = "Hi " + user.getFname() + "\n" +
+            				"An account on the EMS site has been created\n" +
+            				"\nClick the following link to enter the EMS Sytem\n" +
+            				"\nhttp://" + request.getServerName() + ":8080/ems/private/index.html" + 
+            				"\n\nYou default password is: " + user.getPassword() +            				
+            				"\n\nTo change you password click the following link:\n" +
+            				"\nhttp://" + request.getServerName() + ":8080/ems/public/changePassword.html" +
+            				"\n\nThe Staff";
+            e.sendEmail(user.getEmail(), "[EMS] - Account created", message);
         }
         else
         {
