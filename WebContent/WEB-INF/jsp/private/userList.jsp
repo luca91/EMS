@@ -58,12 +58,12 @@
 							<td><c:out value="${user.lname}"></c:out></td>
 							<td><c:out value="${user.email}"></c:out></td>
 							<td>
-								<c:if test="${user.email != systemUser.email }">
-									<a href="<c:url value='/private/user.jsp?action=edit&id=${user.id}'/>">Update</a>
-								</c:if>
+								<a href="<c:url value='/private/user.jsp?action=edit&id=${user.id}'/>">Update</a>
 							</td>
-	                    	
-	                    	<td><a href="<c:url value='/private/userDelete?action=delete&id=${user.id}'/>" onclick="return confirmDelete();">Delete</a></td>					
+	                    		<c:if test="${user.email != systemUser.email }">
+									<a href="<c:url value='/private/userDelete?action=delete&id=${user.id}'/>" onclick="return confirmDelete();">Delete</a></td>
+								</c:if>
+	                    	<td>					
 						</tr>
 					</c:forEach>
 				</c:if>
