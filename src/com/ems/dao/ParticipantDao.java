@@ -163,6 +163,15 @@ public class ParticipantDao {
             
             preparedStatement.close();
 
+            
+            Email e = new Email();
+            if(aRecord.isApproved()){
+            	e.sendEmail(aRecord.getEmail(), "Enrollment approved", "Congratulations - Your enrollment to the event has been Approved");
+            }
+            else{
+            	e.sendEmail(aRecord.getEmail(), "Enrollment disapproved", "Your enrollment has been canceled");	
+            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }

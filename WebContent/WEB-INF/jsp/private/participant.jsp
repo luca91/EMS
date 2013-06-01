@@ -57,16 +57,13 @@
 	        Date of birth : <input type="text" name="date_of_birth"
 	            value="${record.date_of_birth}" /> <br />     
 	        <input type="hidden" name="registration_date"
-	            value="${record.registration_date}" /> <br /> 
-			<input type="hidden" name="approved"
-	            value="${record.approved}" /> <br /> 
-
+	            value="${record.registration_date}" /> <br />
 	        
-	        <!--   	<select name="approved">
+	           	<select name="approved">
 	        		<option value="false" <c:if test="${record.approved == 'false'}">selected </c:if> >false</option>
 	        	    <option value="true" <c:if test="${record.approved == 'true'}">selected</c:if> >true</option>
 	        	</select> 
-				<br />-->
+				<br />
 	       <!--  blocked :  --><input type="hidden" name="blocked"
 	            value="${record.blocked}" /> <br /> 	            	          	                  
 	        <input type="submit" value="Submit" class="input" />
