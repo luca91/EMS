@@ -24,7 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.ems.dao.GroupDao;
 import com.ems.dao.ParticipantDao;
+import com.ems.model.Group;
 import com.ems.model.Participant;
 import com.ems.tools.Email;
 
@@ -137,16 +139,35 @@ public class ParticipantController extends HttpServlet {
     	log.debug("id: " + id);
     	log.debug("INSERT");
     	
-        dao.addRecord(id_group, record);
-        request.setAttribute("record", record);
-        
-        try {
-			sendEmail(record, request.getParameter("email").toString());
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+    	//Check if the group has still place
+    	GroupDao gdao = new GroupDao();
+    	Group g = gdao.getRecordById(id_group);
+    	int alreadyEnrolled = gdao.getNrEnrolledParticipant(id_group);
+    	
+    	request.setAttribute("group", g);
+    	request.setAttribute("nrEnrolledParticipant", alreadyEnrolled);
+    	
+    	log.debug("g.getMax_group_number(): " + g.getMax_group_number());
+    	log.debug("alreadyEnrolled: " + alreadyEnrolled);
+    	
+    	if(alreadyEnrolled < g.getMax_group_number()){
+    		log.debug("places are available");
+	        dao.addRecord(id_group, record);
+	        request.setAttribute("record", record);
+	        
+	        try {
+				sendEmail(record, request.getParameter("email").toString());
+				feedback = "enrollmentForm.html?message=y&sentEmail=y";
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	else {
+    		log.debug("places are NOT available");
+			feedback = "enrollmentForm.html?message=y&sentEmail=n";
+    		
+    	}
     	log.debug(feedback);
         response.sendRedirect(feedback);
     	

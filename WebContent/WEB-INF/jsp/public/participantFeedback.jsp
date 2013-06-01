@@ -13,12 +13,25 @@
 	<h1>Confirmation of enrollment</h1>
 
 
-	<p>Your enrollment has been registered. An email has been sent to
-		your address.</p>
+	<c:if test="${param.sentEmail == 'y'}">
+		<p>Your enrollment has been registered. An email has been sent to
+			your address.</p>
+	
+		<p>
+			Click <a href="<c:url value='/public/index.html'/>">here</a> to go to
+			the home page of the Enrollment Management System.
+		</p>
+	</c:if>
 
-	<p>
-		Click <a href="<c:url value='/public/index.html'/>">here</a> to go to
-		the home page of the Enrollment Management System.
-	</p>
+	<c:if test="${param.sentEmail != 'y'}">
+		<p>We are afraid but there are not anymore available place!</p>
+		<p>Contact a Group Referent to get a new Invitation when more places will be available</p>
+	
+		<p>
+			Click <a href="<c:url value='/public/index.html'/>">here</a> to go to
+			the home page of the Enrollment Management System.
+		</p>
+	</c:if>	
+	
 </body>
 </html>
