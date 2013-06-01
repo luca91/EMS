@@ -329,7 +329,29 @@ public class ParticipantController extends HttpServlet {
 	        for (int i = 0; i < list.size(); i++){
 	        	p = list.get(i);
 	        	if (!p.isApproved()){
-	        		pd.approve(p.getId());
+	        		pd.approve(p.getId(), true); 
+	        	}
+	        }
+	        
+	        String forward = "participantList.html?action=listRecord&id_group=" + id_group;
+	        log.debug("forward: " + forward);
+        
+	        response.sendRedirect(forward);
+    		
+    	}
+    	else if (request.getParameter("action").equals("disapprove") ){
+    		//approve enrollment
+    		log.debug("DISAPPROVE");
+    		log.debug("action: " + request.getParameter("action"));
+	        
+	        ParticipantDao pd = new ParticipantDao();
+	        List<Participant>  list = pd.getAllRecordsById_group(id_group);
+	        Participant p = new Participant();
+	        
+	        for (int i = 0; i < list.size(); i++){
+	        	p = list.get(i);
+	        	if (p.isApproved()){
+	        		pd.approve(p.getId(), false); 
 	        	}
 	        }
 	        

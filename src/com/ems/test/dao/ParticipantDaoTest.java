@@ -210,7 +210,7 @@ public class ParticipantDaoTest {
 	    	
 	    	ParticipantDao obj = new ParticipantDao(conn);
 	    	
-	    	obj.approve(last_id);
+	    	obj.approve(last_id, true);
 	    	
 	    	sql = 	"SELECT *" +
 	    			" FROM participant" +

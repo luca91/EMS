@@ -78,11 +78,7 @@
 			</c:choose>
 				
 		
-			<c:set var="act">
-				<c:url
-					value="/private/participantApprove?action=approve&id_group=${id_group}" />
-			</c:set>
-			<form method="POST" action="${act}" name="frmApproveParticipan">
+
 			<!-- TABLES -->
 				<table id="box-table-a">
 					<thead>
@@ -135,8 +131,24 @@
 					</tbody>					
 				</table>
 				<!-- APPROVE ALL / DISAPPROVE ALL -->
+			<c:set var="act">
+				<c:url
+					value="/private/participantApprove?action=approve&id_group=${id_group}" />
+			</c:set>
+			<form method="POST" action="${act}" name="frmApproveParticipan">				
 				<c:if test="${not empty records}">
 					<input type="submit" value="Approve All" class="input" /><br>	
+					
+				</c:if>	
+			</form>
+			<c:set var="act">
+				<c:url
+					value="/private/participantApprove?action=disapprove&id_group=${id_group}" />
+			</c:set>
+			<form method="POST" action="${act}" name="frmApproveParticipan">				
+				<c:if test="${not empty records}">
+					<input type="submit" value="Disapprove All" class="input" /><br>	
+					
 				</c:if>	
 			</form>
 				

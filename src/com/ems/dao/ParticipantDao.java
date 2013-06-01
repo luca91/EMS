@@ -329,12 +329,18 @@ public class ParticipantDao {
      * 
      * @param id an id of a participant
      */
-    public void approve(int anId) {
+    public void approve(int anId, boolean approved) {
     	log.trace("START");
+    	PreparedStatement preparedStatement;
         try {
-        	
-            PreparedStatement preparedStatement = connection
+        	if(approved){
+        		preparedStatement = connection
                     .prepareStatement("UPDATE participant SET approved=TRUE WHERE id =?;");
+        	}
+        	else{
+        		preparedStatement = connection
+                        .prepareStatement("UPDATE participant SET approved=FALSE WHERE id =?;");
+        	}
             preparedStatement.setInt(1, anId);
             log.debug(preparedStatement.toString());
         	log.debug("addRecord Execute Update");
@@ -343,8 +349,13 @@ public class ParticipantDao {
             preparedStatement.close();
             
             Email e = new Email();
-            Participant p = getRecordById(anId); 
-            e.sendEmail(p.getEmail(), "Enrollment approved", "Congratulations - Your enrollment to the event has been Approved");
+            Participant p = getRecordById(anId);
+            if(approved){
+            	e.sendEmail(p.getEmail(), "Enrollment approved", "Congratulations - Your enrollment to the event has been Approved");
+            }
+            else{
+            	e.sendEmail(p.getEmail(), "Enrollment disapproved", "Your enrollment has been canceled");	
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
