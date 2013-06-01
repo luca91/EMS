@@ -131,12 +131,11 @@
 		
 					</tbody>
 				</table>
-			</form>
-			
-			<c:if test="${not empty records}">
+				<c:if test="${not empty records}">
 					<input type="submit" value="Approve All" /><br>
 					<a class="button-2" href="" id="Approve All">Approve All</a>					
-			</c:if>
+				</c:if>
+			</form>
 		
 			<c:if test="${id_group != 0 && (nrEnrolledParticipant < group.max_group_number)}">
 				<p>
