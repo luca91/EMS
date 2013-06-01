@@ -60,8 +60,9 @@
 							<td>
 								<a href="<c:url value='/private/user.jsp?action=edit&id=${user.id}'/>">Update</a>
 							</td>
+							<td>
 	                    		<c:if test="${user.email != systemUser.email }">
-									<a href="<c:url value='/private/userDelete?action=delete&id=${user.id}'/>" onclick="return confirmDelete();">Delete</a></td>
+									<a href="<c:url value='/private/userDelete?action=delete&id=${user.id}'/>" onclick="return confirmDelete();">Delete</a>
 								</c:if>
 	                    	<td>					
 						</tr>
