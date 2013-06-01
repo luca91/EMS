@@ -11,7 +11,18 @@
 		</h1>
 		<form id="session-id">
 			Welcome - ${systemUser.email}<br>
-			Role: ${systemUser.role}<br>
+			Role:
+			<c:choose>
+				<c:when test="${systemUser.role == 'admin'}">
+					Administrator<br/>
+				</c:when>
+				<c:when test="${systemUser.role == 'event_mng'}">
+					Event manager<br/>
+				</c:when>
+				<c:when test="${systemUser.role == 'group_mng'}">
+					Group referent<br/>
+				</c:when>
+			</c:choose>	
 			Time: <jsp:useBean id="today" class="java.util.Date" scope="page" />
 			<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
 		</form>				
