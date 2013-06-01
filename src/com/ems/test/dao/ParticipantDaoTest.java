@@ -493,6 +493,51 @@ public class ParticipantDaoTest {
     	
 		log.trace("END");	
     }
+
+	@Test
+    public void testGetAllRecordsById_event() throws ClassNotFoundException {
+		log.trace("START");	
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			ParticipantDao obj = new ParticipantDao(conn);
+	
+	    	List<Participant> list = obj.getAllRecordsById_group(id_group);
+	
+	    	String sql = "SELECT COUNT(*) AS nr_rows" +                    		
+            				" FROM participant, ems.group, event" + 
+            				" WHERE participant.id_group = ems.group.id " +
+            				" AND ems.group.id_event = event.id " +
+            				" AND event.id = " + id_group;
+	    	stmt = conn.createStatement();
+	    	rs = stmt.executeQuery(sql);
+	    	rs.next();
+	    	int nr_rows = rs.getInt("nr_rows");
+	    		    	
+	    	log.debug("nr_rows: " + nr_rows);
+	    	log.debug("list.size(): " + list.size());
+	    	Assert.assertEquals("failure - testGetAllRecordsById_event returns a different list of record", nr_rows, list.size());
+			    	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    finally{
+	        //finally block used to close resources
+	        try{
+	           if(stmt!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	        }// do nothing
+	        try{
+	           if(conn!=null)
+	              conn.close();
+	        }catch(SQLException se){
+	           se.printStackTrace();
+	        }//end finally try
+	    }
+    	
+		log.trace("END");	
+    }
 	
 	@Test
     public void testGetRecordById() throws ClassNotFoundException {

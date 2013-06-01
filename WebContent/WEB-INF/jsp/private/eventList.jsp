@@ -80,7 +80,7 @@
 								<th scope="col">End</th>
 								<th scope="col">Enrollment_start</th>
 								<th scope="col">Enrollment_end</th>
-								<th scope="col" colspan=3>Action</th>
+								<th scope="col" colspan=4>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -98,12 +98,18 @@
 					                    <td><a href="<c:url value='/private/event.jsp?action=edit&id=${record.id}'/>">Update</a></td>
 					                    <td><a href="<c:url value='/private/eventDelete?action=delete&id=${record.id}'/>" onclick="return confirmDelete();">Delete</a></td>
 					                	<td><a href="<c:url value='/private/groupList.html?action=listRecord&id_event=${record.id}'/>">Groups</a></td>
+					                	
+					                	
+					                	<td><a href="javascript:void(window.open('<c:url value='participantsPrint.html?&id_event=${record.id}' />', 'Title', 'width=800,height=405, location=no, menubar=no, status=no,toolbar=no, scrollbars=no, resizable=no'))">Print</a>					                	
+					                	</td>
 					                </tr>
 					            </c:forEach>
 							</c:if>
 						</tbody>
 					</table>
-					<p><a class="button-2" href="event.jsp?action=insert" id="addevent">Add Event</a></p>
+					<p><a class="button-2" href="event.jsp?action=insert" id="addevent">Add Event</a>
+					</p>
+					</p>
 					<hr>														
 				</div>			
 			</div>		

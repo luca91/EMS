@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 
 import com.ems.model.Participant;
+import com.ems.tools.Email;
 
 
 /**
@@ -244,6 +245,50 @@ public class ParticipantDao {
     }
 
     /**
+     * Returns the list of all records stored in table associated with an event
+     * 
+     * @param anId_group
+     * @return List<User> List of objects Participant
+     */
+    public List<Participant> getAllRecordsById_event(int anId_event) {
+        log.trace("START");
+    	List<Participant> records = new ArrayList<Participant>();
+        try {
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("SELECT participant.*" +
+                    				", DATE_FORMAT(participant.date_of_birth,'%d/%m/%Y') AS date_of_birth_FORMATTED" +                    		
+                    				", DATE_FORMAT(participant.registration_date,'%d/%m/%Y %hh:%mm:%ss') AS registration_date_FORMATTED" +
+                    				" FROM participant, ems.group, event" + 
+                    				" WHERE participant.id_group = ems.group.id " +
+                    				" AND ems.group.id_event = event.id " +
+                    				" AND event.id = ?;");
+            preparedStatement.setInt(1, anId_event);
+            ResultSet rs = preparedStatement.executeQuery();
+            
+            while (rs.next()) {
+                Participant record = new Participant();
+                record.setId(rs.getInt("id"));
+                record.setId_group(rs.getInt("id_group"));
+                record.setFname(rs.getString("fname"));
+                record.setLname(rs.getString("lname"));
+                record.setEmail(rs.getString("email"));
+                record.setUuid(rs.getString("uuid"));
+                record.setDate_of_birth(rs.getString("date_of_birth_FORMATTED"));
+                record.setRegistration_date(rs.getString("registration_date_FORMATTED"));
+                record.setApproved(rs.getBoolean("approved"));
+                record.setBlocked(rs.getBoolean("blocked"));
+                records.add(record);
+            }
+            rs.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	log.trace("END");
+        return records;
+    }
+    
+    /**
      * Returns the record passing its id
      * 
      * @param id Identifier of the record to get
@@ -296,6 +341,10 @@ public class ParticipantDao {
             preparedStatement.executeUpdate();
             
             preparedStatement.close();
+            
+            Email e = new Email();
+            Participant p = getRecordById(anId); 
+            e.sendEmail(p.getEmail(), "Enrollment approved", "Congratulations - Your enrollment to the event has been Approved");
 
         } catch (SQLException e) {
             e.printStackTrace();
