@@ -22,9 +22,6 @@ System.out.println("index.html");
 <script type="text/javascript" src="js/FF-cash.js"></script>  
 <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="js/ajax-section.js"></script>
-<script  type="text/javascript" src="js/jquery.ba-bbq.js"></script>
-<script  type="text/javascript" src="js/jquery.history.js"></script>	
 <!--[if lt IE 7]>
 	<div style=' clear: both; text-align:center; position: relative;'>
 		<a href="http://www.microsoft.com/windows/internet-explorer/default.aspx?ocid=ie6_countdown_bannercode"><img src="http://www.theie6countdown.com/images/upgrade.jpg" border="0"  alt="" /></a>

@@ -1,10 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
-<html>
+<%
+System.out.println("index.html");
+%>
+<html lang="en">
 <head>
-<title>EMS - Badges Management</title>
+<title>EMS - Enrollment Management System - Private Portal</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/tables_style.css" type="text/css" media="screen">
@@ -19,7 +22,9 @@
 <script type="text/javascript" src="js/FF-cash.js"></script>  
 <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="js/user_inter_act.js"></script>
+<script type="text/javascript" src="js/ajax-section.js"></script>
+<script  type="text/javascript" src="js/jquery.ba-bbq.js"></script>
+<script  type="text/javascript" src="js/jquery.history.js"></script>	
 <!--[if lt IE 7]>
 	<div style=' clear: both; text-align:center; position: relative;'>
 		<a href="http://www.microsoft.com/windows/internet-explorer/default.aspx?ocid=ie6_countdown_bannercode"><img src="http://www.theie6countdown.com/images/upgrade.jpg" border="0"  alt="" /></a>
@@ -33,49 +38,47 @@
 <body id="page5">
 <div class="bg">
 	<div class="main">
-	<!-- TOPHEAD --><c:import url="inc/tophead.jsp"/>
-	<!-- CONTENT -->
-			<c:choose>
-			<c:when test="${id_group != 0}">
-			<h1>Badges <c:if test="${id_group != 0 }">for Group: ${id_group}</c:if></h1>	
-			</c:when>
-			</c:choose>
-			
-			Choose a group
-			<select>
-			<option selected></option>
-			<c:forEach items="${groups}" var="group">
-			<c:url value="/private/badgeList.html?action=listRecord&id_group=${group.id}" var="url"/>
-			<option value="${url}">${group.id}</option>
-			</c:forEach>
-			</select>
-			
-			<c:set var="act">
-			<c:url value="/private/downloadBadge?action=download&id_participant=${id}" />
-			</c:set>
-			
-			<form method="POST" action="${act}" name="downloadBadge">
-				<table id="box-table-a">
-					<thead>
-						<tr>
-							<th scope="col">Participant</th>
-							<th scope="col">First Name</th>
-							<th scope="col">Last Name</th>
-							<th scope="col">Badge</th>
-						</tr>
-					</thead>
-					
-					<tbody>					
-						<c:forEach items="${records}" var="record">
-						<tr>
-							<td>${record.id}</td>
-							<td>${record.fname}</td>
-							<td>${record.lname}</td>
-							<td><a href="<c:url value='/private/downloadBadge?action=download&id=${record.id}&id_group=${id_group}'/>">Generate</a></td>
-						</tr>
-						</c:forEach>					
-					</tbody>
-				</table>
-			</form>			
-	<!-- BOTTOM --><c:import url="inc/bottom.jsp"/>
+		<!-- HEADER -->
+		<header>
+			<!-- TOP + LOGO -->
+			<div class="row-1">
+				<h1>
+					<a class="logo" href="index.html">EMS</a>
+					<strong class="slog">Enrollment Management System</strong>						
+				</h1>
+				<form id="session-id">
+					Welcome - ${systemUser.email}<br>
+					Role: ${systemUser.role}<br>
+					Time: <jsp:useBean id="today" class="java.util.Date" scope="page" />
+					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
+				</form>				
+			</div>
+			<!-- MENU -->
+			<div class="row-2">
+				<nav>
+					<ul class="menu">										
+						  <c:import url="inc/header.jsp"/>					  
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<!-- CONTENT -->
+		<section id="content">
+			<div class="padding">				
+				<div class="wrapper margin-bot">
+				<!-- AJAX CONTENT -->				
+					<div class="col-3" id="ajax-parse">
+						<h3>Enrollment Management System - private site</h3><br>
+						<div class="indent">							
+							<h3 class="p0"><a href="../" target="_blank">Homepage</a></h3>							
+							<!-- TEST -->																				
+						</div>					
+					</div>										
+				</div>			
+			</div>		
+		</section>	
+	</div>
+</div>
+<script type="text/javascript"> Cufon.now(); </script>
+</body>
 </html>

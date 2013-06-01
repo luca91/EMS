@@ -1,20 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<table>
-	<tr>
-		<td>email:</td>
-		<td>${systemUser.email} - ${systemUser.id}</td>
-	</tr>
-	<tr>
-		<td>role:</td>
-		<td>${systemUser.role}</td>
-	</tr>
-	<tr>
-		<td>date:</td>
-		<td>
-			<jsp:useBean id="today" class="java.util.Date" scope="page" />
+<!-- HEADER -->
+<header>
+	<!-- TOP + LOGO -->
+	<div class="row-1">
+		<h1>
+			<a class="logo" href="index.html">EMS</a>
+			<strong class="slog">Enrollment Management System</strong>						
+		</h1>
+		<form id="session-id">
+			Welcome - ${systemUser.email}<br>
+			Role: ${systemUser.role}<br>
+			Time: <jsp:useBean id="today" class="java.util.Date" scope="page" />
 			<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
-		</td>
-	</tr>
-</table>
+		</form>				
+	</div>
+	<!-- MENU -->
+	<div class="row-2">
+		<nav>
+			<ul class="menu">										
+				  <c:import url="inc/header.jsp"/>					  
+			</ul>
+		</nav>
+	</div>
+</header>
+<!-- CONTENT -->
+<section id="content">
+	<div class="padding">				
+		<div class="wrapper margin-bot">
+		<!-- AJAX CONTENT -->				
+			<div class="col-3" id="ajax-parse">											
+				<div class="indent">							
+																								
+				</div>
+				<!-- SINGLE INDIVIDUAL CONTENT -->
