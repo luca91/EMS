@@ -40,7 +40,7 @@ public class PDFGeneratorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		test = new PDFGenerator("Luca", "Bellettati", 50, "Snowdays 2014", "/home/luca/");
+		test = new PDFGenerator("Luca", "Bellettati", 5, "UniBz", "Snowdays 2014", "/home/luca/");
 		test.createDocument();
 	}
 
@@ -93,7 +93,7 @@ public class PDFGeneratorTest {
 	
 	@Test
 	public void getDocumentTest() throws MalformedURLException, DocumentException, IOException{
-		test = new PDFGenerator("Luca", "Bellettati", 50, "Snowdays 2014", "/home/luca/");
+		test = new PDFGenerator("Luca", "Bellettati", 5, "UniBz", "Snowdays 2014", "/home/luca/");
 	    test.createDocument();
 	    aux = test.getDocument();
 		assertEquals(aux, test.getDocument());

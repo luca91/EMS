@@ -36,12 +36,6 @@
 	<!-- TOPHEAD --><c:import url="inc/tophead.jsp"/>
 	<!-- CONTENT -->
 		<h3 class="htabs">Participants management</h3> 
-			<c:choose>
-				<c:when test="${id_group != 0}">
-						Participants
-						<c:if test="${id_group != 0 }">for Group: ${id_group}<br/></c:if> - 			
-				</c:when>
-			</c:choose>
 			<!-- 
 			<c:choose>
 				<c:when test="${id_group != 0}">
@@ -62,8 +56,10 @@
 					</c:forEach>
 				</select>
 				
-				<br>
 			</c:if>
+			
+			<br></br>
+			<br>
 			
 			<c:choose>
 				<c:when test="${id_group != 0}">
@@ -134,19 +130,17 @@
 				<c:url
 					value="/private/participantApprove?action=approve&id_group=${id_group}" />
 			</c:set>
-			<form method="POST" action="${act}" name="frmApproveParticipan">				
+			<form method="POST" action="${act}" name="frmApproveParticipan" style="width: 143px; ">				
 				<c:if test="${not empty records}">
-					<input type="submit" value="Approve All" class="input" /><br>	
+					<input type="submit" value="Approve All" class="input" />
 					
 				</c:if>	
 			</form>
-			<c:set var="act">
-				<c:url
-					value="/private/participantApprove?action=disapprove&id_group=${id_group}" />
-			</c:set>
-			<form method="POST" action="${act}" name="frmApproveParticipan">				
+			<c:set var="act"><c:url value="/private/participantApprove?action=disapprove&id_group=${id_group}" /></c:set>
+			
+			<form method="POST" action="${act}" name="frmApproveParticipan" style="width: 200px; ">				
 				<c:if test="${not empty records}">
-					<input type="submit" value="Disapprove All" class="input" /><br>	
+					<input type="submit" value="Disapprove All" class="input" />
 					
 				</c:if>	
 			</form>

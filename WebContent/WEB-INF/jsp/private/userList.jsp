@@ -44,7 +44,7 @@
 					<th scope="col">First Name</th>
 					<th scope="col">Last Name</th>
 					<th scope="col">Email</th>
-					<th scope="col" colspan=2>Action</th>
+					<th scope="col" colspan=3 style="text-align: center">Action</th>
 				</tr>
 			</thead>
 			<tbody>

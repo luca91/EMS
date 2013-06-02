@@ -84,7 +84,9 @@ public class BadgeController extends HttpServlet {
     		id_group = Integer.parseInt(request.getParameter("id_group").toString());
     		log.debug("id_group: "+id_group);
         	EventDao ed = new EventDao();
+        	GroupDao gd = new GroupDao();
         	request.setAttribute("event", ed.getRecordById_group(id_group));
+        	request.setAttribute("group_name", gd.getRecordById(id_group).getName());
     	}
     	request.setAttribute("id_group", id_group);
     	

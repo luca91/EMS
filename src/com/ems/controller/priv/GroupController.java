@@ -75,7 +75,8 @@ public class GroupController extends HttpServlet {
     	if (request.getParameter("id_event") != null){
     		id_event = Integer.parseInt(request.getParameter("id_event").toString());
     	}
-    	request.setAttribute("id_event", id_event);
+    	EventDao evnDao = new EventDao();
+    	request.setAttribute("id_event", evnDao.getRecordById(id_event).getName());
     	
     	String forward="";
         String action = request.getParameter("action");

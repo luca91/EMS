@@ -65,9 +65,8 @@ System.out.println("index.html");
 				<div class="wrapper margin-bot">
 				<!-- AJAX CONTENT -->				
 					<div class="col-3" id="ajax-parse">
-						<h3>Enrollment Management System - private site</h3><br>
 						<div class="indent">							
-							<h3 class="p0"><a href="../public/index.html" target="_blank">Homepage</a></h3>							
+							<h3 class="p0"><a href="../public/index.html" target="_blank">Homepage - Private Site</a></h3>							
 							<!-- TEST -->																											
 						</div>					
 					</div>										

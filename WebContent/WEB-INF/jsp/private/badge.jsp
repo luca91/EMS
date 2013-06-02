@@ -36,21 +36,22 @@
 	<!-- TOPHEAD --><c:import url="inc/tophead.jsp"/>
 	<!-- CONTENT -->
 	<h3 class="htabs">Badges</h3>
-			<c:choose>
-			<c:when test="${id_group != 0}">
-			<h1>Badges <c:if test="${id_group != 0 }">for Group: ${id_group}</c:if></h1>	
-			</c:when>
-			</c:choose>
+				<select>
+					<option id="option-sel-sel" selected="selected">Choose a Group:</option>
+					<c:forEach items="${groups}" var="group">
+						<c:url value="/private/badgeList.html?action=listRecord&id_group=${group.id}&id_event=${group.id_event}" var="url"/>
+							<option value="${url}" onClick="window.location.href='${url}'">${group.id}</option>
+					</c:forEach>
+				</select>
+				<c:if test="${id_group != 0}">
+						<script>$("#option-sel-sel").text(function () {
+				   			 return $(this).text().replace("Choose a group:", 'Badges for ${group_name}'); });
+						</script>
+					</c:if>		
 			
-			<select>
-				<option selected="selected">Choose a Group:</option>
-				<c:forEach items="${groups}" var="group">
-				<c:url value="/private/badgeList.html?action=listRecord&id_group=${group.id}&id_event=${group.id_event}" var="url"/>
-				<option value="${url}" onClick="window.location.href='${url}'">${group.id}</option>
-				</c:forEach>
-			</select>
 			<br>
 			
+		<!-- TABLE -->
 			<c:set var="act">
 			<c:url value="/private/downloadBadge?action=download&id_participant=${id}" />
 			</c:set>

@@ -49,9 +49,10 @@
 						</c:forEach>						
 					</select>
 					<c:if test="${id_event != 0}"><script>$("#option-sel-sel").text(function () {
-				   			 return $(this).text().replace("Choose an Event:", 'Group of Event ${id_event}'); 
+				   			 return $(this).text().replace("Choose an Event:", 'Group of ${id_event}'); 
 								});
-						</script></c:if>				
+						</script>
+					</c:if>				
 				</c:if>
 			</c:when>
 			
