@@ -56,13 +56,21 @@
 	            value="${record.email}" /> <br /> 	            	            
 	        Date of birth : <input type="text" name="date_of_birth"
 	            value="${record.date_of_birth}" /> <br />     
-	        <input type="hidden" name="registration_date"
-	            value="${record.registration_date}" /> <br />
-	        
-	           	<select name="approved">
-	        		<option value="false" <c:if test="${record.approved == 'false'}">selected </c:if> >false</option>
-	        	    <option value="true" <c:if test="${record.approved == 'true'}">selected</c:if> >true</option>
-	        	</select> 
+	       	<input type="hidden" name="registration_date"
+	            	value="${record.registration_date}" /> <br />
+	        <c:choose>
+	        	<c:when test="${param.id == null }">
+	        			<input type="hidden" name="registration_date" value="${record.approved}" /> <br />
+
+	        	</c:when>
+	        	<c:otherwise>
+		           	<select name="approved">
+		        		<option value="false" <c:if test="${record.approved == 'false'}">selected </c:if> >false</option>
+		        	    <option value="true" <c:if test="${record.approved == 'true'}">selected</c:if> >true</option>
+		        	</select> 	        	
+	        	</c:otherwise>
+	        </c:choose>
+
 				<br />
 	       <!--  blocked :  --><input type="hidden" name="blocked"
 	            value="${record.blocked}" /> <br /> 	            	          	                  

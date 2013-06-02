@@ -163,14 +163,14 @@ public class ParticipantDao {
             
             preparedStatement.close();
 
-            
-            Email e = new Email();
+            // email is sent only when the button Approve/Disapprove is clicked
+/*            Email e = new Email();
             if(aRecord.isApproved()){
             	e.sendEmail(aRecord.getEmail(), "Enrollment approved", "Congratulations - Your enrollment to the event has been Approved");
             }
             else{
             	e.sendEmail(aRecord.getEmail(), "Enrollment disapproved", "Your enrollment has been canceled");	
-            }
+            }*/
             
         } catch (SQLException e) {
             e.printStackTrace();
@@ -358,7 +358,7 @@ public class ParticipantDao {
             preparedStatement.close();
             
             Email e = new Email();
-            Participant p = getRecordById(anId);
+            Participant p = getRecordById(anId);          
             if(approved){
             	e.sendEmail(p.getEmail(), "Enrollment approved", "Congratulations - Your enrollment to the event has been Approved");
             }
