@@ -125,8 +125,6 @@
 								<td><a
 									href="<c:url value='/private/participantDelete?action=delete&id=${record.id}&id_group=${id_group}'/>"
 									onclick="return confirmDelete();">Delete</a></td>
-									<td><a
-									href="<c:url value='/private/badge.jsp?action=listRecord&id=${record.id}&id_group=${id_group}'/>">Badges</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>					

@@ -104,6 +104,7 @@ public class BadgeController extends HttpServlet {
                 request.setAttribute("records", pDao.getAllRecordsById_group(id_group));
                 GroupDao gd = new GroupDao();
                 request.setAttribute("groups", gd.getAllRecords());
+                request.setAttribute("id_event", request.getParameter("id_event"));
             }
         }
         
@@ -111,12 +112,13 @@ public class BadgeController extends HttpServlet {
         else if(action.equalsIgnoreCase("download")) {
         	log.debug("admin");
         	int id = Integer.parseInt(request.getParameter("id"));
+        	int id_event = Integer.parseInt(request.getParameter("event_id"));
         	Participant aPar = pDao.getRecordById(id);
-        	PDFGenerator badge = new PDFGenerator();
+        	PDFGenerator badge = null;
         	try {
-				 badge = new PDFGenerator(aPar.getFname(), aPar.getLname(), aPar.getId_group(), "event_name", getServletContext().getRealPath("/")+"/private/pdf/");
+				 badge = new PDFGenerator(aPar.getFname(), aPar.getLname(), aPar.getId_group(), String.valueOf(id_event), getServletContext().getRealPath("/"));
 				 badge.createDocument();
-				 log.debug("badge folder: "+getServletContext().getRealPath("/"+badge.getFilePath()));
+				 log.debug("badge folder: "+getServletContext().getRealPath("/private/pdf/"+badge.getFilePath()));
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -127,7 +129,7 @@ public class BadgeController extends HttpServlet {
         	
         	log.debug("file path: "+badge.getFilePath());
         	
-        	forward = "/"+badge.getFilePath();
+        	forward = badge.getFilePath();
         	
         }
         

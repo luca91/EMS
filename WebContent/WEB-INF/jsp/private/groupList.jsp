@@ -110,6 +110,7 @@
 								</c:if></td>
 							<td><a
 								href="<c:url value='/private/participantList.html?action=listRecord&id_group=${record.id}'/>">Participants</a></td>
+							<td><a href="<c:url value='/private/badge.jsp?action=listRecord&id_group=${record.id}&id_event=${record.id_event}'/>">Badges</a></td>
 						</tr>
 					</c:forEach>			
 				</c:if>

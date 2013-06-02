@@ -74,8 +74,6 @@ public class PDFGenerator {
 		id = groupId;
 		this.eventName = eventName;
 		this.path = path;
-		Rectangle page = new Rectangle(280f, 360f);
-		aDocument = new Document(page, 0f, 0f, 221f, 0f);
 		log.debug("PDF generator istantiated");
 	    log.trace("END");
 	}
@@ -89,18 +87,14 @@ public class PDFGenerator {
 	 */
 	public boolean createDocument() throws DocumentException, MalformedURLException, IOException{
 		log.trace("START");
-		aDocument.open();
+		Rectangle page = new Rectangle(280f, 360f);
+		aDocument = new Document(page, 0f, 0f, 221f, 0f);
 		boolean check = false;
-	    PdfWriter.getInstance(aDocument, new FileOutputStream(path+"/"+name+surname+id+".pdf"));
-	    check = addData();
-	    if(!check)
-	    	return false;
-	    check = addQR();
-	    if(!check)
-	    	return false;
-	    check = addImage();
-	    if(!check)
-	    	return false;
+	    PdfWriter.getInstance(aDocument, new FileOutputStream(path+"/private/pdf/"+name+surname+id+".pdf"));
+	    aDocument.open();
+	    addData();
+	    addQR();
+	    addImage();
 	    log.debug("Output set");
 	    aDocument.close();
 	    return check;
@@ -115,7 +109,7 @@ public class PDFGenerator {
 		log.trace("START");
 		Paragraph container = new Paragraph();
 		Paragraph event = new Paragraph(eventName, subFont);
-		Paragraph data = new Paragraph(name+surname, catFont);
+		Paragraph data = new Paragraph(name+" "+surname, catFont);
 		Paragraph group = new Paragraph(String.valueOf(id), smallBold);
 		container.add(event);
 		container.add(data);
@@ -136,11 +130,11 @@ public class PDFGenerator {
 	 */
 	public boolean addQR() throws MalformedURLException, IOException, DocumentException{
 		log.trace("START");
-		 QRGenerator aQR = QRGenerator.from(name+surname+String.valueOf(id));
+		 QRGenerator aQR = QRGenerator.from(name+" "+surname+" "+String.valueOf(id));
 		 aQR.to(ImageType.PNG);
-		 File qrFile = aQR.file();
-		 log.debug("QR location: "+qrFile.getPath());
-		 Image qrImage = Image.getInstance(qrFile.getPath());
+//		 File qrFile = aQR.file();
+		 log.debug("QR location: "+aQR.file().getPath());
+		 Image qrImage = Image.getInstance(aQR.file().getPath());
 		 qrImage.scaleAbsolute(80f, 80f);
 		 qrImage.setAbsolutePosition(200f, 280f);
 		 boolean added = aDocument.add(qrImage);
@@ -154,7 +148,7 @@ public class PDFGenerator {
 	 * @return String
 	 */
 	public String getFilePath(){
-		return name+surname+String.valueOf(id)+".pdf";
+		return "/private/pdf/"+name+surname+String.valueOf(id)+".pdf";
 	}
 	
 	/**
