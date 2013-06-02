@@ -52,73 +52,85 @@
 		        <span class="small">Choose the manager for this group</span>
 		    </label>
 	         <select name="id_group_referent">
-          			<c:forEach items="${listOfGroup_mng}" var="options">	               
-           				<option value="${options.id }" 
-           					<c:if test="${options.id == record.id_group_referent }">selected</c:if>
-           						>${options.id } - ${options.fname} ${options.lname }
-           				</option>
-           			</c:forEach>
-           		</select><br><br><br>  
+      			<c:forEach items="${listOfGroup_mng}" var="options">	               
+       				<option value="${options.id }" 
+       					<c:if test="${options.id == record.id_group_referent }">selected</c:if>
+       						>${options.id } - ${options.fname} ${options.lname }
+       				</option>
+       			</c:forEach>
+           	</select><br><br><br>
 	         
 	         
-	            <c:choose>
-	               	<c:when test="${record.id_manager != null  && sessionScope.systemUser.role == 'admin'}">
-	            		<!-- UPDATE -->
-	            		<select name="id_manager">
-	           				<c:forEach items="${listOfEvent_mng}" var="options">	               
-	                			<option value="${options.id }" 
-	                				<c:if test="${options.id == record.id_manager }">selected</c:if> 
-	                			>${options.id } - ${options.fname} ${options.lname }</option>
-	            			</c:forEach>
-	            		</select>
-	            	</c:when>
-	               	<c:when test="${record.id_manager != null && sessionScope.systemUser.role == 'event_mng'}">
-	            		<!-- UPDATE -->
-	            		<input type="hidden" name="id_manager" value="${record.id_manager}"/>
-	            	</c:when>	            	
-	            	<c:when test="${sessionScope.systemUser.role == 'event_mng' }">
-	            		<!-- INSERT -->
-	            		<input
-	            			type="text" name="id_manager"
-	            			value="${sessionScope.systemUser.id}"
-	            			readonly="readonly"
-	            		/> - TO BE HIDDEN!
-	            		
-	            	</c:when>
-	            	<c:otherwise>
-	            		<!-- INSERT -->
-	               		<select name="id_manager">
-	           				<c:forEach items="${listOfEvent_mng}" var="record">	               
-	                			<option value="${record.id }">${record.id } - ${record.fname} ${record.lname }</option>
-	            			</c:forEach>
-	            		</select>
-	            		<input
-	            			type="text" name="id_manager"
-	            			value=""
-	            		/>
-	            	</c:otherwise>
-	            </c:choose>
-	             <br> 
-	        Event Name : <input
-	            type="text" name="name"
-	            value="${record.name}" /> <br> 
-	        Description : <input
-	            type="text" name="description"
-	            value="${record.description}" /> <br> 	            
-	        Start : <input type="text" name="start"
-	            value="${record.start}" /> <br>
-	        End : <input type="text" name="end"
-	            value="${record.end}" /> <br> 
-	        Enrollment start : <input type="text" name="enrollment_start"
-	            value="${record.enrollment_start}" /><br> 
-	      	Enrollment end : <input type="text" name="enrollment_end"
-	            value="${record.enrollment_end}" /><br><br>
+            <c:choose>
+               	<c:when test="${record.id_manager != null  && sessionScope.systemUser.role == 'admin'}">
+            		<!-- UPDATE -->
+            		<select name="id_manager">
+           				<c:forEach items="${listOfEvent_mng}" var="options">	               
+                			<option value="${options.id }" 
+                				<c:if test="${options.id == record.id_manager }">selected</c:if> 
+                			>${options.id } - ${options.fname} ${options.lname }</option>
+            			</c:forEach>
+            		</select>
+            	</c:when>
+               	<c:when test="${record.id_manager != null && sessionScope.systemUser.role == 'event_mng'}">
+            		<!-- UPDATE -->
+            		<input type="hidden" name="id_manager" value="${record.id_manager}"/>
+            	</c:when>	            	
+            	<c:when test="${sessionScope.systemUser.role == 'event_mng' }">
+            		<!-- INSERT --><!-- HIDDEN -->
+            		<input type="hidden" name="id_manager" value="${sessionScope.systemUser.id}" readonly="readonly" />
+            		
+            	</c:when>
+            	<c:otherwise>
+            		<!-- INSERT -->
+               		<select name="id_manager">
+           				<c:forEach items="${listOfEvent_mng}" var="record">	               
+                			<option value="${record.id }">${record.id } - ${record.fname} ${record.lname }</option>
+            			</c:forEach>
+            		</select>
+            		<input type="text" name="id_manager" value="" />
+            	</c:otherwise>
+            </c:choose>
+	        <br><br><br>     
+	        
+	        <label>Event Name : 
+		    <span class="small">Name of the event</span>
+		    </label>
+		    <input type="text" name="name"	value="${record.name}" /><br> 
+		    
+		    <label>Description : 
+		    <span class="small">Description of the event</span>
+		    </label>
+		    <div class="text-form">
+		    <input type="text" name="description"	value="${record.description}" /> <br>
+		    </div>
+		    
+		    <label>Start of the event: 
+		    <span class="small">Date of beginning of the event</span>
+		    </label>
+		    <input type="text" name="start"	value="${record.start}" /> <br>
+		    
+		    <label>End of the event: 
+		    <span class="small">Date of ending of the event</span>
+		    </label>
+		    <input type="text" name="end" value="${record.end}" /> <br>
+		    
+		    <label>Enrollment start : 
+		    <span class="small">Date when enrollment opens</span>
+		    </label>
+		    <input type="text" name="enrollment_start" value="${record.enrollment_start}" /><br>
+		    
+		    <label>Enrollment end : 
+		    <span class="small">Deadline for enrollment</span>
+		    </label>
+		    <input type="text" name="enrollment_end" value="${record.enrollment_end}" /><br><br>
+		    
 	        <!-- BUTTONS -->             
-	        <input type="submit" value="Submit" class="input" />       
+	        <input type="submit" value="Submit" class="input" />
 	        <input type="button" value="Back" onClick="history.go(-1);return true;" class="input" />
-        	<c:if test="${param.id eq null }">
+	        <c:if test="${param.id eq null }">
         		<input type="reset" value="Reset" class="input" />
-        	</c:if>
+       		</c:if>
 	    </form>
 	</div>
 	<!-- BOTTOM -->

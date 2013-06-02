@@ -76,7 +76,7 @@
 		        <input type="button" value="Back" onClick="history.go(-1);return true;" class="input" />
 		        <c:if test="${param.id eq null }">
 	        		<input type="reset" value="Reset" class="input" />
-	       		 </c:if>
+	       		</c:if>
 		    </form>
 	    </div>	        
 	<!-- BOTTOM --><c:import url="inc/bottom.jsp"/>
