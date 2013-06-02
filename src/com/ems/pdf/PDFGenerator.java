@@ -32,7 +32,7 @@ public class PDFGenerator {
 	/**
 	 * @uml.property  name="id"
 	 */
-	private int id;
+	private String group;
 	/**
 	 * @uml.property  name="eventName"
 	 */
@@ -45,6 +45,7 @@ public class PDFGenerator {
 	 * @uml.property  name="aDocument"
 	 * @uml.associationEnd  
 	 */
+	private int id;
 	private Document aDocument;
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
 	private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,Font.BOLD);
@@ -66,12 +67,13 @@ public class PDFGenerator {
 	 * @throws DocumentException
 	 * @throws IOException
 	 */
-	public PDFGenerator(String fname, String lname, int groupId, String eventName, String path) throws MalformedURLException, DocumentException, IOException{
+	public PDFGenerator(String fname, String lname, int id, String group, String eventName, String path) throws MalformedURLException, DocumentException, IOException{
 		log.debug("###################################");
 	    log.trace("START");
 		name = fname;
 		surname = lname;
-		id = groupId;
+		this.id = id;
+		this.group = group;
 		this.eventName = eventName;
 		this.path = path;
 		log.debug("PDF generator istantiated");
@@ -90,7 +92,7 @@ public class PDFGenerator {
 		Rectangle page = new Rectangle(280f, 360f);
 		aDocument = new Document(page, 0f, 0f, 221f, 0f);
 		boolean check = false;
-	    PdfWriter.getInstance(aDocument, new FileOutputStream(path+"/private/pdf/"+name+surname+id+".pdf"));
+	    PdfWriter.getInstance(aDocument, new FileOutputStream(path+"/private/pdf/"+name+surname+group+".pdf"));
 	    aDocument.open();
 	    addData();
 	    addQR();
@@ -109,8 +111,8 @@ public class PDFGenerator {
 		log.trace("START");
 		Paragraph container = new Paragraph();
 		Paragraph event = new Paragraph(eventName, subFont);
-		Paragraph data = new Paragraph(name+" "+surname, catFont);
-		Paragraph group = new Paragraph(String.valueOf(id), smallBold);
+		Paragraph data = new Paragraph(name+" "+surname+" (#"+id+")", catFont);
+		Paragraph group = new Paragraph(this.group, smallBold);
 		container.add(event);
 		container.add(data);
 		container.add(group);
@@ -130,7 +132,7 @@ public class PDFGenerator {
 	 */
 	public boolean addQR() throws MalformedURLException, IOException, DocumentException{
 		log.trace("START");
-		 QRGenerator aQR = QRGenerator.from(name+" "+surname+" "+String.valueOf(id));
+		 QRGenerator aQR = QRGenerator.from(name+" "+surname+" "+this.group);
 		 aQR.to(ImageType.PNG);
 //		 File qrFile = aQR.file();
 		 log.debug("QR location: "+aQR.file().getPath());
@@ -148,7 +150,7 @@ public class PDFGenerator {
 	 * @return String
 	 */
 	public String getFilePath(){
-		return "/private/pdf/"+name+surname+String.valueOf(id)+".pdf";
+		return "/private/pdf/"+name+surname+this.group+".pdf";
 	}
 	
 	/**

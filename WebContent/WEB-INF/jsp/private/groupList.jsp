@@ -84,7 +84,7 @@
 					<th scope="col">Group referent Id</th>
 					<th scope="col">Max Group Number</th>
 					<!-- <th scope="col">Blocked</th> -->
-					<th scope="col" colspan=3>Action</th>
+					<th scope="col" colspan="4" style="text-align: center;">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
