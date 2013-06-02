@@ -52,18 +52,19 @@ function confirmDelete(){
 	</c:choose>
 
 
-	<c:if test="${groups != null}">
-	    Choose a Group:
+	<c:if test="${groups != null}">	    
 	    <select>
-			<option selected></option>
+			<option id="option-sel-sel" selected="selected">Choose a Group:</option>
 			<c:forEach items="${groups}" var="group">
-				<c:url
-					value="/private/participantList.html?action=listRecord&id_group=${group.id}"
-					var="url" />
+				<c:url value="/private/participantList.html?action=listRecord&id_group=${group.id}"	var="url" />
 				<option value="${group.id}" onClick="window.location.href='${url}'">${group.id}</option>
 			</c:forEach>
 		</select>
-		<br />
+		<c:if test="${id_group != 0 }"><script>$("#option-sel-sel").text(function () {
+				   			 return $(this).text().replace("Choose a Group:", 'Group of Event ${id_group}'); 
+								});
+				</script>
+		</c:if>
 	</c:if>
 
 	<c:set var="act">

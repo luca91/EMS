@@ -21,7 +21,7 @@
 <script type="text/javascript" src="js/user_inter_act.js"></script>
 	</head>
 	<body>
-		<h3>List of Participant for event ${eventName }</h3>
+		<h3>List of Participants for ${eventName }</h3>
 		<c:if test="${empty listOfParticipant}">
 			<p>The list of participants is empty</p>
 		</c:if>

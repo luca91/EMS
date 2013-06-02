@@ -68,7 +68,7 @@
 						</div>
 						<!-- SINGLE INDIVIDUAL CONTENT -->						
 					</div>
-					<h3>Events management</h3>
+					<h3 class="htabs">Events management</h3>
 					<table id="box-table-a">
 						<thead>
 							<tr>
@@ -98,8 +98,6 @@
 					                    <td><a href="<c:url value='/private/event.jsp?action=edit&id=${record.id}'/>">Update</a></td>
 					                    <td><a href="<c:url value='/private/eventDelete?action=delete&id=${record.id}'/>" onclick="return confirmDelete();">Delete</a></td>
 					                	<td><a href="<c:url value='/private/groupList.html?action=listRecord&id_event=${record.id}'/>">Groups</a></td>
-					                	
-					                	
 					                	<td><a href="javascript:void(window.open('<c:url value='participantsPrint.html?&id_event=${record.id}' />', 'Title', 'width=800,height=405, location=no, menubar=no, status=no,toolbar=no, scrollbars=no, resizable=no'))">Print</a>					                	
 					                	</td>
 					                </tr>

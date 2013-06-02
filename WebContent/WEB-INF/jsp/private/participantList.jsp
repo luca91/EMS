@@ -35,7 +35,7 @@
 	<div class="main">
 	<!-- TOPHEAD --><c:import url="inc/tophead.jsp"/>
 	<!-- CONTENT -->
-		<h3>Participants management</h3> 
+		<h3 class="htabs">Participants management</h3> 
 			<c:choose>
 				<c:when test="${id_group != 0}">
 						Participants
@@ -51,10 +51,9 @@
 			</c:choose>
 			 -->		
 		
-			<c:if test="${groups != null}">
-			    Choose a Group:
+			<c:if test="${groups != null}">			    
 			    <select>
-					<option selected></option>
+					<option selected="selected">Choose a Group:</option>
 					<c:forEach items="${groups}" var="group">
 						<c:url
 							value="/private/participantList.html?action=listRecord&id_group=${group.id}"

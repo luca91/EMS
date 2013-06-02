@@ -41,14 +41,13 @@
 			</c:when>
 			</c:choose>
 			
-			Choose a group
 			<select>
-			<option selected></option>
-			<c:forEach items="${groups}" var="group">
-			<c:url value="/private/badgeList.html?action=listRecord&id_group=${group.id}" var="url"/>
-			<option value="${url}" onClick="window.location.href='${url}'">${group.id}</option>
-			</c:forEach>
-			</select>
+				<option selected="selected">Choose a Group:</option>
+				<c:forEach items="${groups}" var="group">
+				<c:url value="/private/badgeList.html?action=listRecord&id_group=${group.id}" var="url"/>
+				<option value="${url}" onClick="window.location.href='${url}'">${group.id}</option>
+				</c:forEach>
+			</select><br>
 			
 			<c:set var="act">
 			<c:url value="/private/downloadBadge?action=download&id_participant=${id}" />

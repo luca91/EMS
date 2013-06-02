@@ -35,7 +35,7 @@
 	<div class="main">
 	<!-- TOPHEAD --><c:import url="inc/tophead.jsp"/>
 	<!-- CONTENT -->
-		<h3>Users management</h3>
+		<h3 class="htabs">Users management</h3>
 		<table id="box-table-a">
 			<thead>
 				<tr>			

@@ -35,22 +35,26 @@
 	<div class="main">
 	<!-- TOPHEAD --><c:import url="inc/tophead.jsp"/>
 	<!-- CONTENT -->
-		<h3>Groups management</h3>
+		<h3 class="htabs">Groups management</h3>
 		<!-- DROPDOWN BOX SELECTION -->
 		<c:choose>
 			<c:when test="${systemUser.role == 'admin'}">
-				<c:if test="${events != null}">					
-						<c:if test="${id_event != 0}">Group of event # ${id_event} <br/></c:if>
-					    Choose an Event:
+				<c:if test="${events != null}">
 					    <select>
-						<option selected></option>
+						<option id="option-sel-sel" selected="selected">Choose an Event:</option>
 						<c:forEach items="${events}" var="event">
 							<c:url value="/private/groupList.html?action=listRecord&id_event=${event.id}" var="url" />
 							<option value="${event.id}"	onClick="window.location.href='${url}'">${event.name}</option>
-						</c:forEach>
+							<!-- SCRIPT HERE to work correctly? -->							
+						</c:forEach>						
 					</select>
+					<c:if test="${id_event != 0}"><script>$("#option-sel-sel").text(function () {
+				   			 return $(this).text().replace("Choose an Event:", 'Group of Event ${id_event}'); 
+								});
+						</script></c:if>				
 				</c:if>
 			</c:when>
+			
 			<c:when test="${systemUser.role == 'event_mng'}">
 				<c:if test="${events != null}">
 						<c:if test="${id_event != 0}">Groups for event  ${id_event}<br/></c:if>

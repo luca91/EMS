@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="css/tables_style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/style_portal.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/forms.css" type="text/css" media="screen">
 <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="js/cufon-yui.js"></script>
 <script type="text/javascript" src="js/cufon-replace.js"></script>
@@ -37,11 +38,29 @@
 	<!-- CONTENT -->
 	<c:set var="act">
 		<c:url value="/private/eventAdd?action=eventList" /> 
-	</c:set>	
-	    <form method="POST" action="${act}" name="frmAddEvent">
-	        Event ID : <input type="text" readonly="readonly" name="id"
-	            value="${record.id}" /> - TO BE HIDDEN<br> 
-	        manager ID : 
+	</c:set>
+	
+	<div id="stylized" class="myform">
+	    <form method="POST" action="${act}" name="frmAddEvent" id="form">
+	    	<h3>Event form</h3>
+			<p>Edit the data for this event</p>
+	    	<!-- HIDDEN --><!-- <label>Event ID : <input type="text" readonly="readonly" name="id"
+	            value="${record.id}" /> - TO BE HIDDEN</span></label> -->
+	        <input type="hidden" readonly="readonly" name="id" value="${record.id}" /> 
+	        
+	        <label>Manager ID : 
+		        <span class="small">Choose the manager for this group</span>
+		    </label>
+	         <select name="id_group_referent">
+          			<c:forEach items="${listOfGroup_mng}" var="options">	               
+           				<option value="${options.id }" 
+           					<c:if test="${options.id == record.id_group_referent }">selected</c:if>
+           						>${options.id } - ${options.fname} ${options.lname }
+           				</option>
+           			</c:forEach>
+           		</select><br><br><br>  
+	         
+	         
 	            <c:choose>
 	               	<c:when test="${record.id_manager != null  && sessionScope.systemUser.role == 'admin'}">
 	            		<!-- UPDATE -->
@@ -100,7 +119,8 @@
         	<c:if test="${param.id eq null }">
         		<input type="reset" value="Reset" class="input" />
         	</c:if>
-	    </form>		
+	    </form>
+	</div>
 	<!-- BOTTOM -->
 	<c:import url="inc/bottom.jsp"/>	
 </html>
