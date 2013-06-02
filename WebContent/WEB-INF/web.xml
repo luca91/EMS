@@ -121,4 +121,9 @@
 	</login-config>
 -->    
 <!-- #################################################################### -->
+
+<error-page>
+    <error-code>401</error-code>
+    <location>/public/loginError.jsp</location>
+</error-page>
 </web-app>
