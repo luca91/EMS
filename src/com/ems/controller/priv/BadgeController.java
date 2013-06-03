@@ -128,12 +128,13 @@ public class BadgeController extends HttpServlet {
         	Participant aPar = pDao.getRecordById(id);
         	PDFGenerator badge = null;
         	try {
-        		File outputFolder = new File(getServletContext().getRealPath("/")+"/private/pdf");
+        		File outputFolder = new File(getServletContext().getRealPath("/")+"/private/pdf/");
         		outputFolder.mkdir();
         		GroupDao gd = new GroupDao();
-				badge = new PDFGenerator(aPar.getFname(), aPar.getLname(), aPar.getId(), gd.getRecordById(aPar.getId_group()).getName(), id_event, getServletContext().getRealPath("/"));
+				badge = new PDFGenerator(aPar.getFname(), aPar.getLname(), aPar.getId(), gd.getRecordById(aPar.getId_group()).getName(), id_event, outputFolder.getAbsolutePath());
+				badge.setImagePath(getServletContext().getRealPath("/private/images/logo_unibz.jpg"));
 				badge.createDocument();
-				log.debug("badge folder: "+getServletContext().getRealPath(badge.getFilePath()));
+				log.debug("badge folder: "+badge.getFilePath());
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

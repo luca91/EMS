@@ -46,6 +46,7 @@ public class PDFGenerator {
 	 * @uml.associationEnd  
 	 */
 	private int id;
+	private String imagePath;
 	private Document aDocument;
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
 	private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,Font.BOLD);
@@ -92,7 +93,7 @@ public class PDFGenerator {
 		Rectangle page = new Rectangle(280f, 360f);
 		aDocument = new Document(page, 0f, 0f, 221f, 0f);
 		boolean check = false;
-	    PdfWriter.getInstance(aDocument, new FileOutputStream(path+"/private/pdf/"+name+surname+group+".pdf"));
+	    PdfWriter.getInstance(aDocument, new FileOutputStream(getAbsoluteFilePath()));
 	    aDocument.open();
 	    addData();
 	    addQR();
@@ -149,6 +150,10 @@ public class PDFGenerator {
 	 * It returns the name of the final file.
 	 * @return String
 	 */
+	public String getAbsoluteFilePath(){
+		return path+"/"+name+surname+this.group+".pdf";
+	}
+	
 	public String getFilePath(){
 		return "/private/pdf/"+name+surname+this.group+".pdf";
 	}
@@ -162,7 +167,7 @@ public class PDFGenerator {
 	 */
 	public boolean addImage() throws MalformedURLException, IOException, DocumentException{
 		log.trace("START");
-		Image anImage = Image.getInstance(path+"/private/images/logo_unibz.jpg");
+		Image anImage = Image.getInstance(imagePath);
 		anImage.scaleAbsolute(100f, 70f);
 		anImage.setAbsolutePosition(20f, 270f);
 		boolean added = aDocument.add(anImage);
@@ -173,6 +178,14 @@ public class PDFGenerator {
 	
 	public Document getDocument(){
 		return this.aDocument;
+	}
+	
+	public void setImagePath(String path){
+		this.imagePath = path;
+	}
+	
+	public String getImagePath(){
+		return this.imagePath;
 	}
 
 }

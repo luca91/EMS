@@ -53,7 +53,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:if test="${systemUser.role == 'admin' || systemUser.role == 'event_mng'}">
+							<c:if test="${systemUser.role == 'admin' || systemUser.role == 'admin'}">
 								<c:forEach items="${records}" var="record">
 					                <tr>
 					                    <td>${record.id}</td>
@@ -74,9 +74,9 @@
 							</c:if>
 						</tbody>
 					</table>
-					<p><a class="button-2" href="event.jsp?action=insert" id="addevent">Add Event</a>
-					</p>
-					</p>
+					<c:if test="${systemUser.role == 'admin'}">
+						<p><a class="button-2" href="event.jsp?action=insert" id="addevent">Add Event</a></p>
+					</c:if>
 					<hr>														
 				</div>			
 			</div>		

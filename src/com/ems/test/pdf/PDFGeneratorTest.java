@@ -87,6 +87,8 @@ public class PDFGeneratorTest {
 	
 	@Test
 	public void addImagetest() throws MalformedURLException, IOException, DocumentException{
+//		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		test.setImagePath("/WebContent/private/images/logo_unibz.jpg");
 		boolean check = test.addImage();
 		assertEquals(true, check);
 	}

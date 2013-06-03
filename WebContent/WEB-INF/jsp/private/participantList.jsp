@@ -58,7 +58,7 @@
 				</select>
 				<c:if test="${id_group != 0}">
 						<script>$("#option-sel-sel").text(function () {
-				   			return $(this).text().replace("Choose a Group:", 'Participants for ${group_name}'); });
+				   			return $(this).text().replace("Choose a Group:", '${group_name}'); });
 						</script>
 					</c:if>	
 			</c:if>
