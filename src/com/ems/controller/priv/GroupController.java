@@ -151,6 +151,7 @@ public class GroupController extends HttpServlet {
                 request.setAttribute("events", ed.getRecordsById_event_mng(systemUser.getId()));
             }
             else if (systemUser.getRole().equals("group_mng")){
+                log.debug("group_mng");
                 forward = LIST_USER;
                 request.setAttribute("records", dao.getAllRecordsById_group_referent(systemUser.getId()));
             }

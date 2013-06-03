@@ -204,9 +204,14 @@ public class EventController extends HttpServlet {
 		UserDao ud = new UserDao();
 		User  systemUser = ud.getUserByEmail(request.getUserPrincipal().getName());
         
+
+
+
+		
+		
 		if (systemUser.getRole().equals("admin") || systemUser.getRole().equals("event_mng")){
 	        log.debug("systemUser is an admin or event_mng");
-		    forward += "/WEB-INF/jsp/private/eventList.jsp";
+	        forward =  "eventList.html";
 		}
 		else {
 			forward = UNAUTHORIZED_PAGE;
@@ -215,13 +220,9 @@ public class EventController extends HttpServlet {
 
         log.debug("forward: " + forward);
         request.setAttribute("records", dao.getRecordsById_event_mng(systemUser.getId()));
-		try {
-			getServletConfig().getServletContext().getRequestDispatcher(forward).forward(request, response);
-			} 
-		catch (Exception ex) {
-				ex.printStackTrace();
-			}
-    	log.trace("END");
+        log.debug("forward: " + forward);
+
+        response.sendRedirect(forward);		
 	}
 
 }
