@@ -53,7 +53,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:if test="${systemUser.role == 'admin' || systemUser.role == 'admin'}">
+							<c:if test="${systemUser.role == 'admin' || systemUser.role == 'event_mng'}">
 								<c:forEach items="${records}" var="record">
 					                <tr>
 					                    <td>${record.id}</td>
