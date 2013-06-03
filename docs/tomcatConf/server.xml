@@ -78,13 +78,18 @@
                maxThreads="150" scheme="https" secure="true"
                clientAuth="false" sslProtocol="TLS" />
     -->
-
-     <Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true"
-               maxThreads="150" scheme="https" secure="true"
-               clientAuth="false" sslProtocol="TLS" 
-	       keystoreFile="/opt/emskeystore"
-	       keystorePass="password" />
-    
+     <Connector 
+     	SSLEnabled="true" 
+     	clientAuth="false" 
+     	keystoreFile="/opt/emskeystore" 
+     	keystorePass="password" 
+     	maxThreads="150" 
+     	port="8443" 
+     	protocol="HTTP/1.1" 
+     	scheme="https" 
+     	secure="true" 
+     	sslProtocol="TLS"/>
+	       
     <!-- Define an AJP 1.3 Connector on port 8009 -->
     <Connector port="8009" protocol="AJP/1.3" redirectPort="8443"/>
 
@@ -114,21 +119,9 @@
              resources under the key "UserDatabase".  Any edits
              that are performed against this UserDatabase are immediately
              available for use by the Realm.  -->
-	     
 	<!-- <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/> -->
 	     
-	     <Realm className="org.apache.catalina.realm.JDBCRealm" 
-	      driverName="com.mysql.jdbc.Driver" 
-	      connectionURL="jdbc:mysql://localhost:3306/ems" 
-	      connectionName="root" 
-	      connectionPassword="" 
-	      
-	      userTable="user" 
-	      userNameCol="email" 
-	      userCredCol="password" 
-	      
-	      userRoleTable="role" 
-	      roleNameCol="ROLE_NAME" />
+	     <Realm className="org.apache.catalina.realm.JDBCRealm" connectionName="root" connectionPassword="" connectionURL="jdbc:mysql://localhost:3306/ems" driverName="com.mysql.jdbc.Driver" roleNameCol="ROLE_NAME" userCredCol="password" userNameCol="email" userRoleTable="user_role" userTable="user"/>
       </Realm>
 
       <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
@@ -144,11 +137,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log." suffix=".txt"/>
 
-      <Context docBase="/opt/BIN/SVILUPPO/jakarta/apache-tomcat-7.0.39/wtpwebapps/ems" path="/ems" reloadable="true" source="org.eclipse.jst.jee.server:ems">
-    <!-- Specify a JDBC datasource -->
-     <Resource driverClassName="com.mysql.jdbc.Driver" maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/ems" password="" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/ems" username="root"/>
- 
-</Context></Host>
+      <Context docBase="ems" path="/ems" reloadable="true" source="org.eclipse.jst.jee.server:ems"/></Host>
     </Engine>
   </Service>
 </Server>
