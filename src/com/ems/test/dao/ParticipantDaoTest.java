@@ -74,6 +74,10 @@ public class ParticipantDaoTest {
 	 */
 	MockData md = new MockData();
 	
+	/**
+	 * Constructor
+	 * 
+	 */
 	public ParticipantDaoTest(){
 		DbConfig dbc = new DbConfig();
 		DB_JDBC_DRIVER = dbc.getDB_JDBC_DRIVER();
@@ -82,6 +86,10 @@ public class ParticipantDaoTest {
 		DB_PASSWORD = dbc.getDB_PASSWORD();
 	}
 	
+	/**
+	 * Populate DB- executed before each test
+	 * 
+	 */
 	@Before
 	public void loadMockData() {
 		log.debug("loadMockData() - START");
@@ -95,6 +103,10 @@ public class ParticipantDaoTest {
 		log.debug("loadMockData() - END");
 	}
 	
+	/**
+	 * Remove Data from DB - executed after each test
+	 * 
+	 */
 	@After
 	public void removeMockData(){
 		log.debug("removeMockData() - START");
@@ -104,6 +116,10 @@ public class ParticipantDaoTest {
 		p.doPopulation();
 	}
 	
+	/**
+	 * Repopulate DB - load the typical data on DB at the end of execution
+	 * 
+	 */
 	@AfterClass
 	public static void repopulate(){
 		log.debug("repopulate() - START");
@@ -112,6 +128,10 @@ public class ParticipantDaoTest {
 		log.debug("repopulate() - END");
 	}
 	
+	/**
+	 * Test addRecord
+	 * 
+	 */
 	@Test
     public void testAddRecord() throws NamingException, ClassNotFoundException {
 		log.trace("START");
@@ -177,6 +197,10 @@ public class ParticipantDaoTest {
 
     }
 	
+	/**
+	 * Test approve
+	 * 
+	 */
 	@Test
     public void testApprove() throws NamingException, ClassNotFoundException {
 		log.debug("START");
@@ -241,7 +265,10 @@ public class ParticipantDaoTest {
 		log.trace("END");
     }
 	
-	
+	/**
+	 * Test canBeChangedById
+	 * 
+	 */
 	@Test
     public void testCanBeChangedById() throws ClassNotFoundException {
 		log.debug("START");
@@ -341,6 +368,10 @@ public class ParticipantDaoTest {
 		log.trace("END");
     }	
 	
+	/**
+	 * Test deleteRecord
+	 * 
+	 */
 	@Test
     public void testDeleteRecord() throws NamingException, ClassNotFoundException {
 		log.debug("START");
@@ -406,7 +437,10 @@ public class ParticipantDaoTest {
     }
 	
 	
-	
+	/**
+	 * Test getAllRecords
+	 * 
+	 */
 	@Test
     public void testGetAllRecords() throws ClassNotFoundException {
 		log.trace("START");	
@@ -450,6 +484,10 @@ public class ParticipantDaoTest {
 		log.trace("END");	
     }
 	
+	/**
+	 * Test getAllRecordsById_group
+	 * 
+	 */
 	@Test
     public void testGetAllRecordsById_group() throws ClassNotFoundException {
 		log.trace("START");	
@@ -494,6 +532,10 @@ public class ParticipantDaoTest {
 		log.trace("END");	
     }
 
+	/**
+	 * Test getAllRecordsById_event
+	 * 
+	 */
 	@Test
     public void testGetAllRecordsById_event() throws ClassNotFoundException {
 		log.trace("START");	
@@ -539,6 +581,10 @@ public class ParticipantDaoTest {
 		log.trace("END");	
     }
 	
+	/**
+	 * Test getRecordById
+	 * 
+	 */
 	@Test
     public void testGetRecordById() throws ClassNotFoundException {
 		log.trace("START");
@@ -598,6 +644,10 @@ public class ParticipantDaoTest {
 		log.trace("END");
     }	
 	
+	/**
+	 * Test updateRecord
+	 * 
+	 */
 	@Test
     public void testUpdateRecord() throws ClassNotFoundException {
 		log.trace("START");
