@@ -14,15 +14,16 @@
 			Role:
 			<c:choose>
 				<c:when test="${systemUser.role == 'admin'}">
-					Administrator<br/>
+					Administrator
 				</c:when>
 				<c:when test="${systemUser.role == 'event_mng'}">
-					Event manager<br/>
+					Event manager
 				</c:when>
 				<c:when test="${systemUser.role == 'group_mng'}">
-					Group referent<br/>
+					Group referent
 				</c:when>
-			</c:choose>	
+			</c:choose>
+			&nbsp;- ${systemUser.id}<br/>
 			Time: <jsp:useBean id="today" class="java.util.Date" scope="page" />
 			<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
 		</form>				
