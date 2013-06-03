@@ -47,9 +47,9 @@ public class MockData {
 	 */
 	int id_group;
 
-
-	/*
+	/**
 	 * Flushes the tables and then load some mock data
+	 * 
 	 */
 	public void createMock(){
 		
@@ -248,8 +248,9 @@ public class MockData {
 	    }
 	}
 	
-	/*
-	 * Flushes the tables
+	/**
+	 * Remove Data
+	 * 
 	 */
 	public void removeMock(){
 		String sql;

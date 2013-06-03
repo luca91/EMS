@@ -63,6 +63,10 @@ public class UserDaoTest {
 	 */
 	MockData md = new MockData();
 	
+	/**
+	 * Constructor
+	 * 
+	 */
 	public UserDaoTest(){
 		DbConfig dbc = new DbConfig();
 		DB_JDBC_DRIVER = dbc.getDB_JDBC_DRIVER();
@@ -71,6 +75,10 @@ public class UserDaoTest {
 		DB_PASSWORD = dbc.getDB_PASSWORD();
 	}
 	
+	/**
+	 * Populate DB- executed before each test
+	 * 
+	 */
 	@Before
 	public void loadMockData() {
 		log.debug("loadMockData() - START");
@@ -82,6 +90,10 @@ public class UserDaoTest {
 		log.debug("loadMockData() - END");
 	}
 	
+	/**
+	 * Remove Data from DB - executed after each test
+	 * 
+	 */
 	@After
 	public void removeMockData(){
 		log.debug("removeMockData() - START");
@@ -89,6 +101,10 @@ public class UserDaoTest {
 		log.debug("removeMockData() - END");
 	}
 	
+	/**
+	 * Repopulate DB - load the typical data on DB at the end of execution
+	 * 
+	 */
 	@AfterClass
 	public static void repopulate(){
 		log.debug("repopulate() - START");
@@ -97,6 +113,10 @@ public class UserDaoTest {
 		log.debug("repopulate() - END");
 	}
 	
+	/**
+	 * Test adduser
+	 * 
+	 */
 	@Test
     public void testAddUser() throws NamingException, ClassNotFoundException {
 		log.debug("testAddUser() - START");
@@ -155,7 +175,10 @@ public class UserDaoTest {
 
     }
 	
-	
+	/**
+	 * Test deleteUser
+	 * 
+	 */
 	@Test
     public void testDeleteUser() throws NamingException, ClassNotFoundException {
 		log.debug("testDeleteUser() - START");
@@ -216,7 +239,10 @@ public class UserDaoTest {
 		log.debug("testDeleteUser() - END");
     }
 	
-	
+	/**
+	 * Test getAllRecordWithRole
+	 * 
+	 */
 	@Test
     public void testGetAllRecordWithRole() throws ClassNotFoundException {
 		log.debug("START");	
@@ -263,7 +289,10 @@ public class UserDaoTest {
 		log.debug("testGetAllUsers() - END");	
     }
 	
-	
+	/**
+	 * Test getAllUsers
+	 * 
+	 */
 	@Test
     public void testGetAllUsers() throws ClassNotFoundException {
 		log.debug("testGetAllUsers() - START");	
@@ -307,6 +336,10 @@ public class UserDaoTest {
 		log.debug("testGetAllUsers() - END");	
     }
 	
+	/**
+	 * Test getUserByEmail
+	 * 
+	 */
 	@Test
     public void testGetUserByEmail() throws ClassNotFoundException {
 		log.debug("testGetUserById() - START");
@@ -361,7 +394,10 @@ public class UserDaoTest {
 		log.debug("testGetUserById() - END");
     }
 	
-	
+	/**
+	 * Test getUserById
+	 * 
+	 */
 	@Test
     public void testGetUserById() throws ClassNotFoundException {
 		log.debug("testGetUserById() - START");
@@ -423,6 +459,10 @@ public class UserDaoTest {
 		log.debug("testGetUserById() - END");
     }	
 	
+	/**
+	 * Test isUserValid
+	 * 
+	 */
 	@Test
     public void testIsUserValid() throws ClassNotFoundException {
 		log.debug("testUpdateUser() - START");
@@ -485,6 +525,10 @@ public class UserDaoTest {
 		log.debug("testUpdateUser() - END");
     }
 	
+	/**
+	 * Test updatePassword
+	 * 
+	 */
 	@Test
     public void testUpdatePassword() throws ClassNotFoundException {
 		log.debug("START");
@@ -560,6 +604,10 @@ public class UserDaoTest {
 		log.debug("testUpdateUser() - END");
     }
 	
+	/**
+	 * Test pdateUser
+	 * 
+	 */
 	@Test
     public void testUpdateUser() throws ClassNotFoundException {
 		log.debug("testUpdateUser() - START");
