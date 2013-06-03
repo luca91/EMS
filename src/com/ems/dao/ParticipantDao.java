@@ -222,7 +222,7 @@ public class ParticipantDao {
      * @return List<User> List of objects Participant
      */
     public List<Participant> getAllRecordsById_group(int anId_group) {
-        log.trace("START");
+        log.debug("START");
     	List<Participant> records = new ArrayList<Participant>();
         try {
             PreparedStatement preparedStatement = connection.

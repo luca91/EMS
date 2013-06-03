@@ -40,14 +40,14 @@
 	<c:set var="act">
 		<c:url value="/private/eventAdd?action=eventList" /> 
 	</c:set>
-	
+
 	<div id="stylized" class="myform">
 	    <form method="POST" action="${act}" name="frmAddEvent" id="form">
 	    	<h3>Event form</h3>
 			<p>Edit the data for this event</p>
 	    	<!-- HIDDEN --><!-- <label>Event ID : <input type="text" readonly="readonly" name="id"
 	            value="${record.id}" /> - TO BE HIDDEN</span></label> -->
-	        <input type="hidden" readonly="readonly" name="id" value="${record.id}" /> 
+	        <input type="hidden"  name="id" value="${param.id_event}" /> 
 	        
 	        <label>Manager ID : 
 		        <span class="small">Choose the manager for this group</span>

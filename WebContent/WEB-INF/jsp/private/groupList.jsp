@@ -48,8 +48,8 @@
 							<!-- SCRIPT HERE to work correctly? -->							
 						</c:forEach>						
 					</select>
-					<c:if test="${id_event != 0}"><script>$("#option-sel-sel").text(function () {
-				   			 return $(this).text().replace("Choose an Event:", 'Group of ${id_event}'); 
+					<c:if test="${param.id_event != 0}"><script>$("#option-sel-sel").text(function () {
+				   			 return $(this).text().replace("Choose an Event:", 'Group of ${param.id_event}'); 
 								});
 						</script>
 					</c:if>				
@@ -58,17 +58,17 @@
 			
 			<c:when test="${systemUser.role == 'event_mng'}">
 				<c:if test="${events != null}">
-						<c:if test="${id_event != 0}">Groups for event  ${id_event}<br/></c:if>
+						<c:if test="${param.id_event != 0}">Groups for event  ${param.id_event}<br/></c:if>
 					    Choose an Event:
 					    <select>
-						<option selected></option>
-						<c:forEach items="${events}" var="event">
-							<c:url  value="/private/groupList.html?action=listRecord&id_event=${event.id}" var="url" />
-							<option value="${event.id}"
-								onClick="window.location.href='${url}'">${event.id} -
-								${event.name}</option>
-						</c:forEach>
-					</select>
+							<option selected></option>
+							<c:forEach items="${events}" var="event">
+								<c:url  value="/private/groupList.html?action=listRecord&id_event=${event.id}" var="url" />
+								<option value="${event.id}"
+									onClick="javascript:location.href='${url}'">${event.id} -
+									${event.name}</option>
+							</c:forEach>
+						</select>
 				</c:if>
 			</c:when>
 			<c:when test="${systemUser.role == 'group_mng' }">
@@ -118,8 +118,8 @@
 			</tbody>
 		</table>
 		<hr>
-		<c:if test="${(id_event != 0) &&(systemUser.role != 'group_mng'  || systemUser.role != 'admin') }">
-				<p><a class="button-2" href="group.jsp?action=insert&id_event=${id_event}">Add Group</a></p>
+		<c:if test="${(param.id_event != 0) &&(systemUser.role != 'group_mng'  || systemUser.role != 'admin') }">
+				<p><a class="button-2" href="group.jsp?action=insert&id_event=${param.id_event}">Add Group</a></p>
 		</c:if>
 	<!-- BOTTOM --><c:import url="inc/bottom.jsp"/>
 </html>
