@@ -56,7 +56,10 @@ public class EventController extends HttpServlet {
     }
 
 	/**
+	 * doGet method - maps the normal pages
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * @param HttpServletRequest request, HttpServletResponse response
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.trace("START");
@@ -169,7 +172,10 @@ public class EventController extends HttpServlet {
 	}
 
 	/**
+	 * doPost method - maps the url that comes from a form
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * @param (HttpServletRequest request, HttpServletResponse response
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.debug("START");

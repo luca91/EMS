@@ -22,7 +22,7 @@ import com.ems.model.User;
 
 /**
 * UserDao is the class that performs actions on the table User of the database
-* 
+* Code inspired by http://danielniko.wordpress.com/2012/04/17/simple-crud-using-jsp-servlet-and-mysql/
 * @author Luca Barazzuol
 */
 public class UserDao {
@@ -186,8 +186,8 @@ public class UserDao {
     /**
      * Update the password of a given user
      * 
-     * @param email The email of the user
-     * @param passwordr New Password
+     * @param id The id of the user
+     * @param password New Password
      * @return boolean to signal that the password has been changed
      */
     public boolean updatePassword(int id, String password) {
@@ -245,6 +245,7 @@ public class UserDao {
     /**
      * Returns the list of all users with a particular role
      * 
+     * @param aRole String that identifies a role
      * @return List<User> List of objects User
      */
     public List<User> getAllRecordWithRole(String aRole) {
@@ -314,6 +315,7 @@ public class UserDao {
     
     /**
      * Returns true if the passed email and password are valid - otherwise it returns false 
+     * NOT USED ANYMORE
      * 
      * @param email Is the email of a user
      * @param password Is the password of a user

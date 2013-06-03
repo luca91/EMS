@@ -24,7 +24,7 @@ import com.ems.tools.Email;
 
 /**
 * ParticipantDao is the class that performs actions on the table Participant of the database
-* 
+* Code inspired by http://danielniko.wordpress.com/2012/04/17/simple-crud-using-jsp-servlet-and-mysql/
 * @author Luca Barazzuol
 */
 public class ParticipantDao {
@@ -77,7 +77,8 @@ public class ParticipantDao {
     /**
      * Add a record to table 
      * 
-     * @param user A user
+     * @param anId_group A group id
+     * @param aRecord A participant
      */
     public void addRecord(int anId_group, Participant aRecord) {
     	log.trace("START");
@@ -179,7 +180,7 @@ public class ParticipantDao {
     }
 
     /**
-     * Returns the list of all records stored in table
+     * Returns the list of all records stored
      * 
      * @return List<User> List of objects Participant
      */
@@ -337,6 +338,7 @@ public class ParticipantDao {
      * Approve a participant 
      * 
      * @param id an id of a participant
+     * @param approved a boolean to set on false or true
      */
     public void approve(int anId, boolean approved) {
     	log.trace("START");
@@ -373,7 +375,7 @@ public class ParticipantDao {
     }
     
     /**
-     * Return a list of user that can modify the record identified by the passed id 
+     * Return a list of user that can modify the record identified by the passed id_participant 
      * 
      * @param anId_participant an id of a participant
      * @return List<Integer> List of id
