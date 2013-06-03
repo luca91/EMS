@@ -43,16 +43,34 @@
 						<option id="option-sel-sel" selected="selected">Choose a Group:</option>
 						<c:forEach items="${groups}" var="group">
 							<c:url value="/private/badgeList.html?action=listRecord&id_group=${group.id}&id_event=${group.id_event}" var="url"/>
-							<option value="${url}" onClick="window.location.href='${url}'">${group.id}</option>
+							<option value="${url}" onClick="window.location.href='${url}'">${group.name}</option>
 						</c:forEach>
 					</select>
 					<c:if test="${id_group != 0}">
 						<script>$("#option-sel-sel").text(function () {
-				   			return $(this).text().replace("Choose a group:", 'Badges for ${group_name}'); });
+				   			return $(this).text().replace("Choose a Group:", 'Badges for ${group_name}'); });
 						</script>
 					</c:if>	
 				</c:if>
 			</c:when>
+			
+			<c:when test="${systemUser.role == 'event_mng'}">
+				<c:if test="${groups != null }">
+					<select>
+						<option id="option-sel-sel" selected="selected">Choose a Group:</option>
+						<c:forEach items="${groups}" var="group">
+							<c:url value="/private/badgeList.html?action=listRecord&id_group=${group.id}&id_event=${group.id_event}" var="url"/>
+							<option value="${url}" onClick="window.location.href='${url}'">${group.name}</option>
+						</c:forEach>
+					</select>
+					<c:if test="${id_group != 0}">
+						<script>$("#option-sel-sel").text(function () {
+				   			return $(this).text().replace("Choose a Group:", 'Badges for ${group_name}'); });
+						</script>
+					</c:if>	
+				</c:if>
+			</c:when>
+			
 		</c:choose>
 			<br>
 			

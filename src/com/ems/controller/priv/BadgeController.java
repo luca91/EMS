@@ -83,9 +83,7 @@ public class BadgeController extends HttpServlet {
     		log.debug("id_group is not null!");
     		id_group = Integer.parseInt(request.getParameter("id_group").toString());
     		log.debug("id_group: "+id_group);
-        	EventDao ed = new EventDao();
         	GroupDao gd = new GroupDao();
-        	request.setAttribute("event", ed.getRecordById_group(id_group));
         	request.setAttribute("group_name", gd.getRecordById(id_group).getName());
     	}
     	request.setAttribute("id_group", id_group);
@@ -110,11 +108,21 @@ public class BadgeController extends HttpServlet {
                 request.setAttribute("groups", gd.getAllRecords());
                 request.setAttribute("id_event", ed.getRecordById(Integer.parseInt(request.getParameter("id_event"))).getName());
             }
+            
+            else if(systemUser.getRole().equals("event_mng")){
+            	log.debug("event_mng");
+                forward = DOWNLOAD_LIST;
+                request.setAttribute("records", pDao.getAllRecordsById_group(id_group));
+                GroupDao gd = new GroupDao();
+                EventDao ed = new EventDao();
+                request.setAttribute("groups", gd.getAllRecords());
+                request.setAttribute("id_event", ed.getRecordById(Integer.parseInt(request.getParameter("id_event"))).getName());
+            }
         }
         
         //generate the badge and open the file just created
         else if(action.equalsIgnoreCase("download")) {
-        	log.debug("admin");
+        	log.debug(systemUser.getRole());
         	int id = Integer.parseInt(request.getParameter("id"));
         	String id_event = request.getParameter("event_id");
         	Participant aPar = pDao.getRecordById(id);
@@ -143,6 +151,13 @@ public class BadgeController extends HttpServlet {
         else {
             if (systemUser.getRole().equals("admin")){
                 log.debug("admin");
+                forward = DOWNLOAD_LIST;
+                request.setAttribute("records", pDao.getAllRecordsById_group(id_group));
+                GroupDao gd = new GroupDao();
+                request.setAttribute("groups", gd.getAllRecords());
+            }
+            else if (systemUser.getRole().equals("event_mng")){
+                log.debug("event_mng");
                 forward = DOWNLOAD_LIST;
                 request.setAttribute("records", pDao.getAllRecordsById_group(id_group));
                 GroupDao gd = new GroupDao();

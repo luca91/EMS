@@ -75,12 +75,12 @@ public class GroupController extends HttpServlet {
 		session.setAttribute("systemUser",systemUser);
 		
     	int id_event = 0;
-    	if (request.getParameter("param.id_event") != null){
-    		id_event = Integer.parseInt(request.getParameter("param.id_event").toString());
+    	if (request.getParameter("id_event") != null){
+    		id_event = Integer.parseInt(request.getParameter("id_event").toString());
     	}
     	EventDao evnDao = new EventDao();
-    	request.setAttribute("event_name", evnDao.getRecordById(id_event).getName());
     	request.setAttribute("param.id_event", id_event);
+    	request.setAttribute("event_name", evnDao.getRecordById(id_event).getName());
     	
     	String forward="";
         String action = request.getParameter("action");
@@ -116,6 +116,7 @@ public class GroupController extends HttpServlet {
             forward = INSERT_OR_EDIT;
             List<User> listOfGroup_mng = ud.getAllRecordWithRole("group_mng");
             session.setAttribute("listOfGroup_mng", listOfGroup_mng);
+            session.setAttribute("id_event", id_event);
         }
 // #########################################################################################        
         else if (action.equalsIgnoreCase("listRecord")){
@@ -133,6 +134,7 @@ public class GroupController extends HttpServlet {
                 request.setAttribute("records", dao.getAllRecordsById_manager(systemUser.getId(), id_event));
                 EventDao ed = new EventDao();
                 request.setAttribute("events", ed.getRecordsById_event_mng(systemUser.getId()));
+                request.setAttribute("name_event", ed.getRecordById(id_event).getName());
             }
             else if (systemUser.getRole().equals("group_mng")){
                 forward = LIST_USER;

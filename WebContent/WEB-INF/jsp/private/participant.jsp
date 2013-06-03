@@ -55,12 +55,12 @@
 	        <label>Date of birth:
 	        	<span class="small">(YYYY-MM-DD)</span>
 	        </label>
-	        <input type="text" name="date_of_birth" value="${record.date_of_birth}" /> <br>     
+	        <input type="text" name="date_of_birth" value="${record.date_of_birth}" /> <br><br>
 	       	<input type="hidden" name="registration_date" value="${record.registration_date}" /> <br>
+	       	<label>Approved:</label>
 	        <c:choose>
 	        	<c:when test="${param.id == null }">
 	        			<input type="hidden" name="registration_date" value="${record.approved}" /> <br>
-
 	        	</c:when>
 	        	<c:otherwise>
 		           	<select name="approved">
