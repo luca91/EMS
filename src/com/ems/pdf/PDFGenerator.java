@@ -1,6 +1,7 @@
 package com.ems.pdf;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -17,6 +18,11 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.Rectangle;
 
+/**
+ * This class create a badge for a participant.
+ * @author Luca Bellettati
+ *
+ */
 public class PDFGenerator {
 	 
 	static Logger log = Logger.getLogger(PDFGenerator.class.getName());
@@ -90,10 +96,8 @@ public class PDFGenerator {
 	 */
 	public boolean createDocument() throws DocumentException, MalformedURLException, IOException{
 		log.trace("START");
-		Rectangle page = new Rectangle(280f, 360f);
-		aDocument = new Document(page, 0f, 0f, 221f, 0f);
+		setDocument();
 		boolean check = false;
-	    PdfWriter.getInstance(aDocument, new FileOutputStream(getAbsoluteFilePath()));
 	    aDocument.open();
 	    addData();
 	    addQR();
@@ -147,13 +151,17 @@ public class PDFGenerator {
 	}
 	
 	/**
-	 * It returns the name of the final file.
+	 * It returns the absoliute path of the final file.
 	 * @return String
 	 */
 	public String getAbsoluteFilePath(){
 		return path+"/"+name+surname+this.group+".pdf";
 	}
 	
+	/**
+	 * It returns the path of the file in the server.
+	 * @return String
+	 */
 	public String getFilePath(){
 		return "/private/pdf/"+name+surname+this.group+".pdf";
 	}
@@ -176,16 +184,39 @@ public class PDFGenerator {
 		return added;
 	}
 	
+	/**
+	 * It returns this document.
+	 * @return Document
+	 */
 	public Document getDocument(){
 		return this.aDocument;
 	}
 	
+	/**
+	 * It set the path of the image.
+	 * @param path - String
+	 */
 	public void setImagePath(String path){
 		this.imagePath = path;
 	}
 	
+	/**
+	 * It gets the filepath of the image.
+	 * @return String
+	 */
 	public String getImagePath(){
 		return this.imagePath;
+	}
+	
+	/**
+	 * It sets the size and the output for the document.
+	 * @throws FileNotFoundException
+	 * @throws DocumentException
+	 */
+	public void setDocument() throws FileNotFoundException, DocumentException{
+		Rectangle page = new Rectangle(280f, 360f);
+		aDocument = new Document(page, 0f, 0f, 221f, 0f);
+		PdfWriter.getInstance(aDocument, new FileOutputStream(getAbsoluteFilePath()));
 	}
 
 }

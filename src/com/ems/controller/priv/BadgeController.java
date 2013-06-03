@@ -34,6 +34,11 @@ import com.itextpdf.text.DocumentException;
 		"/private/badge",
 		"/private/badgeList.html"
 })
+/**
+ * This servlet take care of the badge creation and listing on the webpage.
+ * @author Luca Bellettati
+ *
+ */
 public class BadgeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
