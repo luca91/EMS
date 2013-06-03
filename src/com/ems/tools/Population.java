@@ -14,6 +14,11 @@ import com.ems.model.User;
 import com.ems.test.dao.DbConfig;
 import com.ems.test.dao.UserDaoTest;
 
+/**
+* Class used to Populate DB with basic record set
+* 
+* @author Luca Barazzuol
+*/
 public class Population {
 	
 	// commons logging references
@@ -30,6 +35,10 @@ public class Population {
 	static Statement stmt = null;
 	static ResultSet rs = null;;
 	
+	/**
+	* Constructor
+	*
+	*/
 	public Population(){
 		DbConfig dbc = new DbConfig();
 		DB_JDBC_DRIVER = dbc.getDB_JDBC_DRIVER();
@@ -39,6 +48,10 @@ public class Population {
 		
 	}
 	
+	/**
+	* Execute the population of the DB
+	*
+	*/
 	public void doPopulation(){
 		log.debug("START");
 		
@@ -259,6 +272,8 @@ public class Population {
 	
 	
 	/**
+	 * Main method to test
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
