@@ -36,45 +36,7 @@ System.out.println("index.html");
 <div class="bg">
 	<div class="main">
 		<!-- HEADER -->
-		<header>
-			<!-- TOP + LOGO -->
-			<div class="row-1">
-				<h1>
-					<a class="logo" href="index.html">EMS</a>
-					<strong class="slog">Enrollment Management System</strong>						
-				</h1>
-				<form id="session-id">
-					Welcome - ${systemUser.email}<br>
-					Role: ${systemUser.role}<br>
-					Time: <jsp:useBean id="today" class="java.util.Date" scope="page" />
-					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
-				</form>				
-			</div>
-			<!-- MENU -->
-			<div class="row-2">
-				<nav>
-					<ul class="menu">										
-						  <c:import url="inc/header.jsp"/>					  
-					</ul>
-				</nav>
-			</div>
-		</header>
-		<!-- CONTENT -->
-		<section id="content">
-			<div class="padding">				
-				<div class="wrapper margin-bot">
-				<!-- AJAX CONTENT -->				
-					<div class="col-3" id="ajax-parse">
-						<div class="indent">							
-							<h3 class="p0"><a href="../public/index.html" target="_blank">Homepage - Private Site</a></h3>							
-							<!-- TEST -->																											
-						</div>					
-					</div>										
-				</div>			
-			</div>		
-		</section>	
-	</div>
-</div>
-<script type="text/javascript"> Cufon.now(); </script>
-</body>
+			<c:import url="inc/tophead.jsp"/>	
+				<h3 class="p0"><a href="../public/index.html" target="_blank">Homepage - Public Site</a></h3>										
+			<c:import url="inc/bottom.jsp"></c:import>
 </html>

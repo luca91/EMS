@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="css/tables_style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/style_portal.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/forms.css" type="text/css" media="screen">
 <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="js/cufon-yui.js"></script>
 <script type="text/javascript" src="js/cufon-replace.js"></script>
@@ -38,29 +39,27 @@
 		<c:set var="act">
 			<c:url value="/private/participantAdd?action=edit" /> 
 		</c:set>
-
+	<div id="stylized" class="myform">
 	    <form method="POST" action="${act}" name="frmAddParticipan">
-	        Participant ID : <input type="text" readonly="readonly" name="id"
-	            value="${record.id}" /> - TO BE HIDDEN<br /> 
-	        Group ID : <input
-	            type="text" readonly="readonly" name="id_group" 
-	            value="${id_group}" /> - TO BE HIDDEN <br /> 
-	        First Name : <input
-	            type="text" name="fname"
-	            value="${record.fname}" /> <br /> 
-	        Last Name : <input
-	            type="text" name="lname"
-	            value="${record.lname}" /> <br /> 
-	        Email : <input
-	            type="text" name="email"
-	            value="${record.email}" /> <br /> 	            	            
-	        Date of birth : <input type="text" name="date_of_birth"
-	            value="${record.date_of_birth}" /> <br />     
-	       	<input type="hidden" name="registration_date"
-	            	value="${record.registration_date}" /> <br />
+	    	<h3>Participant form</h3>
+			<p>Edit the data for this participant</p>
+	        <input type="hidden" readonly="readonly" name="id" value="${record.id}" /> <br> 
+	        <input type="hidden" readonly="readonly" name="id_group" value="${id_group}" /> <br> 
+	        
+	        <label>First Name:</label> 
+	        <input type="text" name="fname" value="${record.fname}" /> <br><br><br>
+	        <label>Last Name:</label>
+	        <input type="text" name="lname" value="${record.lname}" /> <br><br><br> 
+	        <label>Email:</label>
+	        <input type="text" name="email" value="${record.email}" /> <br><br><br> 	            	            
+	        <label>Date of birth:
+	        	<span class="small">(YYYY-MM-DD)</span>
+	        </label>
+	        <input type="text" name="date_of_birth" value="${record.date_of_birth}" /> <br>     
+	       	<input type="hidden" name="registration_date" value="${record.registration_date}" /> <br>
 	        <c:choose>
 	        	<c:when test="${param.id == null }">
-	        			<input type="hidden" name="registration_date" value="${record.approved}" /> <br />
+	        			<input type="hidden" name="registration_date" value="${record.approved}" /> <br>
 
 	        	</c:when>
 	        	<c:otherwise>
@@ -70,15 +69,14 @@
 		        	</select> 	        	
 	        	</c:otherwise>
 	        </c:choose>
-
-				<br />
 	       <!--  blocked :  --><input type="hidden" name="blocked"
-	            value="${record.blocked}" /> <br /> 	            	          	                  
+	            value="${record.blocked}" />	            	          	                  
 	        <input type="submit" value="Submit" class="input" />
 	        <input type="button" value="Back" onClick="history.go(-1);return true;" class="input" />
         	<c:if test="${param.id eq null }">
         		<input type="reset" value="Reset" class="input" />
-        	</c:if>
+        	</c:if><br><br><br>
 	    </form>
+	    </div>
 	<!-- BOTTOM --><c:import url="inc/bottom.jsp"/>
 </html>

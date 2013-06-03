@@ -36,19 +36,24 @@
 	<!-- TOPHEAD --><c:import url="inc/tophead.jsp"/>
 	<!-- CONTENT -->
 	<h3 class="htabs">Badges</h3>
-				<select>
-					<option id="option-sel-sel" selected="selected">Choose a Group:</option>
-					<c:forEach items="${groups}" var="group">
-						<c:url value="/private/badgeList.html?action=listRecord&id_group=${group.id}&id_event=${group.id_event}" var="url"/>
+		<c:choose>
+			<c:when test="${systemUser.role == 'admin'}">
+				<c:if test="${groups != null }">
+					<select>
+						<option id="option-sel-sel" selected="selected">Choose a Group:</option>
+						<c:forEach items="${groups}" var="group">
+							<c:url value="/private/badgeList.html?action=listRecord&id_group=${group.id}&id_event=${group.id_event}" var="url"/>
 							<option value="${url}" onClick="window.location.href='${url}'">${group.id}</option>
-					</c:forEach>
-				</select>
-				<c:if test="${id_group != 0}">
+						</c:forEach>
+					</select>
+					<c:if test="${id_group != 0}">
 						<script>$("#option-sel-sel").text(function () {
-				   			 return $(this).text().replace("Choose a group:", 'Badges for ${group_name}'); });
+				   			return $(this).text().replace("Choose a group:", 'Badges for ${group_name}'); });
 						</script>
-					</c:if>		
-			
+					</c:if>	
+				</c:if>
+			</c:when>
+		</c:choose>
 			<br>
 			
 		<!-- TABLE -->
@@ -61,9 +66,9 @@
 					<thead>
 						<tr>
 							<th scope="col">Participant</th>
-							<th scope="col">Event</th>
 							<th scope="col">First Name</th>
 							<th scope="col">Last Name</th>
+							<th scope="col">Event</th>
 							<th scope="col">Badge</th>
 						</tr>
 					</thead>
@@ -71,10 +76,10 @@
 					<tbody>					
 						<c:forEach items="${records}" var="record">
 						<tr>
-							<td>${record.id}</td>
-							<td>${id_event}</td>							
+							<td>${record.id}</td>							
 							<td>${record.fname}</td>
 							<td>${record.lname}</td>
+							<td>${id_event}</td>
 							<td><a href="<c:url value='/private/downloadBadge?action=download&id=${record.id}&id_group=${id_group}&event_id=${id_event}'/>">Generate</a></td>
 						</tr>
 						</c:forEach>					

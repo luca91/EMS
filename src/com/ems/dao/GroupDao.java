@@ -22,7 +22,7 @@ import com.ems.model.Group;
 
 /**
 * GroupDao is the class that performs actions on the Group of the database
-* 
+* Code inspired by http://danielniko.wordpress.com/2012/04/17/simple-crud-using-jsp-servlet-and-mysql/
 * @author Luca Barazzuol
 */
 public class GroupDao {
@@ -191,7 +191,8 @@ public class GroupDao {
     /**
      * Returns the list of all records stored in the table Group and associated with an event and an event_manager
      * 
-     * @param id_event Event to which belong the groups
+     * @param idManager id manager for the event
+     * @param id_event id of an event
      * @return List<Group> List of objects Group
      */
     public List<Group> getAllRecordsById_manager(int idManager, int id_event) {
@@ -230,7 +231,7 @@ public class GroupDao {
     /**
      * Returns the list of all records stored in the table Group and associated with an id_group_referent
      * 
-     * @param id_event Event to which belong the groups
+     * @param id_group_referent an it of an id_group_referent
      * @return List<Group> List of objects Group
      */
     public List<Group> getAllRecordsById_group_referent(int id_group_referent) {
@@ -267,7 +268,7 @@ public class GroupDao {
     /**
      * Returns the list of all records stored in the table Group
      * 
-     * @param id_event Event to which belong the groups
+     * 
      * @return List<Group> List of objects Group
      */
     public List<Group> getAllRecords() {
@@ -298,7 +299,7 @@ public class GroupDao {
     /**
      * Returns the list of all records stored in the table Group editable by a id_group_referent
      * 
-     * @param id_event Event to which belong the groups
+     * @param id_group_referent user id to which belong the groups
      * @return List<Group> List of objects Group
      */
     public List<Group> getRecordsById_group_referent(int id_group_referent) {
@@ -331,7 +332,7 @@ public class GroupDao {
     /**
      * Returns the list of all records stored in the table Group editable by a id_manager
      * 
-     * @param id_event Event to which belong the groups
+     * @param id_manager Id manager to which belong the groups
      * @return List<Group> List of objects Group
      */
     public List<Group> getRecordsById_manager(int id_manager) {
@@ -396,9 +397,9 @@ public class GroupDao {
     }
     
     /**
-     * Return a list of user that can modify the record identified by the passed id 
+     * Return a list of user that can modify the groups identified by the passed id 
      * 
-     * @param anId_participant an id of a participant
+     * @param anId_group an id of a group
      * @return List<Integer> List of id of users 
      */
     public List<Integer>  canBeChangedBy(int anId_group) {

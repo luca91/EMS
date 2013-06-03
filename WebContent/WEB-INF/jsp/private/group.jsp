@@ -47,13 +47,13 @@
 		        <!-- HIDDEN --><!-- <label>Group ID : <span class="small">To be hidden</span></label> -->
 		        <input type="hidden" readonly="readonly" name="id" value="${record.id}" />
 		        <!-- HIDDEN --><!-- <label>Event ID : <span class="small">To be hidden</span></label> -->		        
-		        <input type="hidden" name="id_event"  value="${param.id_event}" /> 
+		        <input type="hidden" name="id_event" readonly="readonly" value="${id_event}" /> 
 
 		        <label>Group Name: 
 		        <span class="small">Input the name for the group</span>
 		        </label>
 		        <input type="text" name="name" value="${record.name}" /><br><br><br>
-		        <p>
+		        
 		        <label>Group referent : 
 		        <span class="small">Contact person for the group</span>
 		        </label>
@@ -76,7 +76,7 @@
 		        <input type="button" value="Back" onClick="history.go(-1);return true;" class="input" />
 		        <c:if test="${param.id eq null }">
 	        		<input type="reset" value="Reset" class="input" />
-	       		</c:if>
+	       		</c:if><br><br><br>
 		    </form>
 	    </div>	        
 	<!-- BOTTOM --><c:import url="inc/bottom.jsp"/>

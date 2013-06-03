@@ -48,8 +48,8 @@
 							<!-- SCRIPT HERE to work correctly? -->							
 						</c:forEach>						
 					</select>
-					<c:if test="${param.id_event != 0}"><script>$("#option-sel-sel").text(function () {
-				   			 return $(this).text().replace("Choose an Event:", 'Group of ${param.id_event}'); 
+					<c:if test="${id_event != 0}"><script>$("#option-sel-sel").text(function () {
+				   			 return $(this).text().replace("Choose an Event", 'Group of ${event_name}'); 
 								});
 						</script>
 					</c:if>				

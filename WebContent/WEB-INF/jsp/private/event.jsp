@@ -40,14 +40,14 @@
 	<c:set var="act">
 		<c:url value="/private/eventAdd?action=eventList" /> 
 	</c:set>
-
+	
 	<div id="stylized" class="myform">
 	    <form method="POST" action="${act}" name="frmAddEvent" id="form">
 	    	<h3>Event form</h3>
 			<p>Edit the data for this event</p>
 	    	<!-- HIDDEN --><!-- <label>Event ID : <input type="text" readonly="readonly" name="id"
 	            value="${record.id}" /> - TO BE HIDDEN</span></label> -->
-	        <input type="hidden"  name="id" value="${param.id_event}" /> 
+	        <input type="hidden" readonly="readonly" name="id" value="${record.id}" /> 
 	        
 	        <label>Manager ID : 
 		        <span class="small">Choose the manager for this group</span>
@@ -107,7 +107,7 @@
 		    <label>Start of the event: 
 		    <span class="small">Date of beginning of the event</span>
 		    </label>
-		    <input type="text" name="start"	value="${record.start}" /><br><br><br>
+		    <input type="text" name="start"	value="${record.start}" /><br><br><br><br>
 		    
 		    <label>End of the event: 
 		    <span class="small">Date of ending of the event</span>
@@ -123,14 +123,14 @@
 		    <span class="small">Deadline for enrollment</span>
 		    </label>
 		    <input type="text" name="enrollment_end" value="${record.enrollment_end}" /><br><br><br>
-		    <p>
+		    
 	        <!-- BUTTONS -->             
 	        <input type="submit" value="Submit" class="input" />
 	        <input type="button" value="Back" onClick="history.go(-1);return true;" class="input" />
 	        <c:if test="${param.id eq null }">
         		<input type="reset" value="Reset" class="input" />
-       		</c:if>
-       		</p>
+       		</c:if><br><br><br>
+       		
 	    </form>
 	</div>
 	<!-- BOTTOM -->

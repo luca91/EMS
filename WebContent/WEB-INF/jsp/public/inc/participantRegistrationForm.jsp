@@ -42,14 +42,14 @@
 			<span class="small">Date format yyyy/mm/dd</span>
 			</label>
 			<input type="text" name="date_of_birth" value="${record.date_of_birth}" /><br><br><br>
-			<p>
+			
 			<!-- BUTTONS -->			
 		    <input type="submit" value="Submit" class="input" />
 		    <input type="button" value="Cancel" onClick="window.location='../public/index.html'" class="input" />
 	        <c:if test="${param.id eq null }">
         		<input type="reset" value="Reset" class="input" />
-       		</c:if>
-			</p>
+       		</c:if><br><br><br>
+			
 			
 			<!-- 
 			Group ID : <input type="text" readonly="readonly" name="id_group" value="${id_group}" /><br> 

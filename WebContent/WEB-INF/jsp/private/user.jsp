@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="css/tables_style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/style_portal.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/forms.css" type="text/css" media="screen">
 <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="js/cufon-yui.js"></script>
 <script type="text/javascript" src="js/cufon-replace.js"></script>
@@ -36,24 +37,29 @@
 	<!-- CONTENT -->
 	<c:set var="act">
 			<c:url value="/private/userAdd?action=userList" /> 
-	</c:set>		
+	</c:set>	
+	<div id="stylized" class="myform">	
 	    <form method="POST" action="${act}" name="frmAddUser">
-	        User ID : <input type="text" readonly="readonly" name="id"
-	            value="${user.id}" /> - TO BE HIDDEN<br> 
-	        First Name : <input
-	            type="text" name="fname"
-	            value="${user.fname}" /> <br> 
-	        Last Name : <input
-	            type="text" name="lname"
-	            value="${user.lname}" /> <br> 
-	        Date of Birth : <input
-	            type="text" name="date_of_birth"
-	            value="${user.date_of_birth}" /> <br> 	            
-	       		<input type="hidden" name="password"
+	    
+			<h3>User form</h3>
+			<p>Edit the data for the user</p>
+			<input type="hidden" readonly="readonly" name="id" value="${user.id}" /><br> 
+	        <label>First Name:</label>
+	        <input type="text" name="fname" value="${user.fname}" /> <br><br><br>
+	         
+	        <label>Last Name:</label>
+	        <input type="text" name="lname" value="${user.lname}" /> <br><br><br> 
+	        <label>Date of Birth:
+	         <span class="small">(YYYY/MM/DD)</span>
+	         </label>
+	        <input type="text" name="date_of_birth" value="${user.date_of_birth}" /> <br><br><br> 	            
+	       	<input type="hidden" name="password"
 	            value="${user.password}" />
-	        Email : <input type="text" name="email"
-	            value="${user.email}" /> <br> 
-	        Role :	<select name="role">
+	            
+	        <label>Email:</label>
+	        <input type="text" name="email" value="${user.email}" /> <br><br><br> 
+	        <label>Role:<span class="small">Role for the new user</span></label>
+	        	<select name="role">
 	        			<option value="admin" 
 	        				<c:if test="${user.role == 'admin'}">selected</c:if>
 	        				>
@@ -70,12 +76,13 @@
 	        				group_mng
 	        			</option>
 	        		</select>
-	        <br><br>	        
+	        <br><br><br>   
 	        <input type="submit" value="Submit" class="input" />         
 	        <input type="button" value="Back" onClick="history.go(-1);return true;" class="input" />
         	<c:if test="${param.id eq null }">
-        		<input type="reset" value="Reset" class="input" />
+        		<input type="reset" value="Reset" class="input" /><br><br><br>
         	</c:if>
 	    </form>		
+	   </div>
 	<!-- BOTTOM --><c:import url="inc/bottom.jsp"/>
 </html>
