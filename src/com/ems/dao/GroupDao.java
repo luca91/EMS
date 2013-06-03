@@ -308,7 +308,6 @@ public class GroupDao {
             PreparedStatement preparedStatement = connection.
                     prepareStatement("select * from ems.group" + 
                     					" where ems.group.id_group_referent = " + id_group_referent);
-            log.debug(preparedStatement.toString());
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 Group aRecord = new Group();

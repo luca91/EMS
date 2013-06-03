@@ -47,7 +47,7 @@
 		        <!-- HIDDEN --><!-- <label>Group ID : <span class="small">To be hidden</span></label> -->
 		        <input type="hidden" readonly="readonly" name="id" value="${record.id}" />
 		        <!-- HIDDEN --><!-- <label>Event ID : <span class="small">To be hidden</span></label> -->		        
-		        <input type="hidden" name="id_event"  value="${param.id_event}" /> 
+		        <input type="hidden" name="id_event" readonly="readonly" value="${id_event}" /> 
 
 		        <label>Group Name: 
 		        <span class="small">Input the name for the group</span>

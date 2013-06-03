@@ -40,19 +40,27 @@
 	<c:set var="act">
 		<c:url value="/private/eventAdd?action=eventList" /> 
 	</c:set>
-
+	
 	<div id="stylized" class="myform">
 	    <form method="POST" action="${act}" name="frmAddEvent" id="form">
 	    	<h3>Event form</h3>
 			<p>Edit the data for this event</p>
 	    	<!-- HIDDEN --><!-- <label>Event ID : <input type="text" readonly="readonly" name="id"
 	            value="${record.id}" /> - TO BE HIDDEN</span></label> -->
-	        <input type="hidden"  name="id" value="${param.id}" /> 
+	        <input type="hidden" readonly="readonly" name="id" value="${record.id}" /> 
 	        
 	        <label>Manager ID : 
 		        <span class="small">Choose the manager for this group</span>
 		    </label>
-
+		    <!-- ?????????? 
+	        <select name="id_group_referent">
+      			<c:forEach items="${listOfGroup_mng}" var="options">	               
+       				<option value="${options.id }" 
+       					<c:if test="${options.id == record.id_group_referent }">selected</c:if>
+       						>${options.id } - ${options.fname} ${options.lname }
+       				</option>
+       			</c:forEach>
+           	</select><br><br><br>-->
 	         
 	         
             <c:choose>
@@ -72,7 +80,7 @@
             	</c:when>	            	
             	<c:when test="${sessionScope.systemUser.role == 'event_mng' }">
             		<!-- INSERT --><!-- HIDDEN -->
-            		<input type="hidden" name="id_manager" value="${sessionScope.systemUser.id}"  />            		
+            		<input type="hidden" name="id_manager" value="${sessionScope.systemUser.id}" readonly="readonly" />            		
             	</c:when>
             	<c:otherwise>
             		<!-- INSERT -->
@@ -99,7 +107,7 @@
 		    <label>Start of the event: 
 		    <span class="small">Date of beginning of the event</span>
 		    </label>
-		    <input type="text" name="start"	value="${record.start}" /><br><br><br>
+		    <input type="text" name="start"	value="${record.start}" /><br><br><br><br>
 		    
 		    <label>End of the event: 
 		    <span class="small">Date of ending of the event</span>

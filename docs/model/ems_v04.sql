@@ -109,7 +109,7 @@ DROP TABLE IF EXISTS `ems`.`user_role` ;
 
 CREATE  TABLE IF NOT EXISTS `ems`.`user_role` (
   `ROLE_NAME` VARCHAR(30) NULL ,
-  `email` VARCHAR(30) NULL )
+  `email` VARCHAR(60) NULL )
 ENGINE = InnoDB;
 
 

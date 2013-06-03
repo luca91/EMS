@@ -34,40 +34,9 @@
 <div class="bg">
 	<div class="main">
 		<!-- HEADER -->
-		<header>
-			<!-- TOP + LOGO -->
-			<div class="row-1">
-				<h1>
-					<a class="logo" href="index.html">EMS</a>
-					<strong class="slog">Enrollment Management System</strong>						
-				</h1>
-				<form id="session-id">
-					Welcome - ${systemUser.email}<br>
-					Role: ${systemUser.role}<br>
-					Time: <jsp:useBean id="today" class="java.util.Date" scope="page" />
-					<fmt:formatDate value="${today}" pattern="dd MMM yyyy - HH:mm" />
-				</form>				
-			</div>
-			<!-- MENU -->
-			<div class="row-2">
-				<nav>
-					<ul class="menu">										
-						  <c:import url="inc/header.jsp"/>					  
-					</ul>
-				</nav>
-			</div>
-		</header>
-		<!-- CONTENT -->
-		<section id="content">
-			<div class="padding">				
-				<div class="wrapper margin-bot">
-				<!-- AJAX CONTENT -->				
-					<div class="col-3" id="ajax-parse">											
-						<div class="indent">							
-																										
-						</div>
-						<!-- SINGLE INDIVIDUAL CONTENT -->						
-					</div>
+						<!-- SINGLE INDIVIDUAL CONTENT -->		
+						<c:import url="inc/tophead.jsp"/>				
+					</div> 
 					<h3 class="htabs">Events management</h3>
 					<table id="box-table-a">
 						<thead>

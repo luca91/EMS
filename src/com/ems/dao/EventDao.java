@@ -197,7 +197,6 @@ public class EventDao {
             PreparedStatement preparedStatement = connection
                     .prepareStatement("select * from event where id_manager=?");
             preparedStatement.setInt(1, id_event_mng);
-            log.debug(preparedStatement.toString());
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 Event aRecord = new Event();

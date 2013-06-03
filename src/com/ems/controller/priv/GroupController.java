@@ -72,11 +72,12 @@ public class GroupController extends HttpServlet {
 		session.setAttribute("systemUser",systemUser);
 		
     	int id_event = 0;
-    	if (request.getParameter("id_event") != null){
-    		id_event = Integer.parseInt(request.getParameter("id_event").toString());
+    	if (request.getParameter("param.id_event") != null){
+    		id_event = Integer.parseInt(request.getParameter("param.id_event").toString());
     	}
     	EventDao evnDao = new EventDao();
-    	request.setAttribute("id_event", evnDao.getRecordById(id_event).getName());
+    	request.setAttribute("event_name", evnDao.getRecordById(id_event).getName());
+    	request.setAttribute("param.id_event", id_event);
     	
     	String forward="";
         String action = request.getParameter("action");
@@ -151,7 +152,6 @@ public class GroupController extends HttpServlet {
                 request.setAttribute("events", ed.getRecordsById_event_mng(systemUser.getId()));
             }
             else if (systemUser.getRole().equals("group_mng")){
-                log.debug("group_mng");
                 forward = LIST_USER;
                 request.setAttribute("records", dao.getAllRecordsById_group_referent(systemUser.getId()));
             }
@@ -185,7 +185,7 @@ public class GroupController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	log.debug("START");
+    	log.trace("START");
     	Group record = new Group();
     	
 		UserDao ud = new UserDao();
@@ -201,7 +201,7 @@ public class GroupController extends HttpServlet {
     	if (request.getParameter("id_event") != null){
     		id_event = Integer.parseInt(request.getParameter("id_event").toString());
     	}
-        log.debug("id_event>>>: " + id_event);
+
 		record.setId_event(id_event);
     	record.setId_group_referent(Integer.parseInt(request.getParameter("id_group_referent")));
     	record.setName(request.getParameter("name"));
@@ -211,7 +211,6 @@ public class GroupController extends HttpServlet {
     	String id = request.getParameter("id");
         
     	log.debug("id: " + id);
-    	log.debug("id_event: " + id_event);	
     	
         if(id == null || id.isEmpty()) {
         	log.debug("INSERT");
@@ -235,18 +234,16 @@ public class GroupController extends HttpServlet {
         }
         else if (systemUser.getRole().equals("event_mng")){
             log.debug("event_mng");
-            log.debug("id_event: " + id_event);
             request.setAttribute("records", dao.getAllRecordsById_manager(systemUser.getId(), id_event));
             request.setAttribute("events", ed.getRecordsById_event_mng(systemUser.getId()));
         }
         else if (systemUser.getRole().equals("group_mng")){
-            log.debug("group_mng");
             request.setAttribute("records", dao.getAllRecordsById_group_referent(systemUser.getId()));
         }
         
         
         
-        log.debug(id_event);
+        
         String forward =  "groupList.html?action=listRecord&id_event=" + id_event;
         log.debug("forward: " + forward);
 
