@@ -123,14 +123,14 @@
 		    <span class="small">Deadline for enrollment</span>
 		    </label>
 		    <input type="text" name="enrollment_end" value="${record.enrollment_end}" /><br><br><br>
-		    <p>
+		    
 	        <!-- BUTTONS -->             
 	        <input type="submit" value="Submit" class="input" />
 	        <input type="button" value="Back" onClick="history.go(-1);return true;" class="input" />
 	        <c:if test="${param.id eq null }">
         		<input type="reset" value="Reset" class="input" />
-       		</c:if>
-       		</p>
+       		</c:if><br><br><br>
+       		
 	    </form>
 	</div>
 	<!-- BOTTOM -->

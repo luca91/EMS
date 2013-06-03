@@ -50,7 +50,7 @@
 	        <label>Last Name:</label>
 	        <input type="text" name="lname" value="${user.lname}" /> <br><br><br> 
 	        <label>Date of Birth:
-	         <span class="small">(YYYY-MM-DD)</span>
+	         <span class="small">(YYYY/MM/DD)</span>
 	         </label>
 	        <input type="text" name="date_of_birth" value="${user.date_of_birth}" /> <br><br><br> 	            
 	       	<input type="hidden" name="password"
@@ -58,7 +58,7 @@
 	            
 	        <label>Email:</label>
 	        <input type="text" name="email" value="${user.email}" /> <br><br><br> 
-	        <label>Role:</label>
+	        <label>Role:<span class="small">Role for the new user</span></label>
 	        	<select name="role">
 	        			<option value="admin" 
 	        				<c:if test="${user.role == 'admin'}">selected</c:if>
@@ -80,7 +80,7 @@
 	        <input type="submit" value="Submit" class="input" />         
 	        <input type="button" value="Back" onClick="history.go(-1);return true;" class="input" />
         	<c:if test="${param.id eq null }">
-        		<input type="reset" value="Reset" class="input" />
+        		<input type="reset" value="Reset" class="input" /><br><br><br>
         	</c:if>
 	    </form>		
 	   </div>
