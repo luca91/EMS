@@ -31,7 +31,7 @@ import com.ems.tools.Population;
 /**
  * Tests for {@link ParticipantDao}.
  *
- * @author LucaBa)
+ * @author Luca Barazzuol
  */
 @RunWith(JUnit4.class)
 public class ParticipantDaoTest {

@@ -27,7 +27,7 @@ import com.ems.tools.Population;
 /**
  * Tests for {@link  EventDao}.
  *
- * @author Luca Barazzuol)
+ * @author Luca Barazzuol
  */
 @RunWith(JUnit4.class)
 public class EventDaoTest {

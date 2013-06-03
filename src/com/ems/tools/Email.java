@@ -17,6 +17,11 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 
+/**
+* Class used to send an email
+* 
+* @author Luca Barazzuol
+*/
 public class Email {
 	
 	// commons logging references
@@ -41,11 +46,18 @@ public class Email {
 	 */
     Properties props = new Properties();
     
+    /**
+     * Get the properties for the configuration
+     * 
+     */
 	public Properties getProps() {
 		return props;
 	}
 
-
+    /**
+     * Constructor
+     * 
+     */
 	public Email(){
         props.put("mail.smtp.starttls.enable", "true"); // added this line
         props.put("mail.smtp.host", "smtp.googlemail.com");
@@ -55,7 +67,14 @@ public class Email {
         props.put("mail.smtp.auth", "true");
 	}
 	
-	
+    /**
+     * Send an email
+     * 
+     * @param to
+     * @param subject of the message
+     * @param the message
+     * @return a boolean (true if the message has been sent, false otherwise)
+     */
     public boolean sendEmail(String to, String subject, String message){ 
     	log.debug("address: " + to);
 
@@ -89,6 +108,12 @@ public class Email {
         }
     }	
 
+    
+    /**
+    * Class used to perform authentication for the mail provider
+    * 
+    * @author http://zetcode.com/tutorials/jeetutorials/sendingemail/
+    */
     private class SMTPAuthenticator extends Authenticator {
 
         private PasswordAuthentication authentication;
@@ -104,6 +129,7 @@ public class Email {
     
 	
 	/**
+	 * Main to test
 	 * @param args
 	 */
 	public static void main(String[] args) {

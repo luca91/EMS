@@ -29,7 +29,7 @@ import com.ems.tools.Population;
 /**
  * Tests for {@link UserDao}.
  *
- * @author Luca Barazzuol)
+ * @author Luca Barazzuol
  */
 @RunWith(JUnit4.class)
 public class UserDaoTest {

@@ -14,6 +14,11 @@ import com.ems.model.User;
 import com.ems.test.dao.DbConfig;
 import com.ems.test.dao.UserDaoTest;
 
+/**
+* Class used to Populate DB with basic record set
+* 
+* @author Luca Barazzuol
+*/
 public class Population {
 	
 	// commons logging references
@@ -30,6 +35,10 @@ public class Population {
 	static Statement stmt = null;
 	static ResultSet rs = null;;
 	
+	/**
+	* Constructor
+	*
+	*/
 	public Population(){
 		DbConfig dbc = new DbConfig();
 		DB_JDBC_DRIVER = dbc.getDB_JDBC_DRIVER();
@@ -39,6 +48,10 @@ public class Population {
 		
 	}
 	
+	/**
+	* Execute the population of the DB
+	*
+	*/
 	public void doPopulation(){
 		log.debug("START");
 		
@@ -68,7 +81,12 @@ public class Population {
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
 
-// #####################################################################################################	    	
+// #####################################################################################################
+	    	// the field role of the table ems.user is not anymore used. 
+	    	//It is still used to avoid major changes on the script code
+	    	
+	    	//ADD USERS
+	    	
 	    	sql = 	"INSERT"+
 	    			" INTO ems.user(fname,lname,date_of_birth,email,PASSWORD,role)" +
 	    			" VALUES ('Luca', 'Be', '19910101','lucabelles@gmail.com' ,'password','admin');";	    	
@@ -83,7 +101,7 @@ public class Population {
 
 	    	sql = 	"INSERT"+
 	    			" INTO ems.user(fname,lname,date_of_birth,email,PASSWORD,role)" +
-	    			" VALUES ('Luca', 'Ba', '19710703','luca.barazzuol@gmail.com' ,'password','admin');";	    	
+	    			" VALUES ('Luca', 'Ba', '19710703','luca.barazzuol@gmail.com' ,'password','event_mng');";	    	
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);	
 	    	
@@ -95,7 +113,7 @@ public class Population {
 	    	
 	    	sql = 	"INSERT"+
 	    			" INTO ems.user(fname,lname,date_of_birth,email,PASSWORD,role)" +
-	    			" VALUES ('Alex', 'Stan','19910202','alexstannumberone@gmail.com' ,'password','admin');";	    	
+	    			" VALUES ('Alex', 'Stan','19910202','alexstannumberone@gmail.com' ,'password','group_mng');";	    	
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);	
 	    	
@@ -105,6 +123,9 @@ public class Population {
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
 // #####################################################################################################	    	
+	    	
+	    	//ADD EVENTS
+	    	
 	    	sql = 	"INSERT"+
 	    			" INTO event(id_manager,NAME,description,START,END,enrollment_start,enrollment_end) " +
 	    			" VALUES (" +
@@ -259,6 +280,8 @@ public class Population {
 	
 	
 	/**
+	 * Main method to test
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
