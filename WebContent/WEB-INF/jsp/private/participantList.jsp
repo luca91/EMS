@@ -46,13 +46,13 @@
 			 -->		
 		
 			<c:if test="${groups != null}">			    
-			    <select>
+			    <select onchange="window.location.href = this.value">
 					<option selected="selected">Choose a Group:</option>
 					<c:forEach items="${groups}" var="group">
 						<c:url
 							value="/private/participantList.html?action=listRecord&id_group=${group.id}"
 							var="url" />
-						<option value="${group.id}" onClick="window.location.href='${url}'">${group.id}</option>
+						<option value="${url}">${group.id} - ${group.name}</option>
 					</c:forEach>
 				</select>
 				

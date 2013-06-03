@@ -47,20 +47,12 @@
 			<p>Edit the data for this event</p>
 	    	<!-- HIDDEN --><!-- <label>Event ID : <input type="text" readonly="readonly" name="id"
 	            value="${record.id}" /> - TO BE HIDDEN</span></label> -->
-	        <input type="hidden"  name="id" value="${param.id_event}" /> 
+	        <input type="hidden"  name="id" value="${param.id}" /> 
 	        
 	        <label>Manager ID : 
 		        <span class="small">Choose the manager for this group</span>
 		    </label>
-		    <!-- ?????????? 
-	        <select name="id_group_referent">
-      			<c:forEach items="${listOfGroup_mng}" var="options">	               
-       				<option value="${options.id }" 
-       					<c:if test="${options.id == record.id_group_referent }">selected</c:if>
-       						>${options.id } - ${options.fname} ${options.lname }
-       				</option>
-       			</c:forEach>
-           	</select><br><br><br>-->
+
 	         
 	         
             <c:choose>
@@ -80,7 +72,7 @@
             	</c:when>	            	
             	<c:when test="${sessionScope.systemUser.role == 'event_mng' }">
             		<!-- INSERT --><!-- HIDDEN -->
-            		<input type="hidden" name="id_manager" value="${sessionScope.systemUser.id}" readonly="readonly" />            		
+            		<input type="hidden" name="id_manager" value="${sessionScope.systemUser.id}"  />            		
             	</c:when>
             	<c:otherwise>
             		<!-- INSERT -->

@@ -40,11 +40,11 @@
 		<c:choose>
 			<c:when test="${systemUser.role == 'admin'}">
 				<c:if test="${events != null}">
-					    <select>
+					    <select onchange="window.location.href = this.value">
 						<option id="option-sel-sel" selected="selected">Choose an Event:</option>
 						<c:forEach items="${events}" var="event">
 							<c:url value="/private/groupList.html?action=listRecord&id_event=${event.id}" var="url" />
-							<option value="${event.id}"	onClick="window.location.href='${url}'">${event.name}</option>
+							<option value="${url}"	>${event.id} - ${event.name}</option>
 							<!-- SCRIPT HERE to work correctly? -->							
 						</c:forEach>						
 					</select>
@@ -60,13 +60,11 @@
 				<c:if test="${events != null}">
 						<c:if test="${param.id_event != 0}">Groups for event  ${param.id_event}<br/></c:if>
 					    Choose an Event:
-					    <select>
+					    <select onchange="window.location.href = this.value">
 							<option selected></option>
 							<c:forEach items="${events}" var="event">
 								<c:url  value="/private/groupList.html?action=listRecord&id_event=${event.id}" var="url" />
-								<option value="${event.id}"
-									onClick="javascript:location.href='${url}'">${event.id} -
-									${event.name}</option>
+								<option value="${url}"	>${event.id} - ${event.name}</option>
 							</c:forEach>
 						</select>
 				</c:if>
