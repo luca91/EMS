@@ -37,6 +37,6 @@ System.out.println("index.html");
 	<div class="main">
 		<!-- HEADER -->
 			<c:import url="inc/tophead.jsp"/>	
-				<h3 class="p0"><a href="../public/index.html" target="_blank">Homepage - Public Site</a></h3>										
+				<h3 class="p0"><a href="../public/index.html" target="_blank">Homepage - Private Site</a></h3>										
 			<c:import url="inc/bottom.jsp"></c:import>
 </html>
