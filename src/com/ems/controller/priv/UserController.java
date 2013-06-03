@@ -41,6 +41,7 @@ public class UserController extends HttpServlet {
     private UserDao dao;   
 	
     /**
+     * Constructor
      * @see HttpServlet#HttpServlet()
      */
     public UserController() {
@@ -52,8 +53,12 @@ public class UserController extends HttpServlet {
         log.trace("END");
     }
 
+    
 	/**
+	 * doGet method - maps the normal pages
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * @param HttpServletRequest request, HttpServletResponse response
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.trace("START");
@@ -138,7 +143,10 @@ public class UserController extends HttpServlet {
 	}
 
 	/**
+	 * doPost method - maps the url that comes from a form
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * @param (HttpServletRequest request, HttpServletResponse response
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.trace("START");

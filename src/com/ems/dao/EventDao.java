@@ -22,7 +22,7 @@ import com.ems.model.Event;
 
 /**
 * EventDao is the class that performs actions on the Event of the database
-* 
+* Code inspired by http://danielniko.wordpress.com/2012/04/17/simple-crud-using-jsp-servlet-and-mysql/
 * @author Luca Barazzuol
 */
 public class EventDao {

@@ -4,18 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Properties;
 
-import javax.mail.AuthenticationFailedException;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +21,7 @@ import com.ems.tools.Email;
 
 
 /**
- * Servlet implementation class ParticipantController
+ * Servlet implementation class ParticipantController(public)
  */
 @WebServlet(urlPatterns = {
 		"/public/enrollmentForm.html", 
@@ -69,7 +58,10 @@ public class ParticipantController extends HttpServlet {
     }
 
 	/**
+	 * doGet method - maps the normal pages
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * @param HttpServletRequest request, HttpServletResponse response
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("START");
@@ -109,7 +101,10 @@ public class ParticipantController extends HttpServlet {
 	}
 
 	/**
+	 * doPost method - maps the url that comes from a form
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * @param (HttpServletRequest request, HttpServletResponse response
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.trace("START");
@@ -175,20 +170,13 @@ public class ParticipantController extends HttpServlet {
 	}   
 	
 	
-	//http://zetcode.com/tutorials/jeetutorials/sendingemail/
-    private class SMTPAuthenticator extends Authenticator {
-
-        private PasswordAuthentication authentication;
-
-        public SMTPAuthenticator(String login, String password) {
-            authentication = new PasswordAuthentication(login, password);
-        }
-
-        protected PasswordAuthentication getPasswordAuthentication() {
-            return authentication;
-        }
-    }
-
+	/**
+	 * sendMail send an emaiil
+	 * 
+	 * 
+	 * @param p A Participant
+	 * @param to An email address
+	 */
     private boolean sendEmail(Participant p, String to) throws ParseException{ 
     	log.debug("address: " + to);
 

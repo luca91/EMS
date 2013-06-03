@@ -1,10 +1,6 @@
 package com.ems.controller.priv;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,18 +13,15 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.ems.dao.EventDao;
-import com.ems.dao.GroupDao;
 import com.ems.dao.ParticipantDao;
 import com.ems.dao.UserDao;
 import com.ems.model.Event;
-import com.ems.model.Group;
 import com.ems.model.Participant;
 import com.ems.model.User;
-import com.ems.tools.Email;
 
 
 /**
- * Servlet implementation class ParticipantController
+ * Servlet implementation class ParticipantPrintController
  */
 @WebServlet(urlPatterns = {
 		"/private/participantsPrint.html"		
@@ -59,7 +52,10 @@ public class ParticipantsPrintController extends HttpServlet {
     }
 
 	/**
+	 * doGet method - maps the normal pages
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * @param HttpServletRequest request, HttpServletResponse response
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.trace("START");
@@ -98,7 +94,10 @@ public class ParticipantsPrintController extends HttpServlet {
 	}
 
 	/**
+	 * doPost method - maps the url that comes from a form
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * @param (HttpServletRequest request, HttpServletResponse response
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.trace("START");
