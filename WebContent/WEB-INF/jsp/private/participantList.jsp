@@ -44,19 +44,46 @@
 				</c:when>
 			</c:choose>
 			 -->		
-		
+		<c:choose>
+			<c:when test="${systemUser.role == 'admin'}">
 			<c:if test="${groups != null}">			    
 			    <select>
-					<option selected="selected">Choose a Group:</option>
+					<option id="option-sel-sel" selected="selected">Choose a Group:</option>
 					<c:forEach items="${groups}" var="group">
 						<c:url
 							value="/private/participantList.html?action=listRecord&id_group=${group.id}"
 							var="url" />
-						<option value="${group.id}" onClick="window.location.href='${url}'">${group.id}</option>
+						<option value="${group.name}" onClick="window.location.href='${url}'">${group.name}</option>
 					</c:forEach>
 				</select>
-				
+				<c:if test="${id_group != 0}">
+						<script>$("#option-sel-sel").text(function () {
+				   			return $(this).text().replace("Choose a Group:", 'Participants for ${group_name}'); });
+						</script>
+					</c:if>	
 			</c:if>
+			</c:when>
+			
+			<c:when test="${systemUser.role == 'event_mng'}">
+			<c:if test="${groups != null}">			    
+			    <select>
+					<option id="option-sel-sel" selected="selected">Choose a Group:</option>
+					<c:forEach items="${groups}" var="group">
+						<c:url
+							value="/private/participantList.html?action=listRecord&id_group=${group.id}"
+							var="url" />
+						<option value="${group.name}" onClick="window.location.href='${url}'">${group.name}</option>
+					</c:forEach>
+				</select>
+				<c:if test="${id_group != 0}">
+						<script>$("#option-sel-sel").text(function () {
+				   			return $(this).text().replace("Choose a Group:", 'Participants for ${group_name}'); });
+						</script>
+					</c:if>	
+			</c:if>
+			</c:when>
+			
+		</c:choose>
 			
 			<br></br>
 			<br>

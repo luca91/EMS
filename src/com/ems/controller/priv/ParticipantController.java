@@ -89,20 +89,17 @@ public class ParticipantController extends HttpServlet {
     	request.setAttribute("count", request.getParameter("count"));
     	request.setAttribute("showCount", request.getParameter("showCount"));
     	
-
+    	GroupDao gdao = new GroupDao();
     	
     	int id_group = 0;
     	if (request.getParameter("id_group") != null){
     		log.debug("id_group is not null!");
     		id_group = Integer.parseInt(request.getParameter("id_group").toString());
-        	EventDao ed = new EventDao();
-        	request.setAttribute("event", ed.getRecordById_group(id_group));
         	
-        	GroupDao gdao = new GroupDao();
         	Group g = gdao.getRecordById(id_group);
         	request.setAttribute("group", g);
         	request.setAttribute("nrEnrolledParticipant", gdao.getNrEnrolledParticipant(id_group));
-
+        	request.setAttribute("group_name", gdao.getRecordById(id_group).getName());
     	}
     	request.setAttribute("id_group", id_group);
     	
@@ -163,6 +160,7 @@ public class ParticipantController extends HttpServlet {
                 request.setAttribute("records", dao.getAllRecordsById_group(id_group));
                 GroupDao gd = new GroupDao();
                 request.setAttribute("groups", gd.getAllRecords());
+                request.setAttribute("id_group", id_group);
             }
             else if (systemUser.getRole().equals("event_mng")){
                 log.debug("event_mng");

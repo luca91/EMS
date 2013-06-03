@@ -38,8 +38,7 @@
 	<div class="padding">
 	<div id="stylized" class="myform">
 	<!-- <p>Enrollment Management System</p><br> -->
-	<h3>Change Password</h3><br>
-	<p>Set a new password for your account on EMS</p>
+	<h3>Reset Password</h3><br>
 	<c:choose>
 		<c:when test="${param.email == null }">
 
@@ -50,9 +49,8 @@
 				<label>Email: 
 				<span class="small">Type your e-mail</span>
 				</label>
-				<input type="text" name="email" /><br><br><br> 
-				<input type="submit" value="Submit" class="input" />
-				<input type="button" value="Cancel" onClick="window.location='../public/index.html'" class="input" /><br><br><br>
+				<input type="text" name="email" /><br><br><br> <input
+					type="submit" value="Submit" class="input" /><br><br><br>
 			</form>
 		</c:when>
 		<c:when test="${message != 2 }">
@@ -79,8 +77,7 @@
 					name="confirmedPassword" value="${confirmedPassword }"><br><br><br>
 				<c:if test="${message == 3 }"> Confirmed password wrong</c:if>
 				<input type="hidden" name="action" value="change" readonly>
-				<input type="submit" value="Submit" class="input" />
-				<input type="button" value="Cancel" onClick="window.location='../public/index.html'" class="input" /><br><br><br>
+				<input type="submit" value="Submit" class="input" /><br><br><br>
 			</form>
 		</c:when>
 		<c:otherwise>

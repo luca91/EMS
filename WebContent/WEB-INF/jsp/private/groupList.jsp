@@ -48,8 +48,8 @@
 							<!-- SCRIPT HERE to work correctly? -->							
 						</c:forEach>						
 					</select>
-					<c:if test="${id_event != 0}"><script>$("#option-sel-sel").text(function () {
-				   			 return $(this).text().replace("Choose an Event", 'Group of ${event_name}'); 
+					<c:if test="${param.id_event != 0}"><script>$("#option-sel-sel").text(function () {
+				   			 return $(this).text().replace("Choose an Event:", 'Groups of ${event_name}'); 
 								});
 						</script>
 					</c:if>				
@@ -58,17 +58,7 @@
 			
 			<c:when test="${systemUser.role == 'event_mng'}">
 				<c:if test="${events != null}">
-						<c:if test="${param.id_event != 0}">Groups for event  ${param.id_event}<br/></c:if>
-					    Choose an Event:
-					    <select>
-							<option selected></option>
-							<c:forEach items="${events}" var="event">
-								<c:url  value="/private/groupList.html?action=listRecord&id_event=${event.id}" var="url" />
-								<option value="${event.id}"
-									onClick="javascript:location.href='${url}'">${event.id} -
-									${event.name}</option>
-							</c:forEach>
-						</select>
+						<c:if test="${param.id_event != 0}">Groups for  ${name_event}<br/></c:if>
 				</c:if>
 			</c:when>
 			<c:when test="${systemUser.role == 'group_mng' }">
