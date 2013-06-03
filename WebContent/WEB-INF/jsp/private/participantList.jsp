@@ -48,7 +48,7 @@
         <c:choose>
             <c:when test="${systemUser.role == 'admin'}">
             <c:if test="${groups != null}">               
-                <select>
+                <select onchange="window.location.href = this.value">
                     <option id="option-sel-sel" selected="selected">Choose a Group:</option>
                     <c:forEach items="${groups}" var="group">
                         <c:url
