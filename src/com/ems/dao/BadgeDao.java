@@ -78,6 +78,8 @@ public class BadgeDao {
 				aBadge.setLastName(rs.getString("lname"));
 				aBadge.setGroup(rs.getInt("id_group"));
 			 }
+			 preparedStatement.close();
+			 rs.close();
 		}
 		catch (SQLException e){
 			e.printStackTrace();
