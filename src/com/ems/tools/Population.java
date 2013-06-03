@@ -81,7 +81,12 @@ public class Population {
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
 
-// #####################################################################################################	    	
+// #####################################################################################################
+	    	// the field role of the table ems.user is not anymore used. 
+	    	//It is still used to avoid major changes on the script code
+	    	
+	    	//ADD USERS
+	    	
 	    	sql = 	"INSERT"+
 	    			" INTO ems.user(fname,lname,date_of_birth,email,PASSWORD,role)" +
 	    			" VALUES ('Luca', 'Be', '19910101','lucabelles@gmail.com' ,'password','admin');";	    	
@@ -96,7 +101,7 @@ public class Population {
 
 	    	sql = 	"INSERT"+
 	    			" INTO ems.user(fname,lname,date_of_birth,email,PASSWORD,role)" +
-	    			" VALUES ('Luca', 'Ba', '19710703','luca.barazzuol@gmail.com' ,'password','admin');";	    	
+	    			" VALUES ('Luca', 'Ba', '19710703','luca.barazzuol@gmail.com' ,'password','event_mng');";	    	
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);	
 	    	
@@ -108,7 +113,7 @@ public class Population {
 	    	
 	    	sql = 	"INSERT"+
 	    			" INTO ems.user(fname,lname,date_of_birth,email,PASSWORD,role)" +
-	    			" VALUES ('Alex', 'Stan','19910202','alexstannumberone@gmail.com' ,'password','admin');";	    	
+	    			" VALUES ('Alex', 'Stan','19910202','alexstannumberone@gmail.com' ,'password','group_mng');";	    	
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);	
 	    	
@@ -118,6 +123,9 @@ public class Population {
 	    	stmt = conn.createStatement();
 	    	stmt.executeUpdate(sql);
 // #####################################################################################################	    	
+	    	
+	    	//ADD EVENTS
+	    	
 	    	sql = 	"INSERT"+
 	    			" INTO event(id_manager,NAME,description,START,END,enrollment_start,enrollment_end) " +
 	    			" VALUES (" +
