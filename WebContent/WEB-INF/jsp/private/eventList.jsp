@@ -38,6 +38,10 @@
 						<c:import url="inc/tophead.jsp"/>				
 					</div> 
 					<h3 class="htabs">Events management</h3>
+					<br><br>
+					<div class="table-buttons">
+						<a class="button-2" href="event.jsp?action=insert" id="addevent">Add Event</a>
+					</div>									
 					<table id="box-table-a">
 						<thead>
 							<tr>
@@ -47,9 +51,9 @@
 								<th scope="col">Description</th>
 								<th scope="col">Start</th>
 								<th scope="col">End</th>
-								<th scope="col">Enrollment_start</th>
-								<th scope="col">Enrollment_end</th>
-								<th scope="col" colspan=4>Action</th>
+								<th scope="col">Enrollment start</th>
+								<th scope="col">Enrollment end</th>
+								<th scope="col" colspan=4 style="text-align: center" class="limiting">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -59,7 +63,7 @@
 					                    <td>${record.id}</td>
 					                    <td>${record.id_manager}</td>
 					                    <td>${record.name}</td>
-					                    <td>${record.description}</td>
+					                    <td><p class="limiting">${record.description}</p></td>
 					                    <td>${record.start}</td>
 					                    <td>${record.end}</td>
 					                    <td>${record.enrollment_start}</td>
@@ -74,9 +78,10 @@
 							</c:if>
 						</tbody>
 					</table>
-					<c:if test="${systemUser.role == 'admin'}">
-						<p><a class="button-2" href="event.jsp?action=insert" id="addevent">Add Event</a></p>
-					</c:if>
+					<p><div class="table-buttons">
+						<a class="button-2" href="event.jsp?action=insert" id="addevent">Add Event</a>
+					</div>
+					</p>
 					<hr>														
 				</div>			
 			</div>		

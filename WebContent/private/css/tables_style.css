@@ -82,7 +82,8 @@
 #box-table-a {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
-	margin: 45px;
+	margin: 20px;
+	/*margin: 45px;*/
 	width: 480px;
 	text-align: left;
 	border-collapse: collapse;
@@ -98,6 +99,28 @@
 	color: #039;
 }
 
+#box-table-a th.limiting{
+	font-size: 13px;
+	font-weight: normal;
+	padding: 8px;
+	background: #b9c9fe;
+	border-top: 4px solid #aabcfe;
+	border-bottom: 1px solid #fff;
+	color: #039;
+	max-width: 40px;
+}
+
+#box-table-a th.limitingdate{
+	font-size: 13px;
+	font-weight: normal;
+	padding: 8px;
+	background: #b9c9fe;
+	border-top: 4px solid #aabcfe;
+	border-bottom: 1px solid #fff;
+	word-wrap:break-word;
+	color: #039;
+}
+
 #box-table-a td {
 	padding: 8px;
 	background: #e8edff;
@@ -107,10 +130,62 @@
 	overflow:hidden;
 }
 
+#box-table-a td.limiting{
+	padding: 8px;
+	background: #e8edff;
+	border-bottom: 1px solid #fff;
+	color: #669;
+	border-top: 1px solid transparent;
+	max-width: 50px;
+	max-height: 50px;
+	word-wrap:break-word;
+	overflow:hidden;
+}
+
+#box-table-a td.limitingdescr{
+	max-height: 20px;
+	overflow:auto;
+}
+
+#box-table-a td.limitingdate{
+	padding: 8px;
+	background: #e8edff;
+	border-bottom: 1px solid #fff;
+	color: #669;
+	border-top: 1px solid transparent;
+	max-width: 65px;
+	overflow:hidden;
+}
+
+#box-table-a td.limitingmail{
+	padding: 8px;
+	background: #e8edff;
+	border-bottom: 1px solid #fff;
+	color: #669;
+	border-top: 1px solid transparent;
+	max-width: 50px;
+	overflow:hidden;
+}
+
 #box-table-a tr:hover td {
 	background: #d0dafd;
 	color: #339;
 }
+
+#box-table-a p.limiting {
+	max-height: 40px;
+	overflow:hidden;
+}
+
+#box-table-a p.limiting:hover{
+	display: block;
+    width: 180px;
+    height: 65px;
+    background-color: #e8edff;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
 
 #box-table-b {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;

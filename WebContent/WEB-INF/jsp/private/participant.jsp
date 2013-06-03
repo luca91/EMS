@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>EMS - X Management</title>
+<title>EMS - Participant Management</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/tables_style.css" type="text/css" media="screen">
@@ -53,7 +53,7 @@
 	        <label>Email:</label>
 	        <input type="text" name="email" value="${record.email}" /> <br><br><br> 	            	            
 	        <label>Date of birth:
-	        	<span class="small">(YYYY-MM-DD)</span>
+	        	<span class="small">(YYYY/MM/DD)</span>
 	        </label>
 	        <input type="text" name="date_of_birth" value="${record.date_of_birth}" /> <br><br>
 	       	<input type="hidden" name="registration_date" value="${record.registration_date}" /> <br>

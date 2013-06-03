@@ -504,6 +504,14 @@ h3 {
 	letter-spacing: -2px
 }
 
+h3.welcome {
+	font-size: 22px;
+	line-height: 1.3em;
+	color: #0f0f0f;
+	margin-top: -5px;
+	letter-spacing: -2px
+}
+
 h3.htabs {
 	font-size: 30px;
 	color: #00a9ff;
@@ -953,4 +961,9 @@ padding:4px 2px;
 border:solid 1px #aacfe4;
 width:185px;
 margin:2px 0 20px 10px;
+}
+
+div .table-buttons{
+	display: inline-block;
+	/*background: #9d9d9d;*/	
 }

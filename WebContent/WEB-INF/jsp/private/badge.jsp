@@ -36,6 +36,7 @@
 	<!-- TOPHEAD --><c:import url="inc/tophead.jsp"/>
 	<!-- CONTENT -->
 	<h3 class="htabs">Badges</h3>
+	<p>
 		<c:choose>
 			<c:when test="${systemUser.role == 'admin'}">
 				<c:if test="${groups != null }">
@@ -48,7 +49,7 @@
 					</select>
 					<c:if test="${id_group != 0}">
 						<script>$("#option-sel-sel").text(function () {
-				   			return $(this).text().replace("Choose a Group:", '${group_name}'); });
+				   			return $(this).text().replace("Choose a Group:", 'Badges for ${group_name}'); });
 						</script>
 					</c:if>	
 				</c:if>
@@ -72,7 +73,7 @@
 			</c:when>
 			
 		</c:choose>
-			<br>
+		</p><br><br>
 			
 		<!-- TABLE -->
 			<c:set var="act">

@@ -36,6 +36,10 @@
 	<!-- TOPHEAD --><c:import url="inc/tophead.jsp"/>
 	<!-- CONTENT -->
 		<h3 class="htabs">Users management</h3>
+		<br><br>
+		<div class="table-buttons">
+			<a class="button-2" href="user.jsp?action=insert" id="addevent">Add User</a>
+		</div>		
 		<table id="box-table-a">
 			<thead>
 				<tr>			

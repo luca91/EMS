@@ -4,7 +4,7 @@
 <c:choose>
 	<c:when test="${systemUser.role == 'admin' }">
 		<% System.out.println("admin"); %>
-		<li><a href='<c:url value="/private/index.html"/>'>Home Page</a></li>
+		<li><a href='<c:url value="/private/index.html"/>'>Home</a></li>
 		<li><a href='userList.html' id="listusers">Users Management</a></li>
 		<li><a href='eventList.html' id="listevents">Events Management</a></li>
 		<li><a href='groupList.html' id="listgroups">Groups Management</a></li>
@@ -13,7 +13,7 @@
 	</c:when>
 	<c:when test="${systemUser.role == 'event_mng' }">
 		<% System.out.println("event_mng"); %>
-		<li><a href='<c:url value="/private/index.html"/>'>Home Page</a></li>		
+		<li><a href='<c:url value="/private/index.html"/>'>Home</a></li>		
 		<li><a href='eventList.html' id="listevents">Events Management</a></li>
 		<li><a href='groupList.html' id="listgroups">Groups Management</a></li>
 		<li><a href='participantList.html' id="listparticip">Participants Management</a></li>
@@ -21,7 +21,7 @@
 	</c:when>
 	<c:when test="${systemUser.role == 'group_mng' }">
 		<% System.out.println("group_mng"); %>
-		<li><a href='<c:url value="/private/index.html"/>'>Home Page</a></li>
+		<li><a href='<c:url value="/private/index.html"/>'>Home</a></li>
 		<li><a href='participantList.html' id="listparticip">Participants Management</a></li>
 	</c:when>
 </c:choose>
