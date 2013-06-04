@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="css/style_portal.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/forms.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/datepicker.css" type="text/css" media="screen">
 <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
 <script type="text/javascript" src="js/cufon-yui.js"></script>
 <script type="text/javascript" src="js/cufon-replace.js"></script>
@@ -21,6 +22,13 @@
 <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/user_inter_act.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="js/datepickform.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="js/jquerymyform.js"></script>
 <!--[if lt IE 7]>
 	<div style=' clear: both; text-align:center; position: relative;'>
 		<a href="http://www.microsoft.com/windows/internet-explorer/default.aspx?ocid=ie6_countdown_bannercode"><img src="http://www.theie6countdown.com/images/upgrade.jpg" border="0"  alt="" /></a>
@@ -42,7 +50,7 @@
 	</c:set>
 	
 	<div id="stylized" class="myform">
-	    <form method="POST" action="${act}" name="frmAddEvent" id="form">
+		<form method="POST" action="${act}" name="frmAddEvent" id="form" onsubmit="checkForm(this); return false;">    	    
 	    	<h3>Event form</h3>
 			<p>Edit the data for this event</p>
 	    	<!-- HIDDEN --><!-- <label>Event ID : <input type="text" readonly="readonly" name="id"
@@ -51,17 +59,7 @@
 	        
 	        <label>Manager ID : 
 		        <span class="small">Choose the manager for this group</span>
-		    </label>
-		    <!-- ?????????? 
-	        <select name="id_group_referent">
-      			<c:forEach items="${listOfGroup_mng}" var="options">	               
-       				<option value="${options.id }" 
-       					<c:if test="${options.id == record.id_group_referent }">selected</c:if>
-       						>${options.id } - ${options.fname} ${options.lname }
-       				</option>
-       			</c:forEach>
-           	</select><br><br><br>-->
-	         
+		    </label>	         
 	         
             <c:choose>
                	<c:when test="${record.id_manager != null  && sessionScope.systemUser.role == 'admin'}">
@@ -100,37 +98,37 @@
 		    <input type="text" name="name"	value="${record.name}" /><br><br><br> 
 		    
 		    <label>Description : 
-		    <span class="small">Describe with max 255 char</span>
+		    <span class="small">Short descr. (max 255 ch)</span>
 		    </label>		    
-		    <input type="text" name="description"	value="${record.description}" /><br><br><br>		    
+		    <input type="text" name="description" value="${record.description}" /><br><br><br>		    
 		    
 		    <label>Start of the event: 
 		    <span class="small">Date of beginning of the event</span>
 		    </label>
-		    <input type="text" name="start"	value="${record.start}" /><br><br><br><br>
+		    <input type="text" name="start"	value="${record.start}" placeholder="yyyy/mm/dd" id="datepicker1"/><br><br><br><br>
+		    <!-- <input type="text" name="start"	value="${record.start}" placeholder="yyyy/mm/dd" id="datepicker1" /><br><br><br><br> -->
 		    
 		    <label>End of the event: 
 		    <span class="small">Date of ending of the event</span>
 		    </label>
-		    <input type="text" name="end" value="${record.end}" /><br><br><br>
+		    <input type="text" name="end" value="${record.end}" placeholder="yyyy/mm/dd" id="datepicker2"/><br><br><br>
 		    
 		    <label>Enrollment start : 
 		    <span class="small">Date when enrollment opens</span>
 		    </label>
-		    <input type="text" name="enrollment_start" value="${record.enrollment_start}" /><br><br><br>
+		    <input type="text" name="enrollment_start" value="${record.enrollment_start}" placeholder="yyyy/mm/dd" id="datepicker3"/><br><br><br>
 		    
 		    <label>Enrollment end : 
 		    <span class="small">Deadline for enrollment</span>
 		    </label>
-		    <input type="text" name="enrollment_end" value="${record.enrollment_end}" /><br><br><br>
+		    <input type="text" name="enrollment_end" value="${record.enrollment_end}" placeholder="yyyy/mm/dd" id="datepicker4"/><br><br><br>
 		    
 	        <!-- BUTTONS -->             
 	        <input type="submit" value="Submit" class="input" />
 	        <input type="button" value="Back" onClick="history.go(-1);return true;" class="input" />
 	        <c:if test="${param.id eq null }">
-        		<input type="reset" value="Reset" class="input" />
+        		<input type="reset" value="Reset" class="input" id="reset" />
        		</c:if><br><br><br>
-       		
 	    </form>
 	</div>
 	<!-- BOTTOM -->

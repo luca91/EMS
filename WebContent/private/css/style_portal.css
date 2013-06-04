@@ -512,6 +512,13 @@ h3.welcome {
 	letter-spacing: -2px
 }
 
+h3.welcomelinks {
+	font-size: 28px;
+	line-height: 1.3em;
+	margin-top: -5px;
+	letter-spacing: -2px
+}
+
 h3.htabs {
 	font-size: 30px;
 	color: #00a9ff;
@@ -654,6 +661,20 @@ h6 {
 
 .button-2 {
 	display: inline-block;
+	font-size: 14px;
+	line-height: 1em;
+	letter-spacing: -1px;
+	color: #fefefe;
+	padding: 11px 12px 11px;
+	background: url(../images/button-tail.gif) 0 0 repeat-x #3c3c3c;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px
+}
+
+/*
+.button-2 {
+	display: inline-block;
 	font-size: 19px;
 	line-height: 1.21em;
 	letter-spacing: -1px;
@@ -664,11 +685,26 @@ h6 {
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px
 }
+*/
 
 .button-2:hover {
 	background: #3c3c3c
 }
 
+.input {
+	display: inline-block;
+	font-size: 14px;
+	line-height: 1em;
+	letter-spacing: -1px;
+	color: #fefefe;
+	padding: 11px 12px 11px;
+	background: url(../images/button-tail.gif) 0 0 repeat-x #3c3c3c;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px
+}
+
+/*
 .input {
 	display: inline-block;
 	border: none;
@@ -682,6 +718,7 @@ h6 {
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px
 }
+*/
 
 .input:hover {
 	background: #3c3c3c

@@ -173,14 +173,14 @@
 }
 
 #box-table-a p.limiting {
-	max-height: 40px;
+	max-height: 50px;
 	overflow:hidden;
 }
 
 #box-table-a p.limiting:hover{
 	display: block;
-    width: 180px;
-    height: 65px;
+    width: 150px;
+    height: 40px;
     background-color: #e8edff;
     overflow: hidden;
     overflow-y: scroll;

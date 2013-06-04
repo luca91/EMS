@@ -187,7 +187,7 @@
 									<dt><span>Country:</span>Italy</dt>
 									<dd><span>City:</span>Bolzano</dd>
 									<dd><span>Address:</span>Universitaetzplatz 1</dd>
-									<dd><span>Email:</span><a href="#">info@ems.unibz.it</a></dd>
+									<dd><span>Email:</span><a href="mailto:ems2013.staff@gmail.com">EMS Team</a></dd>
 								</dl>
 							</div>
 							<div class="col-2">
