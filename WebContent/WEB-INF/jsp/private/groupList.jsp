@@ -67,12 +67,13 @@
 			</c:when>
 		</c:choose>
 		</p>
-		<!-- TABLE --><br><br>		
+		<!-- TABLE --><br><br>
+		<!-- <br><br>		
 		<div class="table-buttons">
 		<c:if test="${(param.id_event != 0) &&(systemUser.role != 'group_mng'  || systemUser.role != 'admin') }">
 				<a class="button-2" href="group.jsp?action=insert&id_event=${param.id_event}">Add Group</a>
 		</c:if>
-		</div>		
+		</div>	 -->	
 		<table id="box-table-a">
 			<thead>
 				<tr>			

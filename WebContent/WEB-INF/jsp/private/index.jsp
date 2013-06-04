@@ -37,7 +37,7 @@ System.out.println("index.html");
 	<div class="main">
 		<!-- HEADER -->
 			<c:import url="inc/tophead.jsp"/>
-				<h3 class="welcome">Hi, ${systemUser.email} - Welcome to the private portal</h3><br><hr><br><br>
+				<h3 class="welcome">Hi, ${systemUser.email} - Welcome to the private portal</h3><br><hr><br>
 				<h3 class="welcomelinks"><a href="../public/index.html" target="_blank"># Homepage (public)</a></h3><br>
 				<h3 class="welcomelinks"><a href="../public/changePassword.html" target="_blank"># Change Password</a></h3><br>									
 			<c:import url="inc/bottom.jsp"></c:import>

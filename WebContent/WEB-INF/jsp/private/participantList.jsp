@@ -154,6 +154,8 @@
 				</table>
 				<!-- APPROVE ALL / DISAPPROVE ALL -->
 			<div class="table-buttons">
+				
+				<form method="POST" action="${act}" name="frmApproveParticipan">
 				<c:if test="${id_group != 0 && (nrEnrolledParticipant < group.max_group_number)}">
 					<a class="button-2" href="participant.jsp?action=insert&id_group=${id_group}">Add Participant</a>
 					<c:set var="act">
@@ -161,36 +163,32 @@
 					</c:set>					
 				</c:if>
 				<c:set var="act">
-					<c:url
-						value="/private/participantApprove?action=approve&id_group=${id_group}" />
-				</c:set>
-				<form method="POST" action="${act}" name="frmApproveParticipan">				
+					<c:url value="/private/participantApprove?action=approve&id_group=${id_group}" />
+				</c:set>				
 					<c:if test="${not empty records}">
-						<input type="submit" value="Approve All" class="input" />
-						<input type="submit" value="Disapprove All" class="input" />					
-					</c:if>	
-				
-				<c:set var="act"><c:url value="/private/participantApprove?action=disapprove&id_group=${id_group}" /></c:set>
-				
+						<input type="submit" value="Approve All" class="input" />											
+					</c:if>				
+				<c:set var="act"><c:url value="/private/participantApprove?action=disapprove&id_group=${id_group}" /></c:set>				
 								
 					<c:if test="${not empty records}">
 						<input type="submit" value="Disapprove All" class="input" />
-					</c:if>	
-				</form>
-					
+					</c:if>
+						
+				</form><br><br>
+				<!-- 	
 				<c:if test="${id_group != 0 && (nrEnrolledParticipant < group.max_group_number)}">
 					<a class="button-2" href="participant.jsp?action=insert&id_group=${id_group}">Add Participant</a>
 					<br><br>
 					<c:set var="act">
 						<c:url
 							value="/private/participantInvite?action=invite&id_group=${id_group}" />
-					</c:set>
+					</c:set> -->
 					<form method="POST" action="${act}" id="frmInviteParticipan"
 						name="frmInviteParticipan"
 						onsubmit="return confirmSend(frmInviteParticipan.elements['listTo'].value);">
 						<fieldset>
-							<legend>Invite participants</legend>
-							Email : <input type="text" name="listTo"/>
+							<legend>Invite participants (separate the addresses with a  " ; ")</legend>
+							Email : <input type="text" name="listTo" style="width:300px;"/>
 							<c:if test="${showCount == 'y' }">
 						  	 		${count} email sent!
 						  	 </c:if>

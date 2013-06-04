@@ -507,7 +507,7 @@ h3 {
 h3.welcome {
 	font-size: 22px;
 	line-height: 1.3em;
-	color: #0f0f0f;
+	color: #9d9d9d;
 	margin-top: -5px;
 	letter-spacing: -2px
 }
@@ -658,7 +658,7 @@ h6 {
 	height: 43px;
 	text-indent: -5000px
 }
-
+/*
 .button-2 {
 	display: inline-block;
 	font-size: 14px;
@@ -671,11 +671,11 @@ h6 {
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px
 }
+*/
 
-/*
 .button-2 {
 	display: inline-block;
-	font-size: 19px;
+	font-size: 18px;
 	line-height: 1.21em;
 	letter-spacing: -1px;
 	color: #fefefe;
@@ -685,7 +685,7 @@ h6 {
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px
 }
-*/
+
 
 .button-2:hover {
 	background: #3c3c3c
@@ -693,11 +693,11 @@ h6 {
 
 .input {
 	display: inline-block;
-	font-size: 14px;
-	line-height: 1em;
+	font-size: 19px;
+	line-height: 1.21em;
 	letter-spacing: -1px;
 	color: #fefefe;
-	padding: 11px 12px 11px;
+	padding: 9px 15px 11px;
 	background: url(../images/button-tail.gif) 0 0 repeat-x #3c3c3c;
 	border-radius: 8px;
 	-moz-border-radius: 8px;

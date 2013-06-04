@@ -8,8 +8,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link type="text/css" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />
 <link rel="stylesheet" href="css/forms_public.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/datepicker.css" type="text/css" media="screen">
 <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="js/datepickform.js"></script>
+
 <title>Enrollment form</title>
 </head>
 <body>
@@ -41,7 +46,7 @@
 			<label>Birth date : 
 			<span class="small">Date format yyyy/mm/dd</span>
 			</label>
-			<input type="text" name="date_of_birth" value="${record.date_of_birth}" /><br><br><br>
+			<input type="text" name="date_of_birth" value="${record.date_of_birth}" placeholder="yyyy/mm/dd" id="datepicker1" /><br><br><br>
 			
 			<!-- BUTTONS -->			
 		    <input type="submit" value="Submit" class="input" />

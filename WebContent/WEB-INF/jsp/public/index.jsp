@@ -144,11 +144,11 @@
 						<div class="col-3">
 							<div class="indent">
 								<h2>Our Mission</h2>
-								<p class="color-4 p1">Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla .</p>
+								<p class="color-4 p1">Our mission is to provide teams of enthusiastic and talented organizers with one of the best platforms to handle the issues of limited number people that need to take part to unique events. Our aim is to fullfil the needs of organizing and keeping under track the efforts of the preparation of a special time, along with the progress during its elapsing.</p>
 								<div class="wrapper">									
 									<div class="extra-wrap">
 										<div class="indent2">
-											More more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more more . 
+											Get hands on over one of the most innovative concepts of creating-managing-viewing all the concerns of events with enclosed number of participants. Get in touch today! 
 										</div>
 									</div>
 								</div>								

@@ -39,9 +39,9 @@
 					</div> 
 					<h3 class="htabs">Events management</h3>
 					<br><br>
-					<div class="table-buttons">
+					<!-- <div class="table-buttons">
 						<a class="button-2" href="event.jsp?action=insert" id="addevent">Add Event</a>
-					</div>									
+					</div> -->									
 					<table id="box-table-a">
 						<thead>
 							<tr>
