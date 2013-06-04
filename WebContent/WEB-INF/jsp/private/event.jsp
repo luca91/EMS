@@ -46,7 +46,7 @@
 	<c:import url="inc/tophead.jsp"/>
 	<!-- CONTENT -->
 	<c:set var="act">
-		<c:url value="/private/eventAdd?action=eventList" /> 
+		<c:url value="/private/eventAdd?action=listRecord" /> 
 	</c:set>
 	
 	<div id="stylized" class="myform">
