@@ -9,7 +9,7 @@
 		<li><a href='eventList.html' id="listevents">Events Management</a></li>
 		<li><a href='groupList.html' id="listgroups">Groups Management</a></li>
 		<li><a href='participantList.html' id="listparticip">Participants Management</a></li>
-		<li><a href='badgeList.html' id="listbadges">Badges</a></li>
+		<li><a href='<c:url value="/private/badgeList.html"/>'>Badges</a></li>
 	</c:when>
 	<c:when test="${systemUser.role == 'event_mng' }">
 		<% System.out.println("event_mng"); %>
@@ -17,7 +17,7 @@
 		<li><a href='eventList.html' id="listevents">Events Management</a></li>
 		<li><a href='groupList.html' id="listgroups">Groups Management</a></li>
 		<li><a href='participantList.html' id="listparticip">Participants Management</a></li>
-		<li><a href='badgeList.html' id="listbadges">Badges</a></li>
+		<li><a href='<c:url value="/private/badgeList.html"/>'>Badges</a></li>
 	</c:when>
 	<c:when test="${systemUser.role == 'group_mng' }">
 		<% System.out.println("group_mng"); %>
